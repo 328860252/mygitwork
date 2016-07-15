@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+  <LinearLayout
+      android:id="@+id/layout_channel_analog"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:text="@string/text_analogToneBand"
+          />
+
+      <Spinner
+          android:id="@+id/spinner_analogToneBand"
+          android:layout_width="@dimen/spinner_width"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          ></Spinner>
+
+    </RelativeLayout>
+
+  </LinearLayout>
+
+
+
+  <LinearLayout
+      android:id="@+id/layout_channel_number"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      >
+
+    <LinearLayout
+        android:id="@+id/layout_numberLinkMen"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:text="@string/text_numberLinkMen"
+          />
+
+      <TextView
+          android:id="@+id/tv_numberToneLinkmen"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:gravity="right"
+          android:text="@string/text_numberLinkMen"
+          />
+
+      <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:background="@drawable/ic_right"
+          />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layout_numberToneSlot"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_height"
+        android:orientation="horizontal"
+        >
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:text="@string/text_numberToneSlot"
+          />
+
+      <Spinner
+          android:id="@+id/spinner_numberToneSlot"
+          android:layout_width="@dimen/spinner_width"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          ></Spinner>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_numberToneColo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:text="@string/text_numberToneColor"
+          />
+
+      <TextView
+          android:id="@+id/tv_numberToneColor"
+          android:layout_width="match_parent"
+          android:layout_weight="1"
+          android:gravity="right"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:text="@string/text_numberToneColor"
+          />
+
+      <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:background="@drawable/ic_right"
+          />
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+</LinearLayout>

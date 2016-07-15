@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    >
+
+  <include layout="@layout/layout_title"></include>
+
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        >
+
+
+      <CheckBox
+          android:id="@+id/cb_hf"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="8dp"
+          android:layout_gravity="center_horizontal"
+          android:checked="true"
+          android:text="UHF"
+          />
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          >
+
+        <!--<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/text_proterty_VHF"
+            />-->
+
+        <Spinner
+            android:id="@+id/spinner_power_VHF"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            />
+
+      </RelativeLayout>
+
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          android:gravity="center"
+          >
+
+
+        <Spinner
+            android:id="@+id/spinner_power_id"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
+
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/text_power_low"
+            />
+
+        <EditText
+            android:id="@+id/et_power_low"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            style="@style/edittext"
+            ></EditText>
+
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/text_power_middle"
+            />
+
+        <EditText
+            android:id="@+id/et_power_middle"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            style="@style/edittext"
+            ></EditText>
+
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/text_power_high"
+            />
+
+        <EditText
+            android:id="@+id/et_power_height"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            style="@style/edittext"
+            ></EditText>
+
+      </RelativeLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+  </ScrollView>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingBottom="20dp"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:orientation="horizontal"
+      android:gravity="center"
+      android:background="@color/bg_title"
+      >
+
+    <Button
+        android:id="@+id/btn_read"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="@string/btn_read"
+        />
+
+    <View
+        android:layout_width="30dp"
+        android:layout_height="1dp"
+        ></View>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="@string/btn_save"
+        />
+
+    <View
+        android:layout_width="30dp"
+        android:layout_height="1dp"
+        ></View>
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="@string/btn_send"
+        />
+
+
+  </LinearLayout>
+
+</LinearLayout>

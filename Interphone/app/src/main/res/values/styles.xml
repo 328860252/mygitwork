@@ -1,0 +1,101 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="text_normal">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#666666</item>
+    </style>
+
+    <style name="bg_null" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/bg_null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="bg_touming" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/bg_null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!-- Activity的漂浮窗口化 靠底部 -->
+    <style name="bg_null_bottom" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:baselineAlignBottom">true</item>
+        <item name="android:windowBackground">@drawable/bg_null</item>
+        <!-- <item name="android:windowBackground">@drawable/bg2</item> -->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="btn_confirm">
+        <item name="android:text">@string/confirm</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">@drawable/btn_confirm</item>"
+    </style>
+
+    <style name="btn_cancel">
+        <item name="android:text">@string/cancel</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">@drawable/btn_cancel</item>"
+    </style>
+
+    <style name="dialog_info">
+        <item name="android:paddingLeft">@dimen/dialog_info_left</item>
+        <item name="android:paddingRight">@dimen/dialog_info_left</item>
+        <item name="android:paddingBottom">@dimen/dialog_info_bottom</item>
+        <item name="android:paddingTop">@dimen/dialog_info_top</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/bg_title</item>
+    </style>
+
+    <style name="dialog_message">
+        <item name="android:paddingLeft">@dimen/dialog_message_left</item>
+        <item name="android:paddingRight">@dimen/dialog_message_left</item>
+        <item name="android:paddingBottom">@dimen/dialog_message_bottom</item>
+        <item name="android:paddingTop">@dimen/dialog_message_top</item>
+        <item name="android:textSize">17.5sp</item>
+        <item name="android:textColor">#666666</item>
+    </style>
+
+    <style name="edittext">
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">6</item>
+    </style>
+
+    <style name="spinner">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_dark</item>
+
+    </style>
+
+    <string name="confirm">确认</string>
+    <string name="cancel">取消</string>
+    <dimen name="dialog_message_left">8dp</dimen>
+    <dimen name="dialog_message_bottom">8dp</dimen>
+    <dimen name="dialog_message_top">8dp</dimen>
+    <dimen name="dialog_info_left">8dp</dimen>
+    <dimen name="dialog_info_bottom">8dp</dimen>
+    <dimen name="dialog_info_top">8dp</dimen>
+</resources>

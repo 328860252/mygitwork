@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_activity"
+    android:orientation="vertical"
+    tools:context="com.interphone.activity.HomeActivity">
+
+    <include layout="@layout/layout_title"></include>
+
+    <Button
+        android:id="@+id/btn_usbOTG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="USB OTG"/>
+
+    <LinearLayout
+        android:id="@+id/layout_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
+
+
+        <LinearLayout
+            android:id="@+id/layout_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+
+            <Button
+                android:id="@+id/btn_channelData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_channelData"
+                />
+
+            <Button
+                android:id="@+id/btn_proterty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_proterty"
+                />
+
+
+            <Button
+                android:id="@+id/btn_sms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_sms"
+                />
+
+            <Button
+                android:id="@+id/btn_powerTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_powerTest"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

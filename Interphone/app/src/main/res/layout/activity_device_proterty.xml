@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    >
+
+  <include layout="@layout/layout_title"></include>
+
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        >
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/text_proterty_VHF"
+            />
+
+        <Spinner
+            android:id="@+id/spinner_proterty_VHF"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
+
+      </RelativeLayout>
+
+      <LinearLayout
+          android:id="@+id/layout_proterty_tot"
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          android:gravity="center_vertical"
+          >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/text_proterty_tot"
+            />
+
+        <TextView
+            android:id="@+id/tv_proterty_tot"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="30"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_right"
+            />
+
+      </LinearLayout>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/text_proterty_vox"
+            />
+
+        <Spinner
+            android:id="@+id/spinner_proterty_VOX"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            ></Spinner>
+
+      </RelativeLayout>
+
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/text_proterty_pttid"
+            />
+
+        <EditText
+            android:id="@+id/et_proterty_pttid"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            style="@style/edittext"
+            ></EditText>
+
+      </RelativeLayout>
+
+      <Spinner
+          android:id="@+id/spinner_channel"
+          android:layout_width="@dimen/spinner_width"
+          android:layout_height="@dimen/layout_height"
+          style="@style/spinner"
+          ></Spinner>
+    </LinearLayout>
+
+  </ScrollView>
+
+  <include layout="@layout/layout_bottom"></include>
+
+</LinearLayout>

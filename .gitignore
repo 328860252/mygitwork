@@ -1,0 +1,11 @@
+/TestLock/bin
+/TestLock/gen
+/TestLock/.setting
+/TestLock/.classpath
+/Interphone/.gradle
+/Interphone/.idea
+
+/Interphone/app/build
+/Interphone/.build
+/Interphone/Interphone.iml
+/Interphone/local.properties

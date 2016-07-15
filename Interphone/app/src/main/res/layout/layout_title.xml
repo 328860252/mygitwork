@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_title"
+    >
+
+  <LinearLayout
+      android:id="@+id/layout_title_left"
+      android:layout_alignParentLeft="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="8dp"
+      >
+
+    <TextView
+        android:id="@+id/tv_title_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/back"
+        android:textColor="#ffffff"
+        />
+
+  </LinearLayout>
+
+  <TextView
+      android:id="@+id/tv_title"
+      style="@style/text_normal"
+      android:layout_centerHorizontal="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:textColor="#ffffff"
+      android:text=""
+      />
+
+  <LinearLayout
+      android:id="@+id/layout_title_right"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:padding="8dp"
+      >
+
+    <TextView
+        android:id="@+id/tv_title_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        />
+
+  </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="headerLayout">
+    <attr format="string" name="textTitle" />
+    <attr format="string" name="textRight" />
+  </declare-styleable>
+</resources>

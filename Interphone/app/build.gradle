@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.example.administrator.interphone"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 8
+        versionName "1.08"
+    }
+    signingConfigs{
+        signConfig {
+            storeFile file ('smart-mini.keystore')//签名文件路径，
+            //keystore的路径通常使用项目根目录的相对路径，但也可以是使用绝对路径，尽管这不推荐
+            storePassword 'smartmini' //密码
+            keyAlias '智宝源'
+            keyPassword '2014zbyqh'  //密码
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signConfig // 配置release包的签名
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signConfig // 配置release包的签名
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    provided 'org.projectlombok:lombok:1.16.8'
+}
