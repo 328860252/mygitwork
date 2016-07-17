@@ -1,7 +1,7 @@
 <resources>
   <string name="app_name">Interphone</string>
   <string name="noBluetooth">无法打开蓝牙</string>
-  <string name="bluetooth_notfound">未发现蓝牙设备</string>
+  <string name="bluetooth_notfound">未发现设备</string>
   <string name="bluetooth_scan">搜索</string>
   <string name="device_list">设备列表</string>
   <string name="back">返回</string>
@@ -49,4 +49,5 @@
   <string name="text_list_scan">搜索新设备</string>
   <string name="btn_usb">USB_OTG</string>
   <string name="not_support_usb">手机不支持USB HOST，请更换其他手机再试</string>
+  <string name="text_proterty_activityChannelId">当前信道</string>
 </resources>

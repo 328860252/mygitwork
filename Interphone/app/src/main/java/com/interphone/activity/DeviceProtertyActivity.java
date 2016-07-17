@@ -73,7 +73,7 @@ public class DeviceProtertyActivity extends BaseActivity {
         for (int i = 0; i < 16; i++) {
             mArrayChannelId[i] = "信道" + (i + 1);
         }
-        mAdapterChannelId = new StringAdapter(mArrayChannelId, this, 0);
+        mAdapterChannelId = new StringAdapter(mArrayChannelId, this, mProtertyData.getActivityChannelId()-1);
         mSpinnerChannel.setAdapter(mAdapterChannelId);
         mAdapterChannelId.notifyDataSetChanged();
 
@@ -117,6 +117,7 @@ public class DeviceProtertyActivity extends BaseActivity {
             mSpinnerProtertyVOX.setSelection(mProtertyData.getVox());
             mTvProtertyTot.setText((""+mProtertyData.getTotTime()));
             mEtProtertyPttid.setText(mProtertyData.getPttid().trim());
+            mSpinnerChannel.setSelection(mProtertyData.getActivityChannelId()-1);
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
             showToast("数据错误，超出范围");
@@ -150,7 +151,7 @@ public class DeviceProtertyActivity extends BaseActivity {
                 mProtertyWriteData.setVox(mSpinnerProtertyVOX.getSelectedItemPosition());
                 mProtertyWriteData.setHFvalue(mSpinnerProtertyVHF.getSelectedItemPosition());
                 mProtertyWriteData.setTotTime(Integer.parseInt(mTvProtertyTot.getText().toString()));
-                mProtertyWriteData.setTotTime(mSpinnerChannel.getSelectedItemPosition());
+                mProtertyWriteData.setActivityChannelId(mSpinnerChannel.getSelectedItemPosition());
                 dbin.write(CmdPackage.setProteries(mProtertyWriteData));
                 break;
         }

@@ -7,7 +7,6 @@ import lombok.Data;
 /**
  * Created by Administrator on 2016/5/12.
  */
-@Data
 public class ChannelData {
 
     private static final String OFF = "OFF";
@@ -109,5 +108,98 @@ public class ChannelData {
             return "UHF";
         }
         return null;
+    }
+
+
+    public static String getOFF() {
+        return OFF;
+    }
+
+    public int getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(int channelId) {
+        this.channelId = channelId;
+    }
+
+    public int getChannelType() {
+        return channelType;
+    }
+
+    public void setChannelType(int channelType) {
+        this.channelType = channelType;
+    }
+
+    public double getRateReceive() {
+        return rateReceive;
+    }
+
+    public void setRateReceive(double rateReceive) {
+        this.rateReceive = rateReceive;
+    }
+
+    public double getRateSend() {
+        return rateSend;
+    }
+
+    public void setRateSend(double rateSend) {
+        this.rateSend = rateSend;
+    }
+
+    public int getAnalogToneReceive() {
+        return analogToneReceive;
+    }
+
+    public void setAnalogToneReceive(int analogToneReceive) {
+        this.analogToneReceive = analogToneReceive;
+    }
+
+    public int getAnalogToneSend() {
+        return analogToneSend;
+    }
+
+    public void setAnalogToneSend(int analogToneSend) {
+        this.analogToneSend = analogToneSend;
+    }
+
+    public int getAnalogToneBand() {
+        return analogToneBand;
+    }
+
+    public void setAnalogToneBand(int analogToneBand) {
+        this.analogToneBand = analogToneBand;
+    }
+
+    public int getNumberToneLinkmen() {
+        return numberToneLinkmen;
+    }
+
+    public void setNumberToneLinkmen(int numberToneLinkmen) {
+        this.numberToneLinkmen = numberToneLinkmen;
+    }
+
+    public int getNumberToneSlot() {
+        return numberToneSlot;
+    }
+
+    public void setNumberToneSlot(int numberToneSlot) {
+        this.numberToneSlot = numberToneSlot;
+    }
+
+    public int getNumberToneColor() {
+        return numberToneColor;
+    }
+
+    public void setNumberToneColor(int numberToneColor) {
+        this.numberToneColor = numberToneColor;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
     }
 }

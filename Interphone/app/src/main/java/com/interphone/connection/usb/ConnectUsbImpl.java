@@ -114,6 +114,10 @@ public class ConnectUsbImpl implements IConnectInterface {
     return AppApplication.driver.UsbFeatureSupported();
   }
 
+  public static boolean hasDeivce() {
+    return AppApplication.driver.EnumerateDevice() != null;
+  }
+
   private void sendBroadcast(String action){
     mContext.sendBroadcast(new Intent(action));
   }

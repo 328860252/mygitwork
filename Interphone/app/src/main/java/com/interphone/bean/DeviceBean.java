@@ -15,7 +15,6 @@ import lombok.Data;
 /**
  * Created by Administrator on 2016/5/13.
  */
-@Data
 public class DeviceBean {
 
     private Context mContext;
@@ -87,7 +86,7 @@ public class DeviceBean {
                return channelData;
            }
        }
-        return null;
+        return listChannel.get(0);
     }
 
     public PowerTestData getPowerData(int position) {
@@ -168,5 +167,73 @@ public class DeviceBean {
             AppConstants.isWriteACK = true;
             mConnect.write(channel);
         }
+    }
+
+    public IConnectInterface getConnect() {
+        return mConnect;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSms() {
+        return sms;
+    }
+
+    public void setSms(String sms) {
+        this.sms = sms;
+    }
+
+    public List<ChannelData> getListChannel() {
+        return listChannel;
+    }
+
+    public void setListChannel(List<ChannelData> listChannel) {
+        this.listChannel = listChannel;
+    }
+
+    public void setProtertyData(ProtertyData protertyData) {
+        this.protertyData = protertyData;
+    }
+
+    public void setListPower(List<PowerTestData> listPower) {
+        this.listPower = listPower;
+    }
+
+    public IConnectInterface getmConnect() {
+        return mConnect;
+    }
+
+    public void setmConnect(IConnectInterface mConnect) {
+        this.mConnect = mConnect;
+    }
+
+    public ICmdParseInterface getmParse() {
+        return mParse;
+    }
+
+    public void setmParse(ICmdParseInterface mParse) {
+        this.mParse = mParse;
+    }
+
+    public static int getChannelDataSize() {
+        return ChannelDataSize;
+    }
+
+    public static int getPwoerDataSize() {
+        return PwoerDataSize;
     }
 }

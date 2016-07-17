@@ -212,13 +212,19 @@ public class HomeActivity extends BaseActivity {
   }
 
   @OnClick(R.id.btn_usbOTG) public void onUSBOTG() {
-    if (dbin.isLink()) {
-      dbin.stopConnect();
+    if (ConnectUsbImpl.isSupport()) {
+//       if (!ConnectUsbImpl.hasDeivce()) {
+//         showToast(R.string.bluetooth_notfound);
+//        return ;
+//      }
+      if (dbin.isLink()) {
+        dbin.stopConnect();
+      }
+      if (dbin.getConnect() == null
+              || dbin.getConnect().getConnectType() != IConnectInterface.type_usb) {
+        dbin.setConnectionInterface(new ConnectUsbImpl(this), getApplicationContext());//修改连接通道 为 usb
+      }
+      dbin.getConnect().connect("", "");
     }
-    if (dbin.getConnect() == null
-        || dbin.getConnect().getConnectType() != IConnectInterface.type_usb) {
-      dbin.setConnectionInterface(new ConnectUsbImpl(this), getApplicationContext());//修改连接通道 为 usb
-    }
-    dbin.getConnect().connect("", "");
   }
 }
