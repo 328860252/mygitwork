@@ -5,6 +5,7 @@ import lombok.Data;
 /**
  * Created by Administrator on 2016/5/13.
  */
+@Data
 public class ProtertyData {
 
     /**
@@ -33,40 +34,8 @@ public class ProtertyData {
      */
     private int activityChannelId;
 
-    public int getHFvalue() {
-        return HFvalue;
-    }
-
-    public void setHFvalue(int HFvalue) {
-        this.HFvalue = HFvalue;
-    }
-
-    public int getTotTime() {
-        return totTime;
-    }
-
-    public void setTotTime(int totTime) {
-        this.totTime = totTime;
-    }
-
-    public int getVox() {
-        return vox;
-    }
-
-    public void setVox(int vox) {
-        this.vox = vox;
-    }
-
-    public String getPttid() {
-        return pttid;
-    }
-
-    public void setPttid(String pttid) {
-        this.pttid = pttid;
-    }
-
     public int getActivityChannelId() {
-        if (activityChannelId ==0) return 1;
+        if (activityChannelId <1 || activityChannelId > 16) return 1;
         return activityChannelId;
     }
 
