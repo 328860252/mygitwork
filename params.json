@@ -1,0 +1,6 @@
+{
+  "name": "百度地图覆盖物中心和地图缩放比例",
+  "tagline": "覆盖物中心点和缩放比例",
+  "body": "第一次，好紧张。。。。\r\n\r\n关于百度地图api，设置了多个覆盖物，然后手机屏幕要全部能够显示出来。因为之前百度了一些资料没找到相关的资料，自己写了一堆很挫的代码，计算 上下左右 4个边缘点， 然后构成 最西南 和 东北的 两个坐标点， 来确定 中心坐标点， 然后根据两个点距离，来大概给一个缩放等级。\r\n后来仔细，查找了下api，才找到方法，现在记录一下。\r\n\r\n//创建一个坐标区域构造器\r\n\r\nLatLngBounds.Builder builder = new LatLngBounds.Builder();\r\n\r\n//将覆盖物的坐标点依次添加进去\r\n\r\nbuilder.include( latlng1);\r\n\r\nbuilder.include( latlng2);\r\n......\r\n//创建地图区域\r\n\r\nLatLngBounds bounds = builder.build();\r\n\r\n//获得地图状态变化\r\n\r\nMapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(bounds);\r\n\r\nmBaiduMap.setMapStatus(u);\r\n\r\n//因为区域是显示 全部坐标点，  但是我们的覆盖物是以 坐标点为中心 的图片\r\n//最左边和最右边的覆盖物，就有半边图片 在屏幕外，这里就再缩小一点比例，\r\n\r\nfloat newZoom = mBaiduMap.getMapStatus().zoom - 0.1f;\r\n\r\nMapStatusUpdate newMsu = MapStatusUpdateFactory.newLatLngZoom(bounds.getCenter(), newZoom ));\r\n\r\nmBaiduMap.setMapStatus(newMsu);",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
