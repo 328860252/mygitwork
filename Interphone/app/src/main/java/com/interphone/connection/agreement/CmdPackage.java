@@ -4,6 +4,7 @@ import com.interphone.AppConstants;
 import com.interphone.bean.ChannelData;
 import com.interphone.bean.PowerTestData;
 import com.interphone.bean.ProtertyData;
+import com.interphone.bean.SmsEntity;
 import com.interphone.utils.BcdUtils;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -161,7 +162,7 @@ public class CmdPackage {
     byte[] buff = new byte[22];
     buff[0] = set;
     buff[1] = Cmd_type_property;
-    buff[2] = (byte) protertyData.getHFvalue();
+//    buff[2] = (byte) d.getHFvalue();
     buff[3] = (byte) protertyData.getTotTime();
     buff[4] = (byte) protertyData.getVox();
     buff[11] = (byte) protertyData.getActivityChannelId();
@@ -176,19 +177,19 @@ public class CmdPackage {
     return null;
   }
 
-  public static byte[] setSms(String receId, String sendId, String sms) {
-    byte[] buff = new byte[2 + 6 + 6 + sms.getBytes().length];
+  public static byte[] setSms(SmsEntity smsEntity) {
+    byte[] buff = new byte[2 + 6 + 6 + smsEntity.getContent().getBytes().length];
     buff[0] = set;
     buff[1] = Cmd_type_sms;
     int index = 2;//起始位置
     try {
-      byte[] receIdUuff = receId.getBytes(AppConstants.charSet);
+      byte[] receIdUuff = smsEntity.getReceiverId().getBytes(AppConstants.charSet);
       System.arraycopy(receIdUuff, 0, buff, index, receIdUuff.length);
       index += receIdUuff.length;
-      byte[] sendIdBuff = sendId.getBytes(AppConstants.charSet);
+      byte[] sendIdBuff = smsEntity.getSendId().getBytes(AppConstants.charSet);
       System.arraycopy(sendIdBuff, 0, buff, index, sendIdBuff.length);
       index += sendIdBuff.length;
-      byte[] smsBuff = sms.getBytes(AppConstants.charSet);
+      byte[] smsBuff = smsEntity.getContent().getBytes(AppConstants.charSet);
       System.arraycopy(smsBuff, 0, buff, index, smsBuff.length);
       return buff;
     } catch (UnsupportedEncodingException e) {

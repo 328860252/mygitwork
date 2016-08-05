@@ -15,6 +15,8 @@ import com.interphone.utils.BcdUtils;
 import com.interphone.utils.LogUtils;
 import com.interphone.utils.MyByteUtils;
 import com.interphone.utils.MyHexUtils;
+import com.interphone.utils.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,7 +32,6 @@ public class CmdParseImpl implements ICmdParseInterface {
     private final static double DEFAULT_RATE_UHF = 460.025;//默认UHF频段
 
     private final static String TAG = CmdParseImpl.class.getSimpleName();
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private DeviceBean mDeviceBean;
     private Context mContext;
@@ -173,7 +174,7 @@ public class CmdParseImpl implements ICmdParseInterface {
                         smsEntity.setType(type);
                         buffer = new byte[7];
                         System.arraycopy(dataBuff,2+15, buffer, 0, buffer.length);
-                        smsEntity.setDataTime(getTime(buffer));
+                        smsEntity.setDataTime(StringUtils.getTime(buffer));
                         mSmsDao.insert(smsEntity);
                     }
                     // 总数是0-100， 但是index是0-99
@@ -201,16 +202,5 @@ public class CmdParseImpl implements ICmdParseInterface {
         mContext.sendBroadcast(intent);
     }
 
-    private String getTime(byte[] bytes) {
-        int year = MyByteUtils.byteToInt(bytes[0]) * 256 + MyByteUtils.byteToInt(bytes[1]);
-        //月份从0开始
-        int month = MyByteUtils.byteToInt(bytes[2])-1;
-        int day = MyByteUtils.byteToInt(bytes[3]);
-        int hour = MyByteUtils.byteToInt(bytes[4]);
-        int minute = MyByteUtils.byteToInt(bytes[5]);
-        int second = MyByteUtils.byteToInt(bytes[6]);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, hour, minute, second);
-        return sdf.format(calendar.getTime());
-    }
+
 }

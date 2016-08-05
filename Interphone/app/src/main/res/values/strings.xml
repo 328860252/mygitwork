@@ -55,4 +55,6 @@
   <string name="text_status_rx">RX</string>
   <string name="text_device_id">用户ID</string>
   <string name="text_device_serialNumber">序列号</string>
+  <string name="btn_read_list">读取短信列表</string>
+  <string name="btn_send_list">发送短信列表</string>
 </resources>

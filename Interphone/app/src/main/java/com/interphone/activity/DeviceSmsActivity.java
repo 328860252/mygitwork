@@ -1,5 +1,6 @@
 package com.interphone.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,16 +13,23 @@ import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
 import com.interphone.AppConstants;
 import com.interphone.bean.DeviceBean;
+import com.interphone.bean.SmsEntity;
 import com.interphone.connection.agreement.CmdPackage;
+import com.interphone.database.SmsDao;
+import com.interphone.utils.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 
 public class DeviceSmsActivity extends BaseActivity {
 
     @Bind(R.id.tv_title) TextView mTvTitle;
-    @Bind(R.id.btn_read) Button mBtnRead;
+    @Bind(R.id.btn_read_list) Button mBtnReadList;
+    @Bind(R.id.btn_send_list) Button mBtnSendList;
     @Bind(R.id.btn_send) Button mBtnSend;
     @Bind(R.id.etSms) EditText mEtSms;
     @Bind(R.id.et_sms_receiver) EditText mEtSmsReceiver;
+
+    private SmsDao mSmsDao;
 
     private DeviceBean dbin;
 
@@ -34,18 +42,27 @@ public class DeviceSmsActivity extends BaseActivity {
         dbin = ((AppApplication) getApplication()).getDbin();
     }
 
-    @OnClick({ R.id.layout_title_left, R.id.btn_read, R.id.btn_send })
+    @OnClick({ R.id.layout_title_left, R.id.btn_read_list, R.id.btn_send_list, R.id.btn_send })
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.layout_title_left:
                 finish();
                 break;
-            case R.id.btn_read:
-                if (!dbin.isLink()) {
-                    showToast(R.string.noLink);
-                    return;
-                }
-                dbin.write(CmdPackage.getSms());
+            case R.id.btn_read_list:
+//                if (!dbin.isLink()) {
+//                    showToast(R.string.noLink);
+//                    return;
+//                }
+//                dbin.write(CmdPackage.getSms());
+                intent = new Intent(DeviceSmsActivity.this, SmsListActivity.class);
+                intent.putExtra("isSend", true);
+                startActivity(intent);
+                break;
+            case R.id.btn_send_list:
+                intent = new Intent(DeviceSmsActivity.this, SmsListActivity.class);
+                intent.putExtra("isSend", false);
+                startActivity(intent);
                 break;
             case R.id.btn_send:
                 if (!dbin.isLink()) {
@@ -64,11 +81,24 @@ public class DeviceSmsActivity extends BaseActivity {
                         return ;
                     }
                     if (dbin.getUserId()==null) {
-                        dbin.write(CmdPackage.setSms(receiver, dbin.getUserId(), mEtSms.getText().toString()));
+                        SmsEntity smsEntity = new SmsEntity();
+                        smsEntity.setContent(sms);
+                        smsEntity.setSend(true);
+                        smsEntity.setSendId(dbin.getUserId());
+                        smsEntity.setReceiverId(mEtSms.getText().toString().trim());
+                        smsEntity.setType(SmsEntity.TYPE_TEXT);
+                        smsEntity.setDataTime(StringUtils.getTimeString());
+
+                        if (mSmsDao == null) {
+                            mSmsDao = new SmsDao(DeviceSmsActivity.this);
+                        }
+                        mSmsDao.insert(smsEntity);
+                        dbin.write(CmdPackage.setSms(smsEntity));
                     } else {
                         AppConstants.isWriteACK = true;
                         dbin.write(CmdPackage.getInfo());
                     }
+
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }

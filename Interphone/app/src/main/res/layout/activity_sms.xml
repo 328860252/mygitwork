@@ -41,9 +41,44 @@
         android:text="" />
 
 
-    <include layout="@layout/layout_bottom"
-        android:layout_width="match_parent"
+    <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+    android:layout_marginBottom="20dp"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:orientation="horizontal"
+    >
+    <Button
+        android:id="@+id/btn_read_list"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"></include>
+        android:textColor="#ffffff"
+        android:text="@string/btn_read_list"
+        />
+
+
+
+    <Button
+        android:id="@+id/btn_send_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="@string/btn_send_list"
+        />
+
+
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="@string/btn_send"
+            />
+
+
+</LinearLayout>
 
 </RelativeLayout>
