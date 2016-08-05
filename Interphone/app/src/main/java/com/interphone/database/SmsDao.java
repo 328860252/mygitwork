@@ -22,6 +22,7 @@ public class SmsDao {
   private static String ReceiverId = "receiverId"; //是发送短信时， 接收者
   private static String DataTime = "dataTime"; //时间
   private static String IsSend = "isSend";// 是发送 ，还是接收
+  private static String Type = "type";// 定位 文字
 
   public static String getCreateTable() {
     StringBuffer buffer = new StringBuffer();
@@ -32,6 +33,7 @@ public class SmsDao {
     buffer.append(SendId + " text,");
     buffer.append(ReceiverId + " text,");
     buffer.append(DataTime + " text,");
+    buffer.append(Type + " integer)");
     buffer.append(IsSend + " integer)");
     return buffer.toString();
   }
@@ -46,12 +48,12 @@ public class SmsDao {
     sdb.close();
   }
 
-  public List<SmsEntity> querySendLast100() {
-    return query(true, 100);
+  public List<SmsEntity> querySendLast100(String deviceId) {
+    return query(true,deviceId, 100);
   }
 
-  public List<SmsEntity> queryReceiverLast100() {
-    return query(false, 100);
+  public List<SmsEntity> queryReceiverLast100(String deviceId) {
+    return query(false, deviceId, 100);
   }
 
   /**
@@ -60,7 +62,7 @@ public class SmsDao {
    * @param limitSize
    * @return
    */
-  private List<SmsEntity> query(boolean isSend, int limitSize) {
+  private List<SmsEntity> query(boolean isSend, String deviceId, int limitSize) {
     List<SmsEntity> list = new ArrayList<SmsEntity>();
     SQLiteDatabase sdb =  mSqliteHelper.getReadableDatabase();
     Cursor mCursor = sdb.query(TABLE_NAME, new String[]{IsSend} , IsSend + " = ? limit 0,"+ limitSize, new String[]{(isSend?"1":"0")}, null, null, Id);
@@ -80,6 +82,7 @@ public class SmsDao {
     contentValues.put(ReceiverId, smsEntity.getReceiverId());
     contentValues.put(DataTime, smsEntity.getDataTime());
     contentValues.put(IsSend, smsEntity.isSend()?1:0);
+    contentValues.put(Type, smsEntity.isSend()?1:0);
     return contentValues;
   }
 
@@ -91,6 +94,7 @@ public class SmsDao {
     smsEntity.setReceiverId(cursor.getString(cursor.getColumnIndex(ReceiverId)));
     smsEntity.setSendId(cursor.getString(cursor.getColumnIndex(SendId)));
     smsEntity.setDataTime(cursor.getString(cursor.getColumnIndex(DataTime)));
+    smsEntity.setType(cursor.getInt(cursor.getColumnIndex(Type)));
     return smsEntity;
   }
 

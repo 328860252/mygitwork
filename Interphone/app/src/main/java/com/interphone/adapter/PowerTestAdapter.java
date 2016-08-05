@@ -77,6 +77,30 @@ public class PowerTestAdapter extends BaseAdapter {
         this.list = list;
     }
 
+    /**
+     * 清零
+     * @param isUHF
+     * @return
+     */
+    public List<PowerTestSeekBean> getListCleanValue(boolean isUHF) {
+        List<PowerTestSeekBean> list = new ArrayList<>();
+
+        String[] nameStr;
+        if (isUHF) {
+            nameStr = new String[] { "409.025", "435.025", "469.025" };
+        } else {
+            nameStr = new String[] { "142.025", "155.025", "172.025" };
+        }
+
+        for (int i = 0; i < 3; i++) {
+            //编号 uhf 0-9 vhf 10-18
+            list.add(new PowerTestSeekBean((isUHF ? 0 : 9) + i * 3 + 1, nameStr[i] + "低频", 0));
+            list.add(new PowerTestSeekBean((isUHF ? 0 : 9) + i * 3 + 2, nameStr[i] + "中频", 0));
+            list.add(new PowerTestSeekBean((isUHF ? 0 : 9) + i * 3 + 3, nameStr[i] + "高频", 0));
+        }
+        return list;
+    }
+
     public List<PowerTestSeekBean> getList(DeviceBean dbin, boolean isUHF) {
         List<PowerTestSeekBean> list = new ArrayList<>();
 
@@ -89,13 +113,13 @@ public class PowerTestAdapter extends BaseAdapter {
 
         List<PowerTestData> listData = dbin.getListPower();
         for (int i = 0; i < listData.size(); i++) {
-
+            //编号 uhf 0-9 vhf 10-18
             list.add(new PowerTestSeekBean((isUHF ? 0 : 9) + i * 3 + 1, nameStr[i] + "低频",
-                    listData.get(i).getPowerLow()));
+                listData.get(i).getPowerLow()));
             list.add(new PowerTestSeekBean((isUHF ? 0 : 9) + i * 3 + 2, nameStr[i] + "中频",
-                    listData.get(i).getPowerMiddle()));
+                listData.get(i).getPowerMiddle()));
             list.add(new PowerTestSeekBean((isUHF ? 0 : 9) + i * 3 + 3, nameStr[i] + "高频",
-                    listData.get(i).getPowerHigh()));
+                listData.get(i).getPowerHigh()));
         }
         return list;
     }

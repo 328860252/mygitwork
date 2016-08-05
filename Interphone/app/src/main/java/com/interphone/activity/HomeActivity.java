@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,6 +37,13 @@ public class HomeActivity extends BaseActivity {
   @Bind(R.id.layout_activity) LinearLayout mLayoutActivity;
   @Bind(R.id.tv_title_left) TextView mTvTitleLeft;
   @Bind(R.id.btn_usbOTG) Button mBtnUsbOTG;
+  @Bind(R.id.rb_TX) RadioButton mRbTX;
+  @Bind(R.id.rb_RX) RadioButton mRbRX;
+  @Bind(R.id.rb_idel) RadioButton mRbIdel;
+  @Bind(R.id.btn_channelData) Button mBtnChannelData;
+  @Bind(R.id.btn_proterty) Button mBtnProterty;
+  @Bind(R.id.btn_sms) Button mBtnSms;
+  @Bind(R.id.btn_powerTest) Button mBtnPowerTest;
 
   private DeviceBean dbin;
   private final static int activity_device_list_bluetooth = 11;
@@ -65,6 +73,27 @@ public class HomeActivity extends BaseActivity {
     //mSpinnerChannel.setSelection(0 , true);
   }
 
+  @Override public void onReceiver(int type, int i) {
+    super.onReceiver(type, i);
+    switch (type) {
+      case CmdPackage.Cmd_type_status:
+        if (dbin != null) {
+          switch (dbin.getStatus()) {
+            case 0x0A:
+              mRbTX.setChecked(true);
+              break;
+            case 0x0B:
+              mRbRX.setChecked(true);
+              break;
+            default:
+              mRbIdel.setChecked(true);
+              break;
+          }
+        }
+        break;
+    }
+  }
+
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode) {
       case activity_device_list_bluetooth:
@@ -75,7 +104,8 @@ public class HomeActivity extends BaseActivity {
           }
           if (dbin.getConnect() == null
               || dbin.getConnect().getConnectType() != IConnectInterface.type_bluetooth) {
-            dbin.setConnectionInterface(new ConnectBluetoothImpl(this), getApplicationContext());//修改连接通道 为 蓝牙
+            dbin.setConnectionInterface(new ConnectBluetoothImpl(this),
+                getApplicationContext());//修改连接通道 为 蓝牙
           }
           dbin.getConnect().connect(mac, "");
         } else if (resultCode == IConnectInterface.type_usb) {
@@ -84,7 +114,8 @@ public class HomeActivity extends BaseActivity {
           }
           if (dbin.getConnect() == null
               || dbin.getConnect().getConnectType() != IConnectInterface.type_usb) {
-            dbin.setConnectionInterface(new ConnectUsbImpl(this) , getApplicationContext()); //修改连接通道为 usb
+            dbin.setConnectionInterface(new ConnectUsbImpl(this),
+                getApplicationContext()); //修改连接通道为 usb
           }
           dbin.getConnect().connect("", "");
         }
@@ -168,11 +199,13 @@ public class HomeActivity extends BaseActivity {
       String action = intent.getAction();
       if (action.equalsIgnoreCase(ConnectAction.ACTION_GATT_CONNECTED)) {
         showToast(R.string.toast_linked);
+        mRbIdel.setChecked(true);
         AppConstants.isWriteACK = true;
         dbin.write(CmdPackage.getInfo());
       } else if (action.equalsIgnoreCase(ConnectAction.ACTION_GATT_CONNECTING)) {
         showToast(R.string.toast_linking);
       } else if (action.equalsIgnoreCase(ConnectAction.ACTION_GATT_DISCONNECTED)) {
+        mRbIdel.setChecked(true);
         showToast(R.string.toast_link_lost);
       } else if (action.equalsIgnoreCase(ConnectAction.ACTION_SHOW_TOAST)) {
         showToast(R.string.noLink);
@@ -213,16 +246,17 @@ public class HomeActivity extends BaseActivity {
 
   @OnClick(R.id.btn_usbOTG) public void onUSBOTG() {
     if (ConnectUsbImpl.isSupport()) {
-//       if (!ConnectUsbImpl.hasDeivce()) {
-//         showToast(R.string.bluetooth_notfound);
-//        return ;
-//      }
+      //       if (!ConnectUsbImpl.hasDeivce()) {
+      //         showToast(R.string.bluetooth_notfound);
+      //        return ;
+      //      }
       if (dbin.isLink()) {
         dbin.stopConnect();
       }
       if (dbin.getConnect() == null
-              || dbin.getConnect().getConnectType() != IConnectInterface.type_usb) {
-        dbin.setConnectionInterface(new ConnectUsbImpl(this), getApplicationContext());//修改连接通道 为 usb
+          || dbin.getConnect().getConnectType() != IConnectInterface.type_usb) {
+        dbin.setConnectionInterface(new ConnectUsbImpl(this),
+            getApplicationContext());//修改连接通道 为 usb
       }
       dbin.getConnect().connect("", "");
     }

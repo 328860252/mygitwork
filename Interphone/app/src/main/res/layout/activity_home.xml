@@ -10,6 +10,32 @@
 
     <include layout="@layout/layout_title"></include>
 
+    <RadioGroup
+        android:id="@+id/rg_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rb_TX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_status_tx"/>
+
+        <RadioButton
+            android:id="@+id/rb_RX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_status_rx"/>
+
+        <RadioButton
+            android:id="@+id/rb_idel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/text_status_idel"/>
+
+    </RadioGroup>
+
     <Button
         android:id="@+id/btn_usbOTG"
         android:layout_width="wrap_content"
@@ -36,14 +62,6 @@
             >
 
             <Button
-                android:id="@+id/btn_channelData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/btn_channelData"
-                />
-
-            <Button
                 android:id="@+id/btn_proterty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,6 +69,13 @@
                 android:text="@string/btn_proterty"
                 />
 
+            <Button
+                android:id="@+id/btn_channelData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_channelData"
+                />
 
             <Button
                 android:id="@+id/btn_sms"

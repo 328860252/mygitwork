@@ -44,7 +44,7 @@ public class DevicePowerTestActivity2 extends BaseActivity {
     dbin = ((AppApplication) getApplication()).getDbin();
 
     mPowerTestAdapter = new PowerTestAdapter(this);
-    mList = mPowerTestAdapter.getList(dbin, mCbHf.isChecked());
+    mList = mPowerTestAdapter.getListCleanValue( mCbHf.isChecked());
     mPowerTestAdapter.setList(mList);
     mListView.setAdapter(mPowerTestAdapter);
 
@@ -77,10 +77,9 @@ public class DevicePowerTestActivity2 extends BaseActivity {
 
 
   private void initSpinnerVHF(boolean isUHF) {
-    mList = mPowerTestAdapter.getList(dbin, isUHF);
+    mList = mPowerTestAdapter.getListCleanValue(isUHF);
     mPowerTestAdapter.setList(mList);
     mPowerTestAdapter.notifyDataSetChanged();
-
 
   }
 
@@ -110,7 +109,9 @@ public class DevicePowerTestActivity2 extends BaseActivity {
     switch (type) {
       case CmdPackage.Cmd_type_power:
         mCbHf.setChecked(dbin.getListPower().get(0).isUhf());
-        initSpinnerVHF(mCbHf.isChecked());
+        mList = mPowerTestAdapter.getList(dbin,mCbHf.isChecked());
+        mPowerTestAdapter.setList(mList);
+        mPowerTestAdapter.notifyDataSetChanged();
         break;
     }
   }

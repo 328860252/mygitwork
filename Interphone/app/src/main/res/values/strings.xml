@@ -9,7 +9,7 @@
   <string name="yes">确认</string>
   <string name="btn_sms">短信</string>
   <string name="btn_channelData">信道属性</string>
-  <string name="btn_proterty">参数</string>
+  <string name="btn_proterty">本机参数</string>
   <string name="btn_send">发送</string>
   <string name="btn_read">读取</string>
   <string name="text_channel_power">功率</string>
@@ -49,5 +49,10 @@
   <string name="text_list_scan">搜索新设备</string>
   <string name="btn_usb">USB_OTG</string>
   <string name="not_support_usb">手机不支持USB HOST，请更换其他手机再试</string>
-  <string name="text_proterty_activityChannelId">当前信道</string>
+  <string name="text_proterty_activityChannelId">当前活动信道</string>
+  <string name="text_status_tx">TX</string>
+  <string name="text_status_idel">Idel</string>
+  <string name="text_status_rx">RX</string>
+  <string name="text_device_id">用户ID</string>
+  <string name="text_device_serialNumber">序列号</string>
 </resources>

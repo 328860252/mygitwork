@@ -34,11 +34,55 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:text="@string/text_device_id"
+            />
+
+        <TextView
+            android:id="@+id/tv_device_id"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
+
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/text_device_serialNumber"
+            />
+
+        <TextView
+            android:id="@+id/tv_device_serialNumber"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
+
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:text="@string/text_proterty_VHF"
             />
 
-        <Spinner
-            android:id="@+id/spinner_proterty_VHF"
+        <TextView
+            android:id="@+id/tv_proterty_VHF"
             android:layout_width="@dimen/spinner_width"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

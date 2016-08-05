@@ -34,6 +34,11 @@ public class CmdPackage {
    */
   public final static byte Cmd_type_sms = 0x05;
 
+  /**
+   * 状态
+   */
+  public final static byte Cmd_type_status = 0x06;
+
   //数据错误
   public final static byte Cmd_type_error = 0x7f;
 

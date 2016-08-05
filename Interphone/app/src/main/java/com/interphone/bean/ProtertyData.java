@@ -9,11 +9,6 @@ import lombok.Data;
 public class ProtertyData {
 
     /**
-     * 0:VHF 显示136-174MHz  1:UHF 显示400-470MHz
-     */
-    private int HFvalue;
-
-    /**
      * 30s-180s
      */
     private int totTime;
@@ -42,4 +37,5 @@ public class ProtertyData {
     public void setActivityChannelId(int activityChannelId) {
         this.activityChannelId = activityChannelId;
     }
+
 }

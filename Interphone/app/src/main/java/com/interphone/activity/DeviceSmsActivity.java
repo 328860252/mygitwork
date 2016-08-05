@@ -63,8 +63,8 @@ public class DeviceSmsActivity extends BaseActivity {
                         showToast(R.string.text_sms_tolong);
                         return ;
                     }
-                    if (dbin.getDeviceId()==null) {
-                        dbin.write(CmdPackage.setSms(receiver, dbin.getDeviceId(), mEtSms.getText().toString()));
+                    if (dbin.getUserId()==null) {
+                        dbin.write(CmdPackage.setSms(receiver, dbin.getUserId(), mEtSms.getText().toString()));
                     } else {
                         AppConstants.isWriteACK = true;
                         dbin.write(CmdPackage.getInfo());
