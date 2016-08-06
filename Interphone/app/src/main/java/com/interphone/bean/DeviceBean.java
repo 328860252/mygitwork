@@ -19,33 +19,12 @@ import lombok.Data;
 
     private Context mContext;
 
-    public String deviceMode;
-
-    /**
-     * 设备id
-     */
-    public String userId;
 
     /**
      * 写频密码
      * 353605超级密码 ， 全FFFFFF为空密码
      */
     public String password;
-
-    /**
-     * 1 2 3(默认）
-     */
-    public int status = 0x0C;
-
-    /**
-     * 0:VHF 显示136-174MHz  1:UHF 显示400-470MHz
-     */
-    private int HFvalue;
-
-    /**
-     * 序列号
-     */
-    private String serialNumber;
 
     /**
      * 属性
@@ -190,11 +169,4 @@ import lombok.Data;
         return mConnect;
     }
 
-    public String getHFValueString() {
-        return isVHF() ?"136-174MHZ":"400-470MHZ";
-    }
-
-    public boolean isVHF() {
-        return HFvalue==0;
-    }
 }

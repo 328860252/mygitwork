@@ -33,7 +33,7 @@ public class SmsDao {
     buffer.append(SendId + " text,");
     buffer.append(ReceiverId + " text,");
     buffer.append(DataTime + " text,");
-    buffer.append(Type + " integer)");
+    buffer.append(Type + " integer,");
     buffer.append(IsSend + " integer)");
     return buffer.toString();
   }
@@ -42,10 +42,11 @@ public class SmsDao {
     mSqliteHelper = new SqliteHelper(context);
   }
 
-  public void insert(SmsEntity sms) {
+  public long insert(SmsEntity sms) {
     SQLiteDatabase sdb = mSqliteHelper.getWritableDatabase();
-    sdb.insert(TABLE_NAME, null , entity2content(sms));
+    long id = sdb.insert(TABLE_NAME, null , entity2content(sms));
     sdb.close();
+    return id;
   }
 
   public List<SmsEntity> querySendLast100(String deviceId) {
@@ -65,7 +66,7 @@ public class SmsDao {
   private List<SmsEntity> query(boolean isSend, String deviceId, int limitSize) {
     List<SmsEntity> list = new ArrayList<SmsEntity>();
     SQLiteDatabase sdb =  mSqliteHelper.getReadableDatabase();
-    Cursor mCursor = sdb.query(TABLE_NAME, new String[]{IsSend} , IsSend + " = ? limit 0,"+ limitSize, new String[]{(isSend?"1":"0")}, null, null, Id);
+    Cursor mCursor = sdb.query(TABLE_NAME, null , IsSend + " = ? ", new String[]{(isSend?"1":"0")}, null , null, DataTime, "0,"+ limitSize);
     SmsEntity smsEntity;
     while (mCursor.moveToNext()) {
       smsEntity = cursor2Entity(mCursor);
@@ -88,13 +89,13 @@ public class SmsDao {
 
   private SmsEntity cursor2Entity(Cursor cursor) {
     SmsEntity smsEntity = new SmsEntity();
-    smsEntity.setId(cursor.getInt(cursor.getColumnIndex(Id)));
     smsEntity.setSend(cursor.getInt(cursor.getColumnIndex(IsSend))==1);
     smsEntity.setContent(cursor.getString(cursor.getColumnIndex(Content)));
     smsEntity.setReceiverId(cursor.getString(cursor.getColumnIndex(ReceiverId)));
     smsEntity.setSendId(cursor.getString(cursor.getColumnIndex(SendId)));
     smsEntity.setDataTime(cursor.getString(cursor.getColumnIndex(DataTime)));
     smsEntity.setType(cursor.getInt(cursor.getColumnIndex(Type)));
+    smsEntity.setId(cursor.getInt(cursor.getColumnIndex(Id)));
     return smsEntity;
   }
 

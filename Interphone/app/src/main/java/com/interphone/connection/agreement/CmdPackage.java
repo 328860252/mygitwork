@@ -6,6 +6,7 @@ import com.interphone.bean.PowerTestData;
 import com.interphone.bean.ProtertyData;
 import com.interphone.bean.SmsEntity;
 import com.interphone.utils.BcdUtils;
+import com.interphone.utils.StringUtils;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -168,7 +169,7 @@ public class CmdPackage {
     buff[11] = (byte) protertyData.getActivityChannelId();
     byte[] nameBuff;
     try {
-      nameBuff = protertyData.getPttid().getBytes(AppConstants.charSet);
+      nameBuff = protertyData.getUserId().getBytes(AppConstants.charSet);
       System.arraycopy(nameBuff, 0, buff, 5, nameBuff.length);
       return buff;
     } catch (UnsupportedEncodingException e) {
@@ -178,17 +179,25 @@ public class CmdPackage {
   }
 
   public static byte[] setSms(SmsEntity smsEntity) {
-    byte[] buff = new byte[2 + 6 + 6 + smsEntity.getContent().getBytes().length];
+    byte[] buff = new byte[2 + 22 + smsEntity.getContent().getBytes().length];
     buff[0] = set;
     buff[1] = Cmd_type_sms;
-    int index = 2;//起始位置
+    int index = 5;//起始位置
+    buff[4] = (byte) smsEntity.getType();
     try {
+      //接收id
       byte[] receIdUuff = smsEntity.getReceiverId().getBytes(AppConstants.charSet);
       System.arraycopy(receIdUuff, 0, buff, index, receIdUuff.length);
       index += receIdUuff.length;
+      //发送id
       byte[] sendIdBuff = smsEntity.getSendId().getBytes(AppConstants.charSet);
       System.arraycopy(sendIdBuff, 0, buff, index, sendIdBuff.length);
       index += sendIdBuff.length;
+      //时间 年月日时分秒
+      byte[] dataBuff = StringUtils.time2byte(smsEntity.getDataTime());
+      System.arraycopy(dataBuff, 0, buff, index, dataBuff.length);
+      index += dataBuff.length;
+      //内容
       byte[] smsBuff = smsEntity.getContent().getBytes(AppConstants.charSet);
       System.arraycopy(smsBuff, 0, buff, index, smsBuff.length);
       return buff;

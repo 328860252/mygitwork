@@ -164,14 +164,14 @@
             android:text="@string/text_proterty_pttid"
             />
 
-        <EditText
-            android:id="@+id/et_proterty_pttid"
+        <TextView
+            android:id="@+id/tv_user_id"
             android:layout_width="@dimen/spinner_width"
             android:layout_centerVertical="true"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             style="@style/edittext"
-            ></EditText>
+            ></TextView>
 
       </RelativeLayout>
 

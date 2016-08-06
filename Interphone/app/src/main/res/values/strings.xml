@@ -24,7 +24,7 @@
   <string name="text_numberToneColor">色码</string>
   <string name="text_sms">短信</string>
   <string name="text_proterty_VHF">VHF/UHF</string>
-  <string name="text_proterty_pttid">PTTID</string>
+  <string name="text_proterty_pttid">用户Id</string>
   <string name="text_proterty_vox">VOX</string>
   <string name="text_proterty_tot">TOT/s</string>
   <string name="text_power_low">低功率</string>

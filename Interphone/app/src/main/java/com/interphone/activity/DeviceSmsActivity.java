@@ -56,12 +56,12 @@ public class DeviceSmsActivity extends BaseActivity {
 //                }
 //                dbin.write(CmdPackage.getSms());
                 intent = new Intent(DeviceSmsActivity.this, SmsListActivity.class);
-                intent.putExtra("isSend", true);
+                intent.putExtra("isSend", false);
                 startActivity(intent);
                 break;
             case R.id.btn_send_list:
                 intent = new Intent(DeviceSmsActivity.this, SmsListActivity.class);
-                intent.putExtra("isSend", false);
+                intent.putExtra("isSend", true);
                 startActivity(intent);
                 break;
             case R.id.btn_send:
@@ -80,11 +80,11 @@ public class DeviceSmsActivity extends BaseActivity {
                         showToast(R.string.text_sms_tolong);
                         return ;
                     }
-                    if (dbin.getUserId()==null) {
+                    if (dbin.getProtertyData().getUserId()!=null) {
                         SmsEntity smsEntity = new SmsEntity();
                         smsEntity.setContent(sms);
                         smsEntity.setSend(true);
-                        smsEntity.setSendId(dbin.getUserId());
+                        smsEntity.setSendId(dbin.getProtertyData().getUserId());
                         smsEntity.setReceiverId(mEtSms.getText().toString().trim());
                         smsEntity.setType(SmsEntity.TYPE_TEXT);
                         smsEntity.setDataTime(StringUtils.getTimeString());

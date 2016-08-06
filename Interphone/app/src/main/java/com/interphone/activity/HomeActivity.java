@@ -78,7 +78,7 @@ public class HomeActivity extends BaseActivity {
     switch (type) {
       case CmdPackage.Cmd_type_status:
         if (dbin != null) {
-          switch (dbin.getStatus()) {
+          switch (dbin.getProtertyData().getStatus()) {
             case 0x0A:
               mRbTX.setChecked(true);
               break;

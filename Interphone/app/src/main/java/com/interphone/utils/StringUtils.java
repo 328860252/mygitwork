@@ -1,8 +1,10 @@
 package com.interphone.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * Created by Administrator on 2016/5/25.
@@ -32,6 +34,25 @@ public class StringUtils {
         return mSimpleDateFormat.format(calendar.getTime());
     }
 
+    public static byte[] time2byte(String time) {
+        byte[] bytes = new byte[7];
+        Date date;
+        try {
+            date = mSimpleDateFormat.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            date = new Date();
+        }
+        bytes[0] = (byte) ((date.getYear()+1900) /256);
+        bytes[1] = (byte) ((date.getYear()+1900) %256);
+        bytes[2] = (byte) (date.getMonth()+1);
+        bytes[3] = (byte) (date.getDate());
+        bytes[4] = (byte) (date.getHours());
+        bytes[5] = (byte) (date.getMinutes());
+        bytes[6] = (byte) (date.getSeconds());
+        return  bytes;
+    }
+
     public static String timeFormat(String longStr) {
         String time = "";
         try {
@@ -42,6 +63,10 @@ public class StringUtils {
         return time;
     }
 
+    /**
+     * 获得yyyy-MM-dd HH:mm:ss
+     * @return
+     */
     public static String getTimeString() {
         return mSimpleDateFormat.format(new Date());
     }

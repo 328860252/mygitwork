@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,7 +24,7 @@ public class DeviceProtertyActivity extends BaseActivity {
   @Bind(R.id.tv_title) TextView mTvTitle;
   @Bind(R.id.tv_proterty_tot) TextView mTvProtertyTot;
   @Bind(R.id.layout_proterty_tot) LinearLayout mLayoutProtertyTot;
-  @Bind(R.id.et_proterty_pttid) EditText mEtProtertyPttid;
+  @Bind(R.id.tv_user_id) TextView mTvDeviceId;
   @Bind(R.id.tv_proterty_VHF) TextView mTvProtertyVHF;
   @Bind(R.id.spinner_proterty_VOX) Spinner mSpinnerProtertyVOX;
   @Bind(R.id.spinner_channel) Spinner mSpinnerChannel;
@@ -57,9 +56,9 @@ public class DeviceProtertyActivity extends BaseActivity {
     dbin = ((AppApplication) getApplication()).getDbin();
     mProtertyData = dbin.getProtertyData();
 
-    mTvDeviceSerialNumber.setText(dbin.getSerialNumber());
-    mTvDeviceMode.setText(dbin.getDeviceMode());
-    mTvProtertyVHF.setText(dbin.getHFValueString());
+    mTvDeviceSerialNumber.setText(mProtertyData.getSerialNumber());
+    mTvDeviceMode.setText(mProtertyData.getDeviceMode());
+    mTvProtertyVHF.setText(mProtertyData.getHFValueString());
 
     mArrayProtertyVOX = getResources().getStringArray(R.array.ProtertyVOX);
     mAdapterProtertyVOX = new StringAdapter(mArrayProtertyVOX, this, mProtertyData.getVox());
@@ -104,7 +103,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     try {
       mSpinnerProtertyVOX.setSelection(mProtertyData.getVox());
       mTvProtertyTot.setText(("" + mProtertyData.getTotTime()));
-      mEtProtertyPttid.setText(mProtertyData.getPttid().trim());
+      mTvDeviceId.setText(mProtertyData.getUserId().trim());
       mSpinnerChannel.setSelection(mProtertyData.getActivityChannelId() - 1);
     } catch (IndexOutOfBoundsException e) {
       e.printStackTrace();
@@ -133,9 +132,7 @@ public class DeviceProtertyActivity extends BaseActivity {
           showToast(R.string.noLink);
           return;
         }
-        String pttid = mEtProtertyPttid.getText().toString();
         mProtertyWriteData = dbin.getProtertyData();
-        mProtertyWriteData.setPttid(pttid);
         mProtertyWriteData.setVox(mSpinnerProtertyVOX.getSelectedItemPosition());
         //mProtertyWriteData.setHFvalue(mSpinnerProtertyVHF.getSelectedItemPosition());
         mProtertyWriteData.setTotTime(Integer.parseInt(mTvProtertyTot.getText().toString()));

@@ -60,8 +60,8 @@ public class CmdParseImpl implements ICmdParseInterface {
                     //用户id
                     System.arraycopy(dataBuff,2, buffer, 0, 6);
                     str = new String(buffer);
-                    mDeviceBean.setDeviceMode(str);
-                    mDeviceBean.setHFvalue(MyByteUtils.byteToInt(dataBuff[6]));
+                    mDeviceBean.getProtertyData().setDeviceMode(str);
+                    mDeviceBean.getProtertyData().setHFvalue(MyByteUtils.byteToInt(dataBuff[6]));
                     //用户密码
                     System.arraycopy(dataBuff,8, buffer, 0, 6);
                     str = new String(buffer);
@@ -70,7 +70,7 @@ public class CmdParseImpl implements ICmdParseInterface {
                     buffer = new byte[4];
                     System.arraycopy(dataBuff,12, buffer, 0, 4);
                     str = new String(buffer);
-                    mDeviceBean.setSerialNumber(str);
+                    mDeviceBean.getProtertyData().setSerialNumber(str);
                     break;
                 case CmdPackage.Cmd_type_channel:
                     ChannelData channelData;
@@ -87,7 +87,7 @@ public class CmdParseImpl implements ICmdParseInterface {
                             //将bcd码数字转成字符串 ，
                             bcdStr = BcdUtils.bcd2Str(buffer);
                             if (bcdStr.equals("FFFFFFFF")) {
-                                if (mDeviceBean.isVHF()) {
+                                if (mDeviceBean.getProtertyData().isVHF()) {
                                     channelData.setRateReceive( DEFAULT_RATE_VHF + i);
                                 } else {
                                     channelData.setRateReceive( DEFAULT_RATE_UHF + i);
@@ -101,7 +101,7 @@ public class CmdParseImpl implements ICmdParseInterface {
                             bcdStr = BcdUtils.bcd2Str(buffer);
                             if (bcdStr.equals("FFFFFFFF")) {//全是ff 则显示默认vhf 或 默认ufh值
                                 //根据信道id， 依次累加+1
-                                if (mDeviceBean.isVHF()) {
+                                if (mDeviceBean.getProtertyData().isVHF()) {
                                     channelData.setRateSend( DEFAULT_RATE_VHF + i);
                                 } else {
                                     channelData.setRateSend( DEFAULT_RATE_UHF + i);
@@ -133,7 +133,7 @@ public class CmdParseImpl implements ICmdParseInterface {
 
                     buffer = new byte[6];
                     System.arraycopy(dataBuff, 5, buffer, 0, 6);
-                    protertyData.setPttid(new String(buffer, AppConstants.charSet));
+                    protertyData.setUserId(new String(buffer, AppConstants.charSet));
                     LogUtils.d(TAG, " proterty : " + protertyData.toString());
                     break;
                 case CmdPackage.Cmd_type_power:
@@ -169,7 +169,7 @@ public class CmdParseImpl implements ICmdParseInterface {
                         }
                         smsEntity = new SmsEntity();
                         smsEntity.setContent(str);
-                        smsEntity.setReceiverId(mDeviceBean.getUserId());
+                        smsEntity.setReceiverId(mDeviceBean.getProtertyData().getUserId());
                         smsEntity.setSend(false);
                         smsEntity.setType(type);
                         buffer = new byte[7];
@@ -185,7 +185,7 @@ public class CmdParseImpl implements ICmdParseInterface {
                     }
                 case CmdPackage.Cmd_type_status:
                     int status = MyByteUtils.byteToInt(dataBuff[2]);
-                    mDeviceBean.setStatus(status);
+                    mDeviceBean.getProtertyData().setStatus(status);
                     break;
             }
             sendBroadcast(MyByteUtils.byteToInt(dataBuff[1]));

@@ -10,7 +10,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.example.administrator.interphone.R;
 import com.interphone.bean.SmsEntity;
-import com.interphone.utils.StringUtils;
 import java.util.List;
 
 /**
@@ -18,21 +17,21 @@ import java.util.List;
  */
 public class SmsAdapter extends BaseAdapter {
 
-  private List<SmsEntity> list;
+  private List<SmsEntity> mList;
   private Context mContext;
   private ViewHolder mViewHolder;
 
   public SmsAdapter(Context context, List<SmsEntity> smsEntityList) {
     mContext = context;
-    list = smsEntityList;
+    mList = smsEntityList;
   }
 
   @Override public int getCount() {
-    return list.size();
+    return mList.size();
   }
 
   @Override public Object getItem(int position) {
-    return list.get(position);
+    return mList.get(position);
   }
 
   @Override public long getItemId(int position) {
@@ -47,11 +46,15 @@ public class SmsAdapter extends BaseAdapter {
     } else {
       mViewHolder = (ViewHolder) convertView.getTag();
     }
-    SmsEntity smsEntity = list.get(position);
+    SmsEntity smsEntity = mList.get(position);
     mViewHolder.mTextViewContent.setText(smsEntity.getContent());
     mViewHolder.mTextViewId.setText(""+(position+1));
-    mViewHolder.mTextViewTime.setText(StringUtils.timeFormat(smsEntity.getDataTime()));
+    mViewHolder.mTextViewTime.setText(smsEntity.getDataTime());
     return convertView;
+  }
+
+  public void setList(List<SmsEntity> list) {
+    mList = list;
   }
 
   static class ViewHolder {
