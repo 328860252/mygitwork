@@ -52,7 +52,7 @@ public class DeviceChannelDataActivity extends BaseActivity {
 
     private DeviceBean dbin;
     private ChannelData mChannelData; //当前真是值
-    private ChannelData mChannelWriteData; //往外写的缓存数据
+    //private ChannelData mChannelWriteData; //往外写的缓存数据
     private final static int activity_analogToneReceive  = 11;
     private final static int activity_analogToneSend = 12;
     private final static int activity_numberToneColo = 13;
@@ -256,33 +256,33 @@ public class DeviceChannelDataActivity extends BaseActivity {
                     showToast(R.string.noLink);
                     return;
                 }
-                mChannelWriteData = dbin.getChannelData(mSpinnerChannel.getSelectedItemPosition());
+                mChannelData = dbin.getChannelData(mSpinnerChannel.getSelectedItemPosition());
 				
                 try {
                     String rateReceiveStr = mEtRateReceive.getText().toString();
                     String rateSendStr = mEtRateSend.getText().toString();
 
                     double finalRate = checkRate(rateReceiveStr);
-                    mChannelWriteData.setRateReceive(finalRate);
+                    mChannelData.setRateReceive(finalRate);
                     mEtRateReceive.setText(""+finalRate);
 
                     finalRate = checkRate(rateSendStr);
-                    mChannelWriteData.setRateSend(finalRate);
+                    mChannelData.setRateSend(finalRate);
                     mEtRateSend.setText(""+finalRate);
 
-                    mChannelWriteData.setChannelType(mSpinnerChannelType.getSelectedItemPosition());
-                    mChannelWriteData.setPower(mSpinnerPower.getSelectedItemPosition());
+                    mChannelData.setChannelType(mSpinnerChannelType.getSelectedItemPosition());
+                    mChannelData.setPower(mSpinnerPower.getSelectedItemPosition());
                     //mChannelData.setRateSend(mEtRateSend.getText().toString());
                     //mChannelData.setRateReceive(mEtRateReceive.getText().toString());
                     if(mChannelData.isNumberTone()) {
-                        mChannelWriteData.setNumberToneColor(Integer.parseInt(mTvNumberToneColor.getText().toString()));
-                        mChannelWriteData.setNumberToneSlot((Integer) mSpinnerNumberToneSlot.getSelectedItem());
+                        mChannelData.setNumberToneColor(Integer.parseInt(mTvNumberToneColor.getText().toString()));
+                        mChannelData.setNumberToneSlot((Integer) mSpinnerNumberToneSlot.getSelectedItem());
                     } else {
-                        mChannelWriteData.setAnalogToneBand(mSpinnerAnalogToneBand.getSelectedItemPosition());
-                        mChannelWriteData.setAnalogToneSend(toneSend);
-                        mChannelWriteData.setAnalogToneReceive(toneReceive);
+                        mChannelData.setAnalogToneBand(mSpinnerAnalogToneBand.getSelectedItemPosition());
+                        mChannelData.setAnalogToneSend(toneSend);
+                        mChannelData.setAnalogToneReceive(toneReceive);
                     }
-                    dbin.write(CmdPackage.setChannel(mChannelWriteData));
+                    dbin.write(CmdPackage.setChannel(mChannelData));
                 } catch (Exception e) {
                     showToast(R.string.text_data_error);
                     e.printStackTrace();

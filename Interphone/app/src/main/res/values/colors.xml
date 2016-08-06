@@ -7,4 +7,5 @@
     <color name="bg_activity">#F9F9F9</color>
     <color name="bg_title">#4051B5</color>
     <color name="text_dark">#555555</color>
+    <color name="text_red">#FF3333</color>
 </resources>

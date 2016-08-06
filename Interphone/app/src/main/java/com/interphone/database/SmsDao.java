@@ -66,7 +66,7 @@ public class SmsDao {
   private List<SmsEntity> query(boolean isSend, String deviceId, int limitSize) {
     List<SmsEntity> list = new ArrayList<SmsEntity>();
     SQLiteDatabase sdb =  mSqliteHelper.getReadableDatabase();
-    Cursor mCursor = sdb.query(TABLE_NAME, null , IsSend + " = ? ", new String[]{(isSend?"1":"0")}, null , null, DataTime, "0,"+ limitSize);
+    Cursor mCursor = sdb.query(TABLE_NAME, null , IsSend + " = ? ", new String[]{(isSend?"1":"0")}, null , null, DataTime+" desc", "0,"+ limitSize);
     SmsEntity smsEntity;
     while (mCursor.moveToNext()) {
       smsEntity = cursor2Entity(mCursor);

@@ -80,6 +80,11 @@ public class DevicePowerTestActivity2 extends BaseActivity {
     mList = mPowerTestAdapter.getListCleanValue(isUHF);
     mPowerTestAdapter.setList(mList);
     mPowerTestAdapter.notifyDataSetChanged();
+    if (isUHF) {
+      mCbHf.setText(R.string.text_UHF);
+    } else {
+      mCbHf.setText(R.string.text_VHF);
+    }
 
   }
 

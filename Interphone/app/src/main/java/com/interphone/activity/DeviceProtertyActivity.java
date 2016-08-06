@@ -24,11 +24,11 @@ public class DeviceProtertyActivity extends BaseActivity {
   @Bind(R.id.tv_title) TextView mTvTitle;
   @Bind(R.id.tv_proterty_tot) TextView mTvProtertyTot;
   @Bind(R.id.layout_proterty_tot) LinearLayout mLayoutProtertyTot;
-  @Bind(R.id.tv_user_id) TextView mTvDeviceId;
+  @Bind(R.id.tv_device_id) TextView mTvDeviceId;
   @Bind(R.id.tv_proterty_VHF) TextView mTvProtertyVHF;
   @Bind(R.id.spinner_proterty_VOX) Spinner mSpinnerProtertyVOX;
   @Bind(R.id.spinner_channel) Spinner mSpinnerChannel;
-  @Bind(R.id.tv_device_id) TextView mTvDeviceMode;
+  @Bind(R.id.tv_device_mode) TextView mTvDeviceMode;
   @Bind(R.id.tv_device_serialNumber) TextView mTvDeviceSerialNumber;
 
   private StringAdapter mAdapterProtertyVOX;
@@ -57,6 +57,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     mProtertyData = dbin.getProtertyData();
 
     mTvDeviceSerialNumber.setText(mProtertyData.getSerialNumber());
+    mTvDeviceId.setText(mProtertyData.getUserId().trim());
     mTvDeviceMode.setText(mProtertyData.getDeviceMode());
     mTvProtertyVHF.setText(mProtertyData.getHFValueString());
 
@@ -103,7 +104,6 @@ public class DeviceProtertyActivity extends BaseActivity {
     try {
       mSpinnerProtertyVOX.setSelection(mProtertyData.getVox());
       mTvProtertyTot.setText(("" + mProtertyData.getTotTime()));
-      mTvDeviceId.setText(mProtertyData.getUserId().trim());
       mSpinnerChannel.setSelection(mProtertyData.getActivityChannelId() - 1);
     } catch (IndexOutOfBoundsException e) {
       e.printStackTrace();

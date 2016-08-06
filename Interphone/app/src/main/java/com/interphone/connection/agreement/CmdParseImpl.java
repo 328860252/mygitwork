@@ -16,11 +16,7 @@ import com.interphone.utils.LogUtils;
 import com.interphone.utils.MyByteUtils;
 import com.interphone.utils.MyHexUtils;
 import com.interphone.utils.StringUtils;
-
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2016/5/13.

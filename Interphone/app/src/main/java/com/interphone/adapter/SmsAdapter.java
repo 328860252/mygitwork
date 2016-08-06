@@ -48,8 +48,9 @@ public class SmsAdapter extends BaseAdapter {
     }
     SmsEntity smsEntity = mList.get(position);
     mViewHolder.mTextViewContent.setText(smsEntity.getContent());
-    mViewHolder.mTextViewId.setText(""+(position+1));
+    mViewHolder.mTextViewId.setText("" + (position + 1));
     mViewHolder.mTextViewTime.setText(smsEntity.getDataTime());
+    mViewHolder.mTextViewSend.setText(smsEntity.getSendId()+" -> " + smsEntity.getReceiverId());
     return convertView;
   }
 
@@ -57,13 +58,16 @@ public class SmsAdapter extends BaseAdapter {
     mList = list;
   }
 
+
   static class ViewHolder {
     @Bind(R.id.textView_id) TextView mTextViewId;
     @Bind(R.id.textView_time) TextView mTextViewTime;
     @Bind(R.id.textView_content) TextView mTextViewContent;
+    @Bind(R.id.textView_send) TextView mTextViewSend;
 
     ViewHolder(View view) {
       ButterKnife.bind(this, view);
     }
   }
+
 }

@@ -14,9 +14,10 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
+      android:layout_marginBottom="20dp"
       android:checked="true"
       android:padding="8dp"
-      android:text="UHF"
+      android:text="@string/text_UHF"
       />
 
   <ListView

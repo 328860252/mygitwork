@@ -17,7 +17,6 @@ import com.interphone.bean.SmsEntity;
 import com.interphone.connection.agreement.CmdPackage;
 import com.interphone.database.SmsDao;
 import com.interphone.utils.StringUtils;
-
 import java.io.UnsupportedEncodingException;
 
 public class DeviceSmsActivity extends BaseActivity {

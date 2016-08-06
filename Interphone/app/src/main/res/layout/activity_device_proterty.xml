@@ -34,6 +34,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:text="@string/text_device_mode"
+            />
+
+        <TextView
+            android:id="@+id/tv_device_mode"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
+
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height"
+          android:orientation="horizontal"
+          >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:text="@string/text_device_id"
             />
 
@@ -147,31 +170,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             ></Spinner>
-
-      </RelativeLayout>
-
-
-      <RelativeLayout
-          android:layout_width="match_parent"
-          android:layout_height="@dimen/layout_height"
-          android:orientation="horizontal"
-          >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/text_proterty_pttid"
-            />
-
-        <TextView
-            android:id="@+id/tv_user_id"
-            android:layout_width="@dimen/spinner_width"
-            android:layout_centerVertical="true"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            style="@style/edittext"
-            ></TextView>
 
       </RelativeLayout>
 
