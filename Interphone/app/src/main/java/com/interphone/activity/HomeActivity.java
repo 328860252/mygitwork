@@ -62,6 +62,7 @@ public class HomeActivity extends BaseActivity {
     intentFilter.addAction(ConnectAction.ACTION_GATT_CONNECTING);
     intentFilter.addAction(ConnectAction.ACTION_SHOW_TOAST);
     registerReceiver(receiver, intentFilter);
+
   }
 
   private void initViews() {
@@ -141,6 +142,7 @@ public class HomeActivity extends BaseActivity {
     Intent intent = null;
     switch (view.getId()) {
       case R.id.btn_proterty:
+        testCmd();
         intent = new Intent(this, DeviceProtertyActivity.class);
         startActivity(intent);
         break;
@@ -259,6 +261,14 @@ public class HomeActivity extends BaseActivity {
             getApplicationContext());//修改连接通道 为 usb
       }
       dbin.getConnect().connect("", "");
+    }
+  }
+
+
+  private void  testCmd () {
+    if (AppConstants.isDemo) {
+      byte[]  cmd6= new byte[] {0x01, 0x06, 0x0A};
+      dbin.getMParse().parseData(cmd6);
     }
   }
 }

@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
+import com.interphone.AppConstants;
 import com.interphone.AppString;
 import com.interphone.adapter.StringAdapter;
 import com.interphone.bean.DeviceBean;
@@ -50,6 +51,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     ButterKnife.bind(this);
     initBaseViews(this);
     initViews();
+
   }
 
   private void initViews() {
@@ -121,6 +123,7 @@ public class DeviceProtertyActivity extends BaseActivity {
         startActivityForResult(intent, activity_prterty_tot);
         break;
       case R.id.btn_read:
+        testCmd();
         if (!dbin.isLink()) {
           showToast(R.string.noLink);
           return;
@@ -162,6 +165,16 @@ public class DeviceProtertyActivity extends BaseActivity {
         mProtertyData = dbin.getProtertyData();
         initData();
         break;
+    }
+  }
+
+  private void  testCmd () {
+    if (AppConstants.isDemo) {
+      byte[]  cmd6= new byte[] {0x01, 0x02, 0x01, (byte) 0xB4, 0x3, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x00, 0x00};
+      dbin.getMParse().parseData(cmd6);
+
+      byte[]  cmd1= new byte[] {0x01, 0x01, 0x5A, (byte) 0x57, 0x52, 0x30, 0x31, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x37 , 0x38, 0x38};
+      dbin.getMParse().parseData(cmd1);
     }
   }
 }

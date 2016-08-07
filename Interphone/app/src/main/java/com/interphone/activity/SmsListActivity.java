@@ -1,6 +1,7 @@
 package com.interphone.activity;
 
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -9,11 +10,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
+import com.interphone.AppConstants;
 import com.interphone.adapter.SmsAdapter;
 import com.interphone.bean.DeviceBean;
 import com.interphone.bean.SmsEntity;
 import com.interphone.connection.agreement.CmdPackage;
 import com.interphone.database.SmsDao;
+import com.interphone.utils.StringUtils;
+
 import java.util.List;
 
 public class SmsListActivity extends BaseActivity {
@@ -64,6 +68,7 @@ public class SmsListActivity extends BaseActivity {
       showToast("开始读取");
       dbin.write(CmdPackage.getSms());
     }
+    testCmd();
   }
 
   @Override public void onReceiver(int type, int i) {
@@ -77,4 +82,21 @@ public class SmsListActivity extends BaseActivity {
     }
     super.onReceiver(type, i);
   }
+
+  private void  testCmd () {
+    if (AppConstants.isDemo) {
+      SmsEntity smsEntity = new SmsEntity();
+      smsEntity.setContent("haha哈哈");
+      smsEntity.setType(2);
+      smsEntity.setDataTime(StringUtils.getTimeString());
+      smsEntity.setReceiverId("123456");
+      smsEntity.setSendId("123456");
+
+      dbin.getMParse().parseData(CmdPackage.setSms(smsEntity));
+
+      byte[]  cmd1= new byte[] {0x01, 0x05, 0x02, (byte) 0x00, 0x02, 0x30, 0x31, 0x32, 0x33, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x07 , 0x66, 0x03, 0x04, 0x05, 0x06, 0x07, 0x31, 0x32, 0x33, 0x34};
+      dbin.getMParse().parseData(cmd1);
+    }
+  }
 }
+
