@@ -142,7 +142,7 @@ public class HomeActivity extends BaseActivity {
     Intent intent = null;
     switch (view.getId()) {
       case R.id.btn_proterty:
-        testCmd();
+        //testCmd();
         intent = new Intent(this, DeviceProtertyActivity.class);
         startActivity(intent);
         break;
