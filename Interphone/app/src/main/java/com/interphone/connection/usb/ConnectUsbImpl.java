@@ -57,20 +57,23 @@ public class ConnectUsbImpl implements IConnectInterface {
     AppApplication.driver.CloseDevice();
   }
 
-  @Override public void write(byte[] buffer) {
+  @Override public boolean write(byte[] buffer) {
     if (AppApplication.driver.isConnected()) {
-      if (buffer==null) return;
+      if (buffer==null) return false;
       int retval = AppApplication.driver.WriteData(buffer, buffer.length);//写数据，第一个参数为需要发送的字节数组，第二个参数为需要发送的字节长度，返回实际发送的字节长度
       if (retval < 0) {
         LogUtils.logD(TAG, "发送失败" );
+        return false;
       } else {
         LogUtils.logD(TAG, "发送:" +retval + " :"+ MyHexUtils.buffer2String(buffer));
+        return true;
       }
     }
+    return false;
   }
 
-  @Override public void writeAgreement(byte[] buffer) {
-    write(CmdEncrypt.sendMessage(buffer));
+  @Override public boolean writeAgreement(byte[] buffer) {
+    return write(CmdEncrypt.sendMessage(buffer));
   }
 
   @Override public boolean isLink() {

@@ -187,22 +187,23 @@ public class BluetoothChatManager {
      * @param out The bytes to write
      * @see ConnectedThread#write(byte[])
      */
-    public void write(byte[] out) {
+    public boolean write(byte[] out) {
         // Create temporary object
         LogUtils.logD(TAG, "发送:" + MyHexUtils.buffer2String(out));
         if(AppConstants.isDemo) {
-            return;
+            return true;
         }
         ConnectedThread r;
 
         // Synchronize a copy of the ConnectedThread
         synchronized (this) {
-            if (mState != STATE_CONNECTED) return;
+            if (mState != STATE_CONNECTED) return false;
             r = mConnectedThread;
         }
 
         // Perform the write unsynchronized
         r.write(out);
+        return true;
     }
 
     /**

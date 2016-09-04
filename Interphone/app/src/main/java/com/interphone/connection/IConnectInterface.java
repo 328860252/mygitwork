@@ -20,12 +20,12 @@ public interface IConnectInterface {
 	 * 直接发送数据
 	 * @param buffer
 	 */
-	void write(byte[] buffer);
+	boolean write(byte[] buffer);
 	/**
 	 * 将命令生成协议后发送
 	 * @param buffer
 	 */
-	void writeAgreement(byte[] buffer);
+	boolean writeAgreement(byte[] buffer);
 	/**
 	 * 读取数据，数据
 	 * @param buffer

@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
 import com.interphone.AppConstants;
@@ -22,22 +21,44 @@ import com.interphone.bean.DeviceBean;
 import com.interphone.connection.agreement.CmdPackage;
 import com.interphone.utils.WheelUtils;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class DeviceChannelDataActivity extends BaseActivity {
 
-    @Bind(R.id.tv_title) TextView mTvTitle;
-    @Bind(R.id.spinner_channel) Spinner mSpinnerChannel;
-    @Bind(R.id.spinner_channel_type) Spinner mSpinnerChannelType;
-    @Bind(R.id.tv_analogToneReceive) TextView mTvAnalogToneReceive;
-    @Bind(R.id.tv_analogToneSend) TextView mTvAnalogToneSend;
-    @Bind(R.id.spinner_analogToneBand) Spinner mSpinnerAnalogToneBand;
-    @Bind(R.id.layout_channel_analog) LinearLayout mLayoutChannelAnalog;
-    @Bind(R.id.tv_numberToneLinkmen) TextView mTvNumberToneLinkmen;
-    @Bind(R.id.spinner_numberToneSlot) Spinner mSpinnerNumberToneSlot;
-    @Bind(R.id.tv_numberToneColor) TextView mTvNumberToneColor;
-    @Bind(R.id.layout_channel_number) LinearLayout mLayoutChannelNumber;
-    @Bind(R.id.et_rate_receive) EditText mEtRateReceive;
-    @Bind(R.id.et_rate_send) EditText mEtRateSend;
-    @Bind(R.id.spinner_power) Spinner mSpinnerPower;
+    @Bind(R.id.tv_title)
+    TextView mTvTitle;
+    @Bind(R.id.spinner_channel)
+    Spinner mSpinnerChannel;
+    @Bind(R.id.spinner_channel_type)
+    Spinner mSpinnerChannelType;
+    @Bind(R.id.tv_analogToneReceive)
+    TextView mTvAnalogToneReceive;
+    @Bind(R.id.tv_analogToneSend)
+    TextView mTvAnalogToneSend;
+    @Bind(R.id.spinner_analogToneBand)
+    Spinner mSpinnerAnalogToneBand;
+    @Bind(R.id.layout_channel_analog)
+    LinearLayout mLayoutChannelAnalog;
+    @Bind(R.id.tv_numberToneLinkmen)
+    TextView mTvNumberToneLinkmen;
+    @Bind(R.id.spinner_numberToneSlot)
+    Spinner mSpinnerNumberToneSlot;
+    @Bind(R.id.tv_numberToneColor)
+    TextView mTvNumberToneColor;
+    @Bind(R.id.layout_channel_number)
+    LinearLayout mLayoutChannelNumber;
+    @Bind(R.id.et_rate_receive)
+    EditText mEtRateReceive;
+    @Bind(R.id.et_rate_send)
+    EditText mEtRateSend;
+    @Bind(R.id.spinner_power)
+    Spinner mSpinnerPower;
+    @Bind(R.id.btn_read)
+    Button btnRead;
+    @Bind(R.id.btn_send)
+    Button btnSend;
 
     private StringAdapter mAdapterChannelId;
     private String[] mArrayChannelId;
@@ -53,28 +74,30 @@ public class DeviceChannelDataActivity extends BaseActivity {
     private DeviceBean dbin;
     private ChannelData mChannelData; //当前真是值
     //private ChannelData mChannelWriteData; //往外写的缓存数据
-    private final static int activity_analogToneReceive  = 11;
+    private final static int activity_analogToneReceive = 11;
     private final static int activity_analogToneSend = 12;
     private final static int activity_numberToneColo = 13;
 
-    private int toneReceive , toneSend ;
+    private int toneReceive, toneSend;
 
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_channel_data);
         ButterKnife.bind(this);
         initBaseViews(this);
         initViews();
         runOnUiThread(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 initData();
             }
         });
     }
 
     public void btn_ack(View v) {
-        if(dbin!=null) {
+        if (dbin != null) {
             dbin.writeNoEncrypt(CmdPackage.getCmdSuccess());
         }
     }
@@ -125,7 +148,8 @@ public class DeviceChannelDataActivity extends BaseActivity {
                 initData();
             }
 
-            @Override public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -138,7 +162,8 @@ public class DeviceChannelDataActivity extends BaseActivity {
                 initChannelType();
             }
 
-            @Override public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -150,7 +175,8 @@ public class DeviceChannelDataActivity extends BaseActivity {
                 mChannelData.setNumberToneSlot(position);
             }
 
-            @Override public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -162,7 +188,8 @@ public class DeviceChannelDataActivity extends BaseActivity {
                 mAdapterAnalogToneBand.notifyDataSetChanged();
             }
 
-            @Override public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -174,7 +201,8 @@ public class DeviceChannelDataActivity extends BaseActivity {
                 mAdapterPower.notifyDataSetChanged();
             }
 
-            @Override public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -185,8 +213,8 @@ public class DeviceChannelDataActivity extends BaseActivity {
         try {
             mSpinnerChannelType.setSelection(mChannelData.getChannelType(), true);
             mSpinnerPower.setSelection(mChannelData.getPower(), true);
-            mEtRateReceive.setText(""+mChannelData.getRateReceive());
-            mEtRateSend.setText(""+mChannelData.getRateSend());
+            mEtRateReceive.setText("" + mChannelData.getRateReceive());
+            mEtRateSend.setText("" + mChannelData.getRateSend());
             initChannelType();
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -218,9 +246,9 @@ public class DeviceChannelDataActivity extends BaseActivity {
 
     @OnClick({
             R.id.layout_analogToneReceive, R.id.layout_analogToneSend, R.id.layout_numberLinkMen,
-            R.id.layout_numberToneColo, R.id.btn_read, R.id.btn_send })
+            R.id.layout_numberToneColo, R.id.btn_read, R.id.btn_send})
     public void onClick(View view) {
-        Intent intent ;
+        Intent intent;
         switch (view.getId()) {
             case R.id.layout_analogToneReceive:
                 intent = new Intent(this, WheelActivity.class);
@@ -249,7 +277,9 @@ public class DeviceChannelDataActivity extends BaseActivity {
                 }
                 //有多条信息返回， 要添加ack收取
                 AppConstants.isWriteACK = true;
-                dbin.write(CmdPackage.getChannel());
+                if (dbin.write(CmdPackage.getChannel())) {
+                    btnEnable(false);
+                }
                 break;
             case R.id.btn_send:
                 if (!dbin.isLink()) {
@@ -257,24 +287,24 @@ public class DeviceChannelDataActivity extends BaseActivity {
                     return;
                 }
                 mChannelData = dbin.getChannelData(mSpinnerChannel.getSelectedItemPosition());
-				
+
                 try {
                     String rateReceiveStr = mEtRateReceive.getText().toString();
                     String rateSendStr = mEtRateSend.getText().toString();
 
                     double finalRate = checkRate(rateReceiveStr);
                     mChannelData.setRateReceive(finalRate);
-                    mEtRateReceive.setText(""+finalRate);
+                    mEtRateReceive.setText("" + finalRate);
 
                     finalRate = checkRate(rateSendStr);
                     mChannelData.setRateSend(finalRate);
-                    mEtRateSend.setText(""+finalRate);
+                    mEtRateSend.setText("" + finalRate);
 
                     mChannelData.setChannelType(mSpinnerChannelType.getSelectedItemPosition());
                     mChannelData.setPower(mSpinnerPower.getSelectedItemPosition());
                     //mChannelData.setRateSend(mEtRateSend.getText().toString());
                     //mChannelData.setRateReceive(mEtRateReceive.getText().toString());
-                    if(mChannelData.isNumberTone()) {
+                    if (mChannelData.isNumberTone()) {
                         mChannelData.setNumberToneColor(Integer.parseInt(mTvNumberToneColor.getText().toString()));
                         mChannelData.setNumberToneSlot((Integer) mSpinnerNumberToneSlot.getSelectedItem());
                     } else {
@@ -282,7 +312,9 @@ public class DeviceChannelDataActivity extends BaseActivity {
                         mChannelData.setAnalogToneSend(toneSend);
                         mChannelData.setAnalogToneReceive(toneReceive);
                     }
-                    dbin.write(CmdPackage.setChannel(mChannelData));
+                    if (dbin.write(CmdPackage.setChannel(mChannelData))) {
+                        btnEnable(false);
+                    }
                 } catch (Exception e) {
                     showToast(R.string.text_data_error);
                     e.printStackTrace();
@@ -291,72 +323,80 @@ public class DeviceChannelDataActivity extends BaseActivity {
         }
     }
 
-    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String value;
         int position;
-        switch(requestCode) {
+        switch (requestCode) {
             case activity_analogToneReceive:
-                if(resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     toneReceive = data.getIntExtra(AppString.WheelTypeItem, 0);
                     value = data.getStringExtra(AppString.WheelTypeValue);
                     mTvAnalogToneReceive.setText(value);
                 }
                 break;
             case activity_analogToneSend:
-                if(resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     toneSend = data.getIntExtra(AppString.WheelTypeItem, 0);
                     value = data.getStringExtra(AppString.WheelTypeValue);
                     mTvAnalogToneSend.setText(value);
                 }
                 break;
             case activity_numberToneColo:
-                if(resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     position = data.getIntExtra(AppString.WheelTypeItem, 0);
-                    mTvNumberToneColor.setText(""+position);
+                    mTvNumberToneColor.setText("" + position);
                 }
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override public void onReceiver(int type, int i) {
+    @Override
+    public void onReceiver(int type, int i) {
         super.onReceiver(type, i);
-        switch(type) {
+        switch (type) {
             case CmdPackage.Cmd_type_channel:
                 mChannelData = dbin.getChannelData(mSpinnerChannel.getSelectedItemPosition());
                 initData();
+                btnEnable(true);
                 break;
         }
     }
 
-    public  double checkRate(String rateDouble){
-        int value  = 1000000;
+    public double checkRate(String rateDouble) {
+        int value = 1000000;
         //扩大一百万倍
         int dd = (int) (Double.parseDouble(rateDouble) * value);
-        if ( dd % 500 ==0) { //能被0.0005整除，扩大就变500
+        if (dd % 500 == 0) { //能被0.0005整除，扩大就变500
 
         } else { //输入的小数
             int va = dd % 625;
             dd = dd - va; //取0.000625的倍数， 扩大后未 625
         }
-        if ( dd < 136*value) {
+        if (dd < 136 * value) {
             dd = 142025000;
-        } else if ( dd > 400 * value && dd < 470* value) { //136-174 400-470
-        } else if (dd <174*value){
+        } else if (dd > 400 * value && dd < 470 * value) { //136-174 400-470
+        } else if (dd < 174 * value) {
         } else {
             dd = 462562500;
         }
-        return dd/1000000.0d;
+        return dd / 1000000.0d;
     }
 
     public int toneCase(String str) {
         if (TextUtils.isEmpty(str)) {
             return 0;
         }
-        if( str.equalsIgnoreCase("OFF")) {
+        if (str.equalsIgnoreCase("OFF")) {
             return 0;
         } else {
             return Integer.parseInt(str);
         }
+    }
+
+    private void btnEnable(boolean enable) {
+        btnSend.setEnabled(enable);
+        btnRead.setEnabled(enable);
     }
 }

@@ -37,19 +37,21 @@ public class ConnectBluetoothImpl implements IConnectInterface {
 	}
 
 	@Override
-	public void write(byte[] buffer) {
+	public boolean write(byte[] buffer) {
 		// TODO Auto-generated method stub
 		if(BTchat != null) {
-			BTchat.write(buffer);
+			return BTchat.write(buffer);
 		}
+		return false;
 	}
 
 	@Override
-	public void writeAgreement(byte[] buffer) {
+	public boolean writeAgreement(byte[] buffer) {
 		// TODO Auto-generated method stub
 		if(BTchat!=null) {
-			BTchat.write(CmdEncrypt.sendMessage(buffer));
+			return BTchat.write(CmdEncrypt.sendMessage(buffer));
 		}
+		return false;
 	}
 
 	@Override

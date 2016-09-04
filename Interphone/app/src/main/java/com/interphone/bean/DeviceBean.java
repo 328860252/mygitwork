@@ -142,27 +142,29 @@ import lombok.Data;
         }
     }
 
-    public void write(byte[] channel) {
+    public boolean write(byte[] channel) {
         if (!mConnect.isLink()) {
             mContext.sendBroadcast(new Intent(ConnectAction.ACTION_SHOW_TOAST));
-            return;
+            return false;
         }
         if(mConnect!=null) {
             AppConstants.isWriteACK = true;
-            mConnect.writeAgreement(channel);
+            return mConnect.writeAgreement(channel);
             //mConnect.write(CmdPackage.getCmdSuccess());
         }
+        return false;
     }
 
-    public void writeNoEncrypt(byte[] channel) {
+    public boolean writeNoEncrypt(byte[] channel) {
         if (!mConnect.isLink()) {
             mContext.sendBroadcast(new Intent(ConnectAction.ACTION_SHOW_TOAST));
-            return;
+            return false;
         }
         if(mConnect!=null) {
             AppConstants.isWriteACK = true;
-            mConnect.write(channel);
+           return mConnect.write(channel);
         }
+        return false;
     }
 
     public IConnectInterface getConnect() {

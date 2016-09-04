@@ -6,9 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
 import com.interphone.AppConstants;
@@ -17,22 +15,34 @@ import com.interphone.bean.SmsEntity;
 import com.interphone.connection.agreement.CmdPackage;
 import com.interphone.database.SmsDao;
 import com.interphone.utils.StringUtils;
+
 import java.io.UnsupportedEncodingException;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DeviceSmsActivity extends BaseActivity {
 
-    @Bind(R.id.tv_title) TextView mTvTitle;
-    @Bind(R.id.btn_read_list) Button mBtnReadList;
-    @Bind(R.id.btn_send_list) Button mBtnSendList;
-    @Bind(R.id.btn_send) Button mBtnSend;
-    @Bind(R.id.etSms) EditText mEtSms;
-    @Bind(R.id.et_sms_receiver) EditText mEtSmsReceiver;
+    @Bind(R.id.tv_title)
+    TextView mTvTitle;
+    @Bind(R.id.btn_read_list)
+    Button mBtnReadList;
+    @Bind(R.id.btn_send_list)
+    Button mBtnSendList;
+    @Bind(R.id.btn_send)
+    Button mBtnSend;
+    @Bind(R.id.etSms)
+    EditText mEtSms;
+    @Bind(R.id.et_sms_receiver)
+    EditText mEtSmsReceiver;
 
     private SmsDao mSmsDao;
 
     private DeviceBean dbin;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms);
         ButterKnife.bind(this);
@@ -41,7 +51,7 @@ public class DeviceSmsActivity extends BaseActivity {
         dbin = ((AppApplication) getApplication()).getDbin();
     }
 
-    @OnClick({ R.id.layout_title_left, R.id.btn_read_list, R.id.btn_send_list, R.id.btn_send })
+    @OnClick({R.id.layout_title_left, R.id.btn_read_list, R.id.btn_send_list, R.id.btn_send})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -69,17 +79,17 @@ public class DeviceSmsActivity extends BaseActivity {
                     return;
                 }
                 String receiver = mEtSmsReceiver.getText().toString();
-                if(receiver.length()<6) {
+                if (receiver.length() < 6) {
                     showToast(R.string.text_sms_receiver_error);
-                    return ;
+                    return;
                 }
-                String sms =mEtSms.getText().toString().trim();
+                String sms = mEtSms.getText().toString().trim();
                 try {
-                    if(sms.getBytes(AppConstants.charSet).length > AppConstants.sms_length) {
+                    if (sms.getBytes(AppConstants.charSet).length > AppConstants.sms_length) {
                         showToast(R.string.text_sms_tolong);
-                        return ;
+                        return;
                     }
-                    if (dbin.getProtertyData().getUserId()!=null) {
+                    if (dbin.getProtertyData().getUserId() != null) {
                         SmsEntity smsEntity = new SmsEntity();
                         smsEntity.setContent(sms);
                         smsEntity.setSend(true);
@@ -92,7 +102,9 @@ public class DeviceSmsActivity extends BaseActivity {
                             mSmsDao = new SmsDao(DeviceSmsActivity.this);
                         }
                         mSmsDao.insert(smsEntity);
-                        dbin.write(CmdPackage.setSms(smsEntity));
+                        if (dbin.write(CmdPackage.setSms(smsEntity))) {
+                            btnEnable(false);
+                        }
                     } else {
                         AppConstants.isWriteACK = true;
                         dbin.write(CmdPackage.getInfo());
@@ -105,12 +117,18 @@ public class DeviceSmsActivity extends BaseActivity {
         }
     }
 
-    @Override public void onReceiver(int type, int i) {
+    @Override
+    public void onReceiver(int type, int i) {
         super.onReceiver(type, i);
-        switch(type) {
+        switch (type) {
             case CmdPackage.Cmd_type_sms:
                 mEtSms.setText(dbin.getSms().trim());
+                btnEnable(true);
                 break;
         }
+    }
+
+    private void btnEnable(boolean enable) {
+        mBtnSend.setEnabled(enable);
     }
 }
