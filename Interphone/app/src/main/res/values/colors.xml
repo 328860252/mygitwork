@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="bg_activity">#F9F9F9</color>
+    <color name="bg_layout">#E0E0E0</color>
     <color name="bg_title">#4051B5</color>
     <color name="text_dark">#555555</color>
     <color name="btn_unenable">#898989</color>

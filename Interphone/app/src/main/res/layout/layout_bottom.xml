@@ -6,32 +6,34 @@
     >
 
   <LinearLayout
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="20dp"
       android:layout_centerHorizontal="true"
       android:layout_centerVertical="true"
+      android:paddingTop="2dp"
+      android:paddingBottom="2dp"
+      android:background="@color/bg_layout"
       android:orientation="horizontal"
+      android:gravity="center_horizontal"
       >
     <Button
         android:id="@+id/btn_read"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="@color/text_dark"
         android:background="@drawable/btn_selector"
         android:text="@string/btn_read"
+        android:layout_marginRight="40dp"
         />
 
-    <View
-        android:layout_width="80dp"
-        android:layout_height="1dp"
-        ></View>
+
 
     <Button
         android:id="@+id/btn_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:layout_marginLeft="40dp"
+        android:textColor="@color/text_dark"
         android:background="@drawable/btn_selector"
         android:text="@string/btn_send"
         />

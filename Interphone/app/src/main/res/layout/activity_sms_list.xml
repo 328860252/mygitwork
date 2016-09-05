@@ -8,19 +8,20 @@
     tools:context="com.interphone.activity.SmsListActivity">
 
 
-    <include layout="@layout/layout_title"></include>
+  <include layout="@layout/layout_title"></include>
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+  <ListView
+      android:id="@+id/listView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btn_read"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_selector"
-        android:text="@string/btn_read" />
+  <Button
+      android:id="@+id/btn_read"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@drawable/btn_selector"
+      android:text="@string/btn_read"
+      android:textColor="@color/text_dark" />
 
 </LinearLayout>

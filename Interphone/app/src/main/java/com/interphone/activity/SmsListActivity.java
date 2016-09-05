@@ -30,8 +30,6 @@ public class SmsListActivity extends BaseActivity {
     ListView mListView;
     @Bind(R.id.btn_read)
     Button mBtnRead;
-    @Bind(R.id.btn_read)
-    Button btnRead;
 
     private DeviceBean dbin;
 
@@ -111,7 +109,7 @@ public class SmsListActivity extends BaseActivity {
     }
 
     private void btnEnable(boolean enable) {
-        btnRead.setEnabled(enable);
+        mBtnRead.setEnabled(enable);
     }
 }
 

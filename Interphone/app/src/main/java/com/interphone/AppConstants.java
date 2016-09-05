@@ -16,7 +16,7 @@ public class AppConstants {
      */
     public final static String Power_password = "695875";
 
-    public static int sms_length = 128;//短信字节长度
+    public static int sms_length = 118;//短信字节长度
 
     /**
      * 超级密码
