@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
 import com.interphone.AppConstants;
@@ -14,12 +16,7 @@ import com.interphone.bean.SmsEntity;
 import com.interphone.connection.agreement.CmdPackage;
 import com.interphone.database.SmsDao;
 import com.interphone.utils.StringUtils;
-
 import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SmsListActivity extends BaseActivity {
 
@@ -72,7 +69,7 @@ public class SmsListActivity extends BaseActivity {
             }
             showToast("开始读取");
             if (dbin.write(CmdPackage.getSms())) {
-                btnEnable(true);
+                showSendToast(true);
             }
         }
 //        testCmd();
@@ -86,7 +83,7 @@ public class SmsListActivity extends BaseActivity {
                 mSmsEntityList = mSmsDao.queryReceiverLast100("");
                 mSmsAdapter.setList(mSmsEntityList);
                 mSmsAdapter.notifyDataSetChanged();
-                btnEnable(true);
+                showSendToast(true);
                 break;
         }
         super.onReceiver(type, i);
@@ -108,8 +105,14 @@ public class SmsListActivity extends BaseActivity {
         }
     }
 
-    private void btnEnable(boolean enable) {
-        mBtnRead.setEnabled(enable);
+    private void showSendToast(boolean isReceiver) {
+        if (isReceiver) {
+            showToast("读取成功");
+        } else {
+            showToast("发送成功");
+        }
+        //btnSend.setEnabled(isReceiver);
+        //btnRead.setEnabled(isReceiver);
     }
 }
 

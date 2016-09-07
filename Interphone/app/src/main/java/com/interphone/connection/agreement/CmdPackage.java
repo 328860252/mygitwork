@@ -109,9 +109,9 @@ public class CmdPackage {
     buff[2] = (byte) channelData.getChannelId();
     buff[3] = (byte) channelData.getChannelType();
 
-    buffer = BcdUtils.str2Bcd("" + channelData.getRateReceive());
+    buffer = BcdUtils.rate2BCD(channelData.getRateReceive());
     System.arraycopy(buffer, 0, buff, 4, buffer.length);
-    buffer = BcdUtils.str2Bcd("" + channelData.getRateSend());
+    buffer = BcdUtils.rate2BCD(channelData.getRateSend());
     System.arraycopy(buffer, 0, buff, 8, buffer.length);
 
     //if(channelData.isNumberTone()) {
@@ -139,9 +139,9 @@ public class CmdPackage {
       buff[dataLength * i + 2] = (byte) channelData.getChannelId();
       buff[dataLength * i + 3] = (byte) channelData.getChannelType();
 
-      buffer = BcdUtils.str2Bcd("" + channelData.getRateReceive());
+      buffer = BcdUtils.rate2BCD( channelData.getRateReceive());
       System.arraycopy(buffer, 0, buff, dataLength * i + 4, buffer.length);
-      buffer = BcdUtils.str2Bcd("" + channelData.getRateSend());
+      buffer = BcdUtils.rate2BCD( channelData.getRateSend());
       System.arraycopy(buffer, 0, buff, dataLength * i + 8, buffer.length);
 
       //if(channelData.isNumberTone()) {
