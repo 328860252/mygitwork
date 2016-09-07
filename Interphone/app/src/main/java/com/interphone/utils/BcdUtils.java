@@ -65,7 +65,8 @@ public class BcdUtils {
      */
     public static byte[] rate2BCD(double rate) {
         //去除小数点
-        int valueInt = (int) (rate * 10000);
+        //如401.5625 要发送为  40 15 62 50.
+        int valueInt = (int) (rate * 100000);
         return str2Bcd(String.valueOf(valueInt));
     }
 
