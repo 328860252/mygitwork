@@ -22,4 +22,6 @@ public class AppConstants {
      * 超级密码
      */
     public final static String SUPPER_PASSWORD = "353605";
+
+    public final static int rateMULTPLE = 100000;
 }
