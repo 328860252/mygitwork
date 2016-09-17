@@ -91,7 +91,7 @@ public class DeviceSmsActivity extends BaseActivity {
                         smsEntity.setContent(sms);
                         smsEntity.setSend(true);
                         smsEntity.setSendId(dbin.getProtertyData().getUserId());
-                        smsEntity.setReceiverId(mEtSms.getText().toString().trim());
+                        smsEntity.setReceiverId(mEtSmsReceiver.getText().toString().trim());
                         smsEntity.setType(SmsEntity.TYPE_TEXT);
                         smsEntity.setDataTime(StringUtils.getTimeString());
 

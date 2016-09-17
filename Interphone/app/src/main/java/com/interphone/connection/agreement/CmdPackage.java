@@ -179,12 +179,12 @@ public class CmdPackage {
   }
 
   public static byte[] setSms(SmsEntity smsEntity) {
-    byte[] buff = new byte[2 + 22 + smsEntity.getContent().getBytes().length];
-    buff[0] = set;
-    buff[1] = Cmd_type_sms;
-    int index = 5;//起始位置
-    buff[4] = (byte) smsEntity.getType();
     try {
+      byte[] buff = new byte[2 + 22 + smsEntity.getContent().getBytes(AppConstants.charSet).length];
+      buff[0] = set;
+      buff[1] = Cmd_type_sms;
+      int index = 5;//起始位置
+      buff[4] = (byte) smsEntity.getType();
       //接收id
       byte[] receIdUuff = smsEntity.getReceiverId().getBytes(AppConstants.charSet);
       System.arraycopy(receIdUuff, 0, buff, index, receIdUuff.length);
@@ -192,7 +192,7 @@ public class CmdPackage {
       //发送id
       byte[] sendIdBuff = smsEntity.getSendId().getBytes(AppConstants.charSet);
       System.arraycopy(sendIdBuff, 0, buff, index, sendIdBuff.length);
-      index += sendIdBuff.length;
+      index += 6;
       //时间 年月日时分秒
       byte[] dataBuff = StringUtils.time2byte(smsEntity.getDataTime());
       System.arraycopy(dataBuff, 0, buff, index, dataBuff.length);
@@ -201,10 +201,10 @@ public class CmdPackage {
       byte[] smsBuff = smsEntity.getContent().getBytes(AppConstants.charSet);
       System.arraycopy(smsBuff, 0, buff, index, smsBuff.length);
       return buff;
-    } catch (UnsupportedEncodingException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
-    return null;
+     return null;
   }
 
   public static void main(String[] args) {
