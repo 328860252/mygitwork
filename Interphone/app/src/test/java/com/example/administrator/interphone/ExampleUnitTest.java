@@ -1,19 +1,23 @@
 package com.example.administrator.interphone;
 
-import android.content.Context;
-import android.test.ActivityTestCase;
-import android.test.ActivityUnitTestCase;
 import com.interphone.bean.SmsEntity;
-import com.interphone.database.SmsDao;
+import com.interphone.utils.BcdUtils;
 import com.interphone.utils.MyHexUtils;
 import com.interphone.utils.StringUtils;
-import java.util.List;
 import org.junit.Test;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
 public class ExampleUnitTest {
+
+    @Test public void testBCD() {
+        String value = "401.5625";
+        int valueInt = (int) (Double.parseDouble(value) * 10000);
+        byte[] buff = BcdUtils.str2Bcd(""+valueInt);
+        String  buffStr = MyHexUtils.buffer2String(buff);
+    }
+
     @Test
     public void testAddition_isCorrect() throws Exception {
         String a ="";

@@ -278,7 +278,7 @@ public class DeviceChannelDataActivity extends BaseActivity {
                 //有多条信息返回， 要添加ack收取
                 AppConstants.isWriteACK = true;
                 if (dbin.write(CmdPackage.getChannel())) {
-                    btnEnable(false);
+                    showSendToast(false);
                 }
                 break;
             case R.id.btn_send:
@@ -313,7 +313,7 @@ public class DeviceChannelDataActivity extends BaseActivity {
                         mChannelData.setAnalogToneReceive(toneReceive);
                     }
                     if (dbin.write(CmdPackage.setChannel(mChannelData))) {
-                        btnEnable(false);
+                        showSendToast(false);
                     }
                 } catch (Exception e) {
                     showToast(R.string.text_data_error);
@@ -359,7 +359,7 @@ public class DeviceChannelDataActivity extends BaseActivity {
             case CmdPackage.Cmd_type_channel:
                 mChannelData = dbin.getChannelData(mSpinnerChannel.getSelectedItemPosition());
                 initData();
-                btnEnable(true);
+                showSendToast(true);
                 break;
         }
     }
@@ -395,8 +395,13 @@ public class DeviceChannelDataActivity extends BaseActivity {
         }
     }
 
-    private void btnEnable(boolean enable) {
-        btnSend.setEnabled(enable);
-        btnRead.setEnabled(enable);
+    private void showSendToast(boolean isReceiver) {
+        if (isReceiver) {
+            showToast("读取成功");
+        } else {
+            showToast("发送成功");
+        }
+        //btnSend.setEnabled(isReceiver);
+        //btnRead.setEnabled(isReceiver);
     }
 }

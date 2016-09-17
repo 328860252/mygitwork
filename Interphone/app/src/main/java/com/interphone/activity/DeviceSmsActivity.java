@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
 import com.interphone.AppConstants;
@@ -15,12 +17,7 @@ import com.interphone.bean.SmsEntity;
 import com.interphone.connection.agreement.CmdPackage;
 import com.interphone.database.SmsDao;
 import com.interphone.utils.StringUtils;
-
 import java.io.UnsupportedEncodingException;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class DeviceSmsActivity extends BaseActivity {
 
@@ -103,7 +100,7 @@ public class DeviceSmsActivity extends BaseActivity {
                         }
                         mSmsDao.insert(smsEntity);
                         if (dbin.write(CmdPackage.setSms(smsEntity))) {
-                            btnEnable(false);
+                            showSendToast(false);
                         }
                     } else {
                         AppConstants.isWriteACK = true;
@@ -123,12 +120,18 @@ public class DeviceSmsActivity extends BaseActivity {
         switch (type) {
             case CmdPackage.Cmd_type_sms:
                 mEtSms.setText(dbin.getSms().trim());
-                btnEnable(true);
+                showSendToast(true);
                 break;
         }
     }
 
-    private void btnEnable(boolean enable) {
-        mBtnSend.setEnabled(enable);
+    private void showSendToast(boolean isReceiver) {
+        if (isReceiver) {
+            showToast("读取成功");
+        } else {
+            showToast("发送成功");
+        }
+        //btnSend.setEnabled(isReceiver);
+        //btnRead.setEnabled(isReceiver);
     }
 }

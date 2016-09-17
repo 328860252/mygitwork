@@ -9,7 +9,7 @@ public class AppConstants {
 
     public final static String charSet = "utf-8";
 
-    public final static boolean isDemo = true;
+    public final static boolean isDemo = false;
 
     /**
      * 功率调频密码
@@ -22,4 +22,6 @@ public class AppConstants {
      * 超级密码
      */
     public final static String SUPPER_PASSWORD = "353605";
+
+    public final static int rateMULTPLE = 100000;
 }

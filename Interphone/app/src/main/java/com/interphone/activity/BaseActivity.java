@@ -91,7 +91,7 @@ public class BaseActivity extends Activity {
         if (type == CmdPackage.Cmd_type_error) {
             showToast("数据解析错误");
         } else {
-            showToast("收到协议数据");
+            //showToast("收到协议数据");
             if (AppConstants.isWriteACK) {
                 if( dbin==null) {
                     dbin = ((AppApplication) getApplication()).getDbin();

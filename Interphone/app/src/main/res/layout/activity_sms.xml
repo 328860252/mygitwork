@@ -55,8 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="@string/btn_read_list"
-        android:textColor="@color/text_dark" />
+        android:text="@string/btn_read_list" />
 
 
     <Button
@@ -64,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_send_list"
-        android:textColor="@color/text_dark" />
+         />
 
 
     <Button
@@ -72,9 +71,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
-        android:background="@drawable/btn_selector"
         android:text="@string/btn_send"
-        android:textColor="@color/text_dark" />
+         />
 
 
   </LinearLayout>

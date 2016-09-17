@@ -58,5 +58,16 @@ public class BcdUtils {
         return bbt;
     }
 
+    /**
+     * 将rate转化为bcd码
+     * @param rate
+     * @return
+     */
+    public static byte[] rate2BCD(double rate) {
+        //去除小数点
+        //如401.5625 要发送为  40 15 62 50.
+        int valueInt = (int) (rate * 100000);
+        return str2Bcd(String.valueOf(valueInt));
+    }
 
 }

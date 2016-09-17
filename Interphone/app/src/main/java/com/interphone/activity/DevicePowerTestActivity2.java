@@ -7,7 +7,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
 import com.interphone.adapter.PowerTestAdapter;
@@ -15,12 +17,7 @@ import com.interphone.bean.DeviceBean;
 import com.interphone.bean.PowerTestData;
 import com.interphone.bean.PowerTestSeekBean;
 import com.interphone.connection.agreement.CmdPackage;
-
 import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * 修改滑动条 调频
@@ -112,7 +109,7 @@ public class DevicePowerTestActivity2 extends BaseActivity {
                     return;
                 }
                 if (dbin.write(CmdPackage.getPower())) {
-                    btnEnable(false);
+                    showSendToast(false);
                 }
                 break;
             case R.id.btn_send:
@@ -122,7 +119,7 @@ public class DevicePowerTestActivity2 extends BaseActivity {
                 }
                 //dbin.writeNoEncrypt(CmdPackage.getCmdSuccess());
                 if (dbin.write(CmdPackage.setPowerTest(dbin.getListPower()))) {
-                    btnEnable(false);
+                    showSendToast(false);
                 }
                 break;
         }
@@ -137,14 +134,19 @@ public class DevicePowerTestActivity2 extends BaseActivity {
                 mList = mPowerTestAdapter.getList(dbin, mCbHf.isChecked());
                 mPowerTestAdapter.setList(mList);
                 mPowerTestAdapter.notifyDataSetChanged();
-                btnEnable(true);
+                showSendToast(true);
                 break;
         }
     }
 
-    private void btnEnable(boolean enable) {
-        btnSend.setEnabled(enable);
-        btnRead.setEnabled(enable);
+    private void showSendToast(boolean isReceiver) {
+        if (isReceiver) {
+            showToast("读取成功");
+        } else {
+            showToast("发送成功");
+        }
+        //btnSend.setEnabled(isReceiver);
+        //btnRead.setEnabled(isReceiver);
     }
 
     //private void savePower() {

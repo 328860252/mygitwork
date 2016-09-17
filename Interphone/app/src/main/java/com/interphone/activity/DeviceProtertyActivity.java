@@ -148,7 +148,7 @@ public class DeviceProtertyActivity extends BaseActivity {
                     return;
                 }
                 if (dbin.write(CmdPackage.getProterty())) {
-                    btnEnable(false);
+                    showSendToast(false);
                 }
                 break;
             case R.id.btn_send:
@@ -162,7 +162,7 @@ public class DeviceProtertyActivity extends BaseActivity {
                 mProtertyWriteData.setTotTime(Integer.parseInt(mTvProtertyTot.getText().toString()));
                 mProtertyWriteData.setActivityChannelId(mSpinnerChannel.getSelectedItemPosition());
                 if (dbin.write(CmdPackage.setProteries(mProtertyWriteData))) {
-                    btnEnable(false);
+                    showSendToast(false);
                 }
                 break;
         }
@@ -189,7 +189,7 @@ public class DeviceProtertyActivity extends BaseActivity {
             case CmdPackage.Cmd_type_property:
                 mProtertyData = dbin.getProtertyData();
                 initData();
-                btnEnable(true);
+                showSendToast(true);
                 break;
         }
     }
@@ -204,8 +204,13 @@ public class DeviceProtertyActivity extends BaseActivity {
         }
     }
 
-    private void btnEnable(boolean enable) {
-        btnSend.setEnabled(enable);
-        btnRead.setEnabled(enable);
+    private void showSendToast(boolean isReceiver) {
+        if (isReceiver) {
+            showToast("读取成功");
+        } else {
+            showToast("发送成功");
+        }
+        //btnSend.setEnabled(isReceiver);
+        //btnRead.setEnabled(isReceiver);
     }
 }
