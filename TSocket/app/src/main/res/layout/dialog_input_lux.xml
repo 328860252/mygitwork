@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="vertical">
+
+  <LinearLayout
+      android:layout_width="250dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:background="@drawable/bg_alert"
+      android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/view_margin"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/editText_lux"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:paddingBottom="6dp"
+        android:paddingLeft="@dimen/edit_padding"
+        android:paddingTop="6dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65.0dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+      <Button
+          android:id="@+id/btn_cancel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginRight="12.0dp"
+          android:gravity="center"
+          android:text="@string/no" />
+
+      <Button
+          android:id="@+id/btn_confirm"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginRight="12.0dp"
+          android:gravity="center"
+          android:text="@string/yes" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1.0px"
+          android:background="#ffd0d0d0" />
+
+      <TextView
+          android:id="@+id/textView_info"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          style="@style/dialog_info" />
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+</FrameLayout>

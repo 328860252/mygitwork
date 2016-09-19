@@ -1,0 +1,12 @@
+<resources>
+  <string name="app_name">TSocket</string>
+
+  <string name="confirm">确认</string>
+  <string name="cancel">取消</string>
+  <string name="yes">确认</string>
+  <string name="no">取消</string>
+  <string name="back">返回</string>
+  <string name="title_activity_device_list">DeviceListActivity</string>
+  <string name="language_en">English</string>
+  <string name="language_zh">中文</string>
+</resources>

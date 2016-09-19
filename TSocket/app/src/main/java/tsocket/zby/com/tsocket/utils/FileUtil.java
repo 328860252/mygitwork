@@ -1,10 +1,8 @@
-package com.interphone.utils;
+package tsocket.zby.com.tsocket.utils;
 
 import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
-import android.text.format.Formatter;
-import android.util.Log;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -12,9 +10,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class FileUtil {
-    private static final String PARENT_DIR = "Interphone";
+    private static final String PARENT_DIR = "TSocket";
     private static final String CAMERA_DIR = "Camera";
     private static final String Record_DIR = "Record";
     private static final String Video_DIR  = "Video";
@@ -31,7 +28,6 @@ public class FileUtil {
     }
 
     /**
-     * is File exists
      * @param filePath
      * @return
      */
@@ -100,7 +96,7 @@ public class FileUtil {
         return subDir;
     }
 
-    public static void DeleteFile(File file) { 
+    public static void DeleteFile(File file) {
         if (file == null || file.exists() == false) {
             return; 
         } else {
@@ -108,7 +104,7 @@ public class FileUtil {
         } 
     }
 
-    public static void DeleteFile(String filepath) { 
+    public static void DeleteFile(String filepath) {
         if (filepath == null || filepath.equals("")) {
             return; 
         } else {
@@ -117,7 +113,7 @@ public class FileUtil {
         } 
     }
     
-    public static void DeleteFolder(File file) { 
+    public static void DeleteFolder(File file) {
         if (file.exists() == false) {
             return; 
         } else { 
@@ -126,12 +122,12 @@ public class FileUtil {
                 return; 
             } 
             if (file.isDirectory()) { 
-                File[] childFile = file.listFiles(); 
+                File[] childFile = file.listFiles();
                 if (childFile == null || childFile.length == 0) { 
                     file.delete(); 
                     return; 
                 } 
-                for (File f : childFile) { 
+                for (File f : childFile) {
                     DeleteFolder(f); 
                 } 
                 file.delete(); 
@@ -141,7 +137,6 @@ public class FileUtil {
 
 
     /**
-     * SD is enable
      * @return
      */
     public static boolean  isSdcardEnable() {
@@ -153,8 +148,8 @@ public class FileUtil {
     }
 
     /**
-     *sd卡空间不足时， 返回null
-     * @return
+     * 获取外置SD卡路径
+     * @return  应该就一条记录或空
      */
     public static List<String> getExtSDCardPath()
     {
@@ -171,7 +166,7 @@ public class FileUtil {
                 if (line.contains("storage/sdcard1"))
                 {
                     try {
-                        String [] arr = line.split(" ");
+                        String[] arr = line.split(" ");
                         String path = arr[1];
                         File file = new File(path);
                         if (file.isDirectory())
@@ -193,43 +188,42 @@ public class FileUtil {
 
 
     /**
-     * ���·����ȡ�ڴ���ÿռ�
-     * �ֽ�b,���δ���ط���0
+     * 根据路径获取内存可用空间
+     * 字节b,如果未挂载返回0
+     * 这里long类型最大值是
      * @param path
      * @return
      */
     public static long getMemoryInfo(Context mContext , File path) {
-        // ���һ������״̬����
+        // 获得一个磁盘状态对象
         StatFs stat = new StatFs(path.getPath());
 
-        long blockSize = stat.getBlockSize(); // ���һ������Ĵ�С
+        long blockSize = stat.getBlockSize(); // 获得一个扇区的大小
 
-        long totalBlocks = stat.getBlockCount(); // ������������
+        //long totalBlocks = stat.getBlockCount(); // 获得扇区的总数
 
-        long availableBlocks = stat.getAvailableBlocks(); // ��ÿ��õ���������
+        long availableBlocks = stat.getAvailableBlocks(); // 获得可用的扇区数量
 
-        // �ܿռ�
-        String totalMemory = Formatter.formatFileSize(mContext, totalBlocks * blockSize);
-        // ���ÿռ�
-        String availableMemory = Formatter.formatFileSize(mContext, availableBlocks * blockSize);
+        // 总空间
+        //String totalMemory = Formatter.formatFileSize(mContext, totalBlocks * blockSize);
+        // 可用空间
+        //String availableMemory = Formatter.formatFileSize(mContext, availableBlocks * blockSize);
 
-        //System.out.println("�ܿռ�: " + totalMemory + "\n���ÿռ�: " + availableMemory);
-        long  size = (long) (availableBlocks * blockSize );
-        Log.d("BabyService_fileUtils", "~~~ path:"+path.getAbsolutePath()+ " size:"+size);
+        //System.out.println("总空间: " + totalMemory + "\n可用空间: " + availableMemory);
+        long  size =  (availableBlocks * blockSize );
         return size;
     }
 
 
     /**
-     * ��ÿ��õ�sd·��
+     * 获得可用的sd路径
      * @param mContext
-     * @param needSize   ��Ҫ�Ŀռ� ��λb
-     * @return  ���ؿ��õ� ӵ�пռ��sd��·����   sd�������û�û�ռ�  ����null
+     * @param needSize   需要的空间 单位b
+     * @return  返回可用的 拥有空间的sd卡路径，   sd卡不可用或没空间  返回null
      */
     public static String getAvaibleSDPath (Context mContext ,long  needSize) {
         List<String> list = getExtSDCardPath();
         String path ="";
-        Log.d("test", "~~~" + list.size());
         for(int i=0;i<list.size();i++) {
             path = list.get(i);
             File f = new File(path);

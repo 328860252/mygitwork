@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+  <declare-styleable name="HeaderLayout">
+    <attr format="string" name="textTitle" />
+    <attr format="string" name="textRight" />
+    <attr format="reference" name="titleIcon"/>
+    <attr format="reference" name="rightIcon"/>
+    <attr format="reference" name="leftIcon"/>
+    <attr format="boolean" name="showRight"/>
+    <attr format="boolean" name="showBack"/>
+  </declare-styleable>
+</resources>
