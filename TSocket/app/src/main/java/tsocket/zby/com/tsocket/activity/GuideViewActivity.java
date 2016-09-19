@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import java.util.ArrayList;
+
+import tsocket.zby.com.tsocket.AppConstants;
 import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.utils.MyImage;
@@ -72,8 +74,19 @@ public class GuideViewActivity extends Activity {
       viewPager.setOnPageChangeListener(new GuidePageChangeListener());
       SharedPerfenceUtils.getSetupData(this).saveboolean(AppString.FIRST, false);
     } else {
-      Intent intent = new Intent(this, DeviceListActivity.class);
-      startActivity(intent);
+      new Thread(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            Thread.sleep(AppConstants.DELAY_TIME);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          Intent intent = new Intent(GuideViewActivity.this, DeviceListActivity.class);
+          startActivity(intent);
+          finish();
+        }
+      }).start();
     }
   }
 
@@ -186,21 +199,6 @@ public class GuideViewActivity extends Activity {
 
     @Override public void onPageScrolled(int arg0, float arg1, int arg2) {
       // TODO Auto-generated method stub
-    }
-
-    @Override public void onPageSelected(int arg0) {
-      //将结束按钮显示出来
-      //if((arg0+1)==imageViews.length) {
-      //  handler.postDelayed(new Runnable() {
-      //
-      //    @Override
-      //    public void run() {
-      //      // TODO Auto-generated method stub
-      //      finish();
-      //    }
-      //  }, 60);
-      //}
-
       // 最后一页划不动。
       // 进入最后一页，arg0 会出现一次
       // 然后滑动，arg0 就会多次出现
@@ -214,6 +212,10 @@ public class GuideViewActivity extends Activity {
       } else {
         isScrolledCount = 0;
       }
+    }
+
+    @Override public void onPageSelected(int arg0) {
+
     }
   }
 }

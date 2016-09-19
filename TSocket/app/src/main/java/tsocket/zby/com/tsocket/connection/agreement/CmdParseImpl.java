@@ -31,9 +31,17 @@ public class CmdParseImpl implements ICmdParseInterface {
     if (dataBuff.length < 2) {
       return;
     }
-    //mDeviceBean.writeNoEncrypt(CmdPackage.getCmdSuccess());
-    String str = "";
-    byte[] buffer;
+    switch (dataBuff[0]) {
+      case (byte) 0xB1: //状态
+        mDeviceBean.setOnOff(dataBuff[1] == 0x01);
+        mDeviceBean.setRecycle(dataBuff[2] == 0x01);
+        mDeviceBean.setTimerEnable(dataBuff[3] == 0x01);
+        break;
+      case (byte) 0xB2://定时
+        break;
+      case (byte) 0xB3://应答
+        break;
+    }
     sendBroadcast(MyByteUtils.byteToInt(dataBuff[1]));
   }
 
