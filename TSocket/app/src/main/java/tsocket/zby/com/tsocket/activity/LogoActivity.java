@@ -18,8 +18,7 @@ public class LogoActivity extends BaseActivity {
           e.printStackTrace();
         }
         Intent intent;
-        if (SharedPerfenceUtils.getSetupData(LogoActivity.this)
-            .readBoolean(AppString.FIRST, true)) {
+        if (SharedPerfenceUtils.getSetupData(LogoActivity.this).readBoolean(AppString.FIRST, true)) {
           intent = new Intent(LogoActivity.this, GuideViewActivity.class);
         } else {
           intent = new Intent(LogoActivity.this, DeviceListActivity.class);

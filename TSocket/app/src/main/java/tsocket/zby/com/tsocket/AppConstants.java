@@ -5,7 +5,7 @@ package tsocket.zby.com.tsocket;
  */
 public class AppConstants {
 
-  public final static boolean isDemo = false;
+  public final static boolean isDemo = true;
 
   /**
    * 英语

@@ -5,6 +5,7 @@
   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
   <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.BLUETOOTH" />
 
   <application
       android:allowBackup="true"
@@ -14,7 +15,7 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
 
-    <activity android:name=".activity.GuideViewActivity"
+    <activity android:name=".activity.LogoActivity"
         android:theme="@style/AppTheme.Launcher">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -27,12 +28,18 @@
         android:name="io.fabric.ApiKey"
         android:value="c05c9a0ae92fa7ae610c8a23463851f040c6d42c" />
 
-    <activity android:name=".activity.BaseActivity" />
+    <service android:name=".connection.ble.BluetoothLeService"></service>
 
-    <activity
-        android:name=".activity.DeviceListActivity"
-        android:label="@string/title_activity_device_list"
-        android:theme="@style/AppTheme.NoActionBar"></activity>
+    <activity android:name=".activity.DeviceListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".activity.GuideViewActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".activity.SettingActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".activity.SettingChangeNameActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".activity.SettingChangePsdActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".activity.SettingLanguageActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".activity.TimerActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".activity.DelayActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".activity.DeviceControlActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".activity.WheelTimeActivity" android:screenOrientation="portrait" android:theme="@style/bg_null_bottom"/>
   </application>
 
 </manifest>

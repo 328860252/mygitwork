@@ -11,22 +11,27 @@ import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
-import java.util.ArrayList;
-import java.util.List;
+import tsocket.zby.com.tsocket.AppConstants;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.adapter.DeviceAdapter;
+import tsocket.zby.com.tsocket.bean.BluetoothBean;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
-import tsocket.zby.com.tsocket.connection.agreement.CmdEncrypt;
-import tsocket.zby.com.tsocket.connection.agreement.CmdPackage;
+import tsocket.zby.com.tsocket.connection.ble.BleImpl;
 import tsocket.zby.com.tsocket.connection.ble.BluetoothLeService;
 import tsocket.zby.com.tsocket.utils.LogUtils;
-import tsocket.zby.com.tsocket.utils.MyHexUtils;
 
 public class DeviceListActivity extends BaseActivity
     implements SwipeRefreshLayout.OnRefreshListener, BGARefreshLayout.BGARefreshLayoutDelegate {
@@ -34,7 +39,7 @@ public class DeviceListActivity extends BaseActivity
   @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
   @BindView(R.id.swiperLayout) BGARefreshLayout mSwiperLayout;
   private DeviceAdapter mDeviceAdapter;
-  private List<DeviceBean> list;
+  private List<BluetoothBean> list;
   private DeviceBean mDeviceBean;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +47,31 @@ public class DeviceListActivity extends BaseActivity
     setContentView(R.layout.activity_device_list);
     ButterKnife.bind(this);
 
+    mDeviceBean = mApp.getDeviceBean();
+    //    bindService();
+
     BGARefreshViewHolder RefreshViewHolder = new BGANormalRefreshViewHolder(this, true);
     mSwiperLayout.setRefreshViewHolder(RefreshViewHolder);
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     list = new ArrayList<>();
 
+    if (AppConstants.isDemo) {
+      BluetoothBean deviceBean = new BluetoothBean();
+      deviceBean.setName("test1");
+      deviceBean.setMac("test1");
+      list.add(deviceBean);
+    }
+
     mDeviceAdapter = new DeviceAdapter(mRecyclerView);
+    //mDeviceAdapter.setOnItemChildClickListener(new BGAOnItemChildClickListener() {
+    //  @Override public void onItemChildClick(ViewGroup viewGroup, View view, int i) {
+    //    //        mDeviceBean.setConnectionInterface(new BleImpl(mBluetoothLeService), DeviceListActivity.this);
+    //    //        mDeviceBean.setName(list.get(i).getName());
+    //    //        mDeviceBean.getConnect().connect(list.get(i).getMac(), "");
+    //    Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+    //    startActivity(intent);
+    //  }
+    //});
     mDeviceAdapter.setDatas(list);
     mRecyclerView.setAdapter(mDeviceAdapter);
     mSwiperLayout.setDelegate(this);
@@ -62,29 +86,27 @@ public class DeviceListActivity extends BaseActivity
   }
 
   @Override public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-    mSwiperLayout.beginRefreshing();
+    mSwiperLayout.endRefreshing();
   }
 
   @Override public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
     return false;
   }
 
-  ServiceConnection serviceConnection ;
+  ServiceConnection serviceConnection;
   private BluetoothLeService mBluetoothLeService;
-  private void bindService() {
-    serviceConnection  = new ServiceConnection() {
 
-      @Override
-      public void onServiceDisconnected(ComponentName service) {
+  private void bindService() {
+    serviceConnection = new ServiceConnection() {
+
+      @Override public void onServiceDisconnected(ComponentName service) {
         // TODO Auto-generated method stub
         mBluetoothLeService = null;
       }
 
-      @Override
-      public void onServiceConnected(ComponentName arg0, IBinder service) {
+      @Override public void onServiceConnected(ComponentName arg0, IBinder service) {
         // TODO Auto-generated method stub
-        mBluetoothLeService = ((BluetoothLeService.LocalBinder) service)
-            .getService();
+        mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
         if (!mBluetoothLeService.initialize()) {
         }
       }
@@ -94,8 +116,7 @@ public class DeviceListActivity extends BaseActivity
   }
 
   private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context context, Intent intent) {
+    @Override public void onReceive(Context context, Intent intent) {
       final String action = intent.getAction();
       final String mac = intent.getStringExtra("mac");
       if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
@@ -104,11 +125,10 @@ public class DeviceListActivity extends BaseActivity
         ////蓝牙连接成功就自动检验密码
         new Thread(new Runnable() {
 
-          @Override
-          public void run() {
+          @Override public void run() {
             // TODO Auto-generated method stub
-            LogUtils.d("tag", "接受广播1 " +list.size()+" mac =" + mac );
-            if(mDeviceBean!=null) {
+            LogUtils.d("tag", "接受广播1 " + list.size() + " mac =" + mac);
+            if (mDeviceBean != null) {
               try {
                 Thread.sleep(300);
               } catch (InterruptedException e) {
@@ -121,9 +141,9 @@ public class DeviceListActivity extends BaseActivity
         }).start();
       } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) { //解析数据
         String buffer = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
-        LogUtils.v("tag",mac+ "接受数据:"+ buffer);
-        if(mBluetoothLeService!=null) {
-          if(mDeviceBean!=null) {
+        LogUtils.v("tag", mac + "接受数据:" + buffer);
+        if (mBluetoothLeService != null) {
+          if (mDeviceBean != null) {
             //mDeviceBean.get().parseData(MyHexUtils.hexStringToByte(buffer));
           }
         }
@@ -131,13 +151,11 @@ public class DeviceListActivity extends BaseActivity
     }
   };
 
-
   private static IntentFilter makeGattUpdateIntentFilter() {
     final IntentFilter intentFilter = new IntentFilter();
     intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
     intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-    intentFilter
-        .addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+    intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
     intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
     return intentFilter;
   }

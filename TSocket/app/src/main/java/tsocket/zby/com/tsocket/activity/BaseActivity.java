@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 import rx.Subscription;
+import tsocket.zby.com.tsocket.AppApplication;
 import tsocket.zby.com.tsocket.AppConstants;
 import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
@@ -17,6 +18,7 @@ import tsocket.zby.com.tsocket.utils.SharedPerfenceUtils;
 public class BaseActivity extends Activity {
 
   protected float phone_density;//屏幕密度
+  protected AppApplication mApp;
 
   /**
    * Rx广播替代
@@ -31,6 +33,7 @@ public class BaseActivity extends Activity {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     phone_density = getResources().getDisplayMetrics().density; //屏幕密度
+    mApp = (AppApplication) getApplication();
   }
 
   /**

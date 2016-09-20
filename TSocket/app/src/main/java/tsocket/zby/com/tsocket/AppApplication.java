@@ -10,6 +10,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
+import tsocket.zby.com.tsocket.bean.DeviceBean;
 import tsocket.zby.com.tsocket.connection.ble.BluetoothLeService;
 import tsocket.zby.com.tsocket.utils.LogUtils;
 
@@ -18,8 +19,17 @@ import tsocket.zby.com.tsocket.utils.LogUtils;
  */
 public class AppApplication extends Application {
 
+  private DeviceBean mDeviceBean;
+
   @Override public void onCreate() {
     super.onCreate();
-    Fabric.with(this, new Crashlytics());
+//    Fabric.with(this, new Crashlytics());
+  }
+
+  public DeviceBean getDeviceBean() {
+    if (mDeviceBean == null) {
+      mDeviceBean = new DeviceBean();
+    }
+    return mDeviceBean;
   }
 }

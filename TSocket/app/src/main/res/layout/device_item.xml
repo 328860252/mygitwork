@@ -7,16 +7,27 @@
 
   <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+      android:padding="@dimen/activity_horizontal_margin"
+      android:background="@drawable/layout_selector"
+    android:orientation="vertical">
 
     <TextView
-      android:id="@+id/text_adapterStock_id"
+      android:id="@+id/tv_name"
+        style="@style/text_normal"
       android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:layout_weight="1"
+      android:layout_height="wrap_content"
       android:gravity="center"
+        android:textSize="18sp"
       />
+
+    <TextView
+        android:id="@+id/tv_mac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/text_normal"
+        android:gravity="center"
+        />
 
     </LinearLayout>
 </LinearLayout>
