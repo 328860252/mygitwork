@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:HeaderLayout="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="tsocket.zby.com.tsocket.activity.DeviceListActivity">
+
+  <tsocket.zby.com.tsocket.wheel.HeaderLayout
+      android:id="@+id/headerLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      HeaderLayout:textTitle="@string/app_name" />
+
+  <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+      android:id="@+id/swiperLayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:background="@color/bg_activity"
+      android:paddingLeft="@dimen/view_margin"
+      android:paddingRight="@dimen/view_margin">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+  </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_delay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_delay" />
+
+    <TextView
+        android:id="@+id/tv_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_switch" />
+
+    <TextView
+        android:id="@+id/tv_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_timer" />
+
+  </LinearLayout>
+
+
+</LinearLayout>

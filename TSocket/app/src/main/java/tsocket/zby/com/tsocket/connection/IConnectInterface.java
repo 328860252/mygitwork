@@ -5,6 +5,7 @@ public interface IConnectInterface {
 
 	int type_bluetooth = 1;
 	int type_usb =2;
+	int type_ble = 3;
 
 	/**
 	 * 连接设备

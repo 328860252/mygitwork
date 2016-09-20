@@ -9,4 +9,12 @@
   <string name="title_activity_device_list">DeviceListActivity</string>
   <string name="language_en">English</string>
   <string name="language_zh">中文</string>
+  <string name="text_language">语言</string>
+  <string name="text_setting">设置</string>
+  <string name="text_change_name">修改名字</string>
+  <string name="text_help">帮助</string>
+  <string name="text_change_psd">修改密码</string>
+  <string name="text_input_password">请输入密码</string>
+  <string name="text_input_password_verify">请输入确认密码</string>
+  <string name="text_input_name">请输入新名字</string>
 </resources>

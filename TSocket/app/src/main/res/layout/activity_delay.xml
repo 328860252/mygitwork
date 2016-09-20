@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:HeaderLayout="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <tsocket.zby.com.tsocket.wheel.HeaderLayout
+      android:id="@+id/layout_header"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      HeaderLayout:textTitle=""/>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:background="@mipmap/appbg"
+      android:padding="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:id="@+id/tv_delay_time"
+        style="@style/text_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <SeekBar
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+    <CheckBox
+        android:id="@+id/cb_delay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+      <GridLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:rowCount="2"
+          android:columnCount="5">
+
+        <TextView
+          android:id="@+id/tv_minute_10"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="10"
+          android:gravity="center"
+          android:textColor="@drawable/text_write2blue"
+          android:background="@drawable/btn_delay"/>
+
+        <View android:layout_width="50dp"
+            android:layout_height="1dp"
+            ></View>
+
+        <TextView
+            android:id="@+id/tv_minute_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            android:gravity="center"
+            android:textColor="@drawable/text_write2blue"
+            android:background="@drawable/btn_delay"/>
+
+        <View android:layout_width="50dp"
+          android:layout_height="1dp"
+          ></View>
+
+        <TextView
+            android:id="@+id/tv_minute_30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30"
+            android:gravity="center"
+            android:textColor="@drawable/text_write2blue"
+            android:background="@drawable/btn_delay"/>
+
+
+        <TextView
+            android:id="@+id/tv_minute_40"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="40"
+            android:gravity="center"
+            android:textColor="@drawable/text_write2blue"
+            android:background="@drawable/btn_delay"/>
+
+
+        <TextView
+            android:id="@+id/tv_minute_50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50"
+            android:gravity="center"
+            android:textColor="@drawable/text_write2blue"
+            android:background="@drawable/btn_delay"/>
+
+        <TextView
+            android:id="@+id/tv_minute_60"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="60"
+            android:gravity="center"
+            android:textColor="@drawable/text_write2blue"
+            android:background="@drawable/btn_delay"/>
+
+
+      </GridLayout>
+
+  </LinearLayout>
+
+
+</RelativeLayout>

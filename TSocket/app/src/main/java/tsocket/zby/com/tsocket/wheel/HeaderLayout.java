@@ -30,7 +30,7 @@ public class HeaderLayout extends RelativeLayout {
   public HeaderLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
     LayoutInflater layoutInflater = LayoutInflater.from(context);
-    View view = layoutInflater.inflate(R.layout.layout_title, this);
+    View view = layoutInflater.inflate(R.layout.view_header_layout, this);
     ButterKnife.bind(view);
     init(context, attrs);
   }
@@ -61,5 +61,9 @@ public class HeaderLayout extends RelativeLayout {
     mLayoutTitleRight.setVisibility(mShowRight ? View.VISIBLE:View.GONE);
     mLayoutTitleLeft.setVisibility(mShowBack ? View.VISIBLE:View.GONE);
     //mTvTitleRight.setText(right);
+  }
+
+  public void setTextTitle(int textTitle) {
+    mTvTitle.setText(textTitle);
   }
 }

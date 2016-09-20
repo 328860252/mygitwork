@@ -6,6 +6,7 @@ import tsocket.zby.com.tsocket.utils.MyByteUtils;
 import tsocket.zby.com.tsocket.utils.MyHexUtils;
 
 /**
+ * 对于读取的数据，是分批发送上来， 这里要做截取 拼凑成完整协议，进行解析
  * 对收到的数据字节，全部缓存起来， 等识别出一条符合协议的数据时，将截取出来的协议数据进行解析
  * Created by zhuj on 2016/7/13 16:19.
  */
@@ -30,36 +31,37 @@ public class CmdProcess {
     if (command ==null || length==0) {
       return;
     }
-    System.arraycopy(command, 0, data_command, data_index, length);
-    data_index += length;
-    if(data_index <6) return;
-    for (int index = 0; index < data_index; index++) {
-      if (data_command[index] == 0x36) {
-        if (index + 2 <= data_index) {
-
-          if (data_command[index + 1] == 0x07 && data_command[index + 2] == 0x10) {
-
-            //int a = 0xFF;
-            //byte dd = data_command[index+7];
-            //if ( MyByteUtils.byteToInt(data_command[index +7]) == 0xFF) {
-            //}
-          }
-        }
-      }
-    }
-    for (int index = 0; index < data_index; index++) {
-      if (data_command[index] ==  CmdEncrypt.CMD_HEAD) { // 收到头码
-
-        int cmdLength = MyByteUtils.byteToInt(data_command[index+6]); //长度
-        int cmdEndIndex = index+7+cmdLength;
-        if (data_index >= (cmdEndIndex) && data_command[cmdEndIndex] == CmdEncrypt.CMD_END) {
-          ProcessData(data_command, index , 8 + cmdLength);// 处理
-          data_index = 0;
-          data_command = new byte[1024];
-          return;
-        }
-      }
-    }
+    ProcessData(command, 0 , command.length);// 处理
+    //System.arraycopy(command, 0, data_command, data_index, length);
+    //data_index += length;
+    //if(data_index <6) return;
+    //for (int index = 0; index < data_index; index++) {
+    //  if (data_command[index] == 0x36) {
+    //    if (index + 2 <= data_index) {
+    //
+    //      if (data_command[index + 1] == 0x07 && data_command[index + 2] == 0x10) {
+    //
+    //        //int a = 0xFF;
+    //        //byte dd = data_command[index+7];
+    //        //if ( MyByteUtils.byteToInt(data_command[index +7]) == 0xFF) {
+    //        //}
+    //      }
+    //    }
+    //  }
+    //}
+    //for (int index = 0; index < data_index; index++) {
+    //  if (data_command[index] ==  CmdEncrypt.CMD_HEAD) { // 收到头码
+    //
+    //    int cmdLength = MyByteUtils.byteToInt(data_command[index+6]); //长度
+    //    int cmdEndIndex = index+7+cmdLength;
+    //    if (data_index >= (cmdEndIndex) && data_command[cmdEndIndex] == CmdEncrypt.CMD_END) {
+    //      ProcessData(data_command, index , 8 + cmdLength);// 处理
+    //      data_index = 0;
+    //      data_command = new byte[1024];
+    //      return;
+    //    }
+    //  }
+    //}
   }
 
   private void ProcessData(byte[] buffer, int start, int length) {

@@ -9,4 +9,6 @@
   <color name="btn_unenable">#787878</color>
   <color name="bg_activity">#CABACA</color>
   <color name="white">#FFFFFF</color>
+  <color name="text_while">#649874</color>
+  <color name="number_selectcolor">#ff00b8e6</color>
 </resources>

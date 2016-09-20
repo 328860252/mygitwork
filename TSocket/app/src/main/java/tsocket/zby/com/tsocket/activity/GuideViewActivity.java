@@ -3,8 +3,6 @@ package tsocket.zby.com.tsocket.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -14,8 +12,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import java.util.ArrayList;
-
-import tsocket.zby.com.tsocket.AppConstants;
 import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.utils.MyImage;
@@ -47,47 +43,29 @@ public class GuideViewActivity extends Activity {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     setContentView(R.layout.guide);
+    initView();
+    imageViews = new ImageView[pageViews.size()];
+    // group是R.layou.main中的负责包裹小圆点的LinearLayout.
+    group = (ViewGroup) findViewById(R.id.layout_viewGroup);
 
-    if (SharedPerfenceUtils.getSetupData(this).readBoolean(AppString.FIRST, true)) {
-      initView();
-      imageViews = new ImageView[pageViews.size()];
-      // group是R.layou.main中的负责包裹小圆点的LinearLayout.
-      group = (ViewGroup) findViewById(R.id.layout_viewGroup);
+    viewPager = (ViewPager) findViewById(R.id.guidePages);
 
-      viewPager = (ViewPager) findViewById(R.id.guidePages);
-
-      //for (int i = 0; i < pageViews.size(); i++) {
-      //  imageView = new ImageView(GuideViewActivity.this);
-      //  imageView.setLayoutParams(new LayoutParams(30,30));
-      //  imageView.setPadding(50, 10, 50, 10);
-      //  imageViews[i] = imageView;
-      //  if (i == 0) {
-      //    //默认选中第一张图
-      //    imageViews[i].setBackgroundResource(R.drawable.green_point);
-      //  }else {
-      //    imageViews[i].setBackgroundResource(R.drawable.gray_point);
-      //  }
-      //  group.addView(imageViews[i]);
-      //}
-
-      viewPager.setAdapter(new GuidePageAdapter());
-      viewPager.setOnPageChangeListener(new GuidePageChangeListener());
-      SharedPerfenceUtils.getSetupData(this).saveboolean(AppString.FIRST, false);
-    } else {
-      new Thread(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            Thread.sleep(AppConstants.DELAY_TIME);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-          Intent intent = new Intent(GuideViewActivity.this, DeviceListActivity.class);
-          startActivity(intent);
-          finish();
-        }
-      }).start();
-    }
+    //for (int i = 0; i < pageViews.size(); i++) {
+    //  imageView = new ImageView(GuideViewActivity.this);
+    //  imageView.setLayoutParams(new LayoutParams(30,30));
+    //  imageView.setPadding(50, 10, 50, 10);
+    //  imageViews[i] = imageView;
+    //  if (i == 0) {
+    //    //默认选中第一张图
+    //    imageViews[i].setBackgroundResource(R.drawable.green_point);
+    //  }else {
+    //    imageViews[i].setBackgroundResource(R.drawable.gray_point);
+    //  }
+    //  group.addView(imageViews[i]);
+    //}
+    viewPager.setAdapter(new GuidePageAdapter());
+    viewPager.setOnPageChangeListener(new GuidePageChangeListener());
+    SharedPerfenceUtils.getSetupData(this).saveboolean(AppString.FIRST, false);
   }
 
   /**
@@ -205,8 +183,11 @@ public class GuideViewActivity extends Activity {
       if (arg0 == (imageViews.length - 1)) {
         isScrolledCount++;
         if (isScrolledCount > 1) {// 表示着界面往右滑动了
-          Intent intent = new Intent(GuideViewActivity.this, DeviceListActivity.class);
-          startActivity(intent);
+          if (SharedPerfenceUtils.getSetupData(GuideViewActivity.this).readBoolean(AppString.FIRST, true) ) {
+            SharedPerfenceUtils.getSetupData(GuideViewActivity.this).saveboolean(AppString.FIRST, false);
+            Intent intent = new Intent(GuideViewActivity.this, DeviceListActivity.class);
+            startActivity(intent);
+          }
           finish();
         }
       } else {

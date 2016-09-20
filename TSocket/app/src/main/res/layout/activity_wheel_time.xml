@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="260dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+  <LinearLayout
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:orientation="horizontal"
+      android:paddingBottom="20dp">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:onClick="btn_back"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/cancel"
+        style="@style/text_normal"></Button>
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="10dip"
+        android:text="时间设置"
+        android:textColor="#606060"
+        android:textSize="20sp"
+        style="@style/text_big"></TextView>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:onClick="btn_confirm"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/confirm"
+        style="@style/text_normal"></Button>
+  </LinearLayout>
+
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:gravity="center_vertical">
+
+
+    <View
+        android:id="@+id/view_middle"
+        android:layout_width="2dp"
+        android:layout_height="2dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"></View>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+      <LinearLayout
+          android:id="@+id/hour_layout"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:gravity="center_vertical|right"
+          android:orientation="vertical"
+          android:paddingRight="@dimen/activity_horizontal_margin"></LinearLayout>
+
+      <LinearLayout
+          android:id="@+id/minute_layout"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:gravity="center_vertical|left"
+          android:orientation="vertical"
+          android:paddingLeft="@dimen/activity_horizontal_margin"></LinearLayout>
+
+      <LinearLayout
+          android:id="@+id/second_layout"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:gravity="center"
+          android:orientation="vertical"></LinearLayout>
+    </LinearLayout>
+  </RelativeLayout>
+
+  <LinearLayout
+      android:layout_width="fill_parent"
+      android:layout_height="60dip"
+      android:background="#ffffff"
+      android:gravity="center"
+      android:orientation="horizontal"
+      android:visibility="gone">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="40dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_weight="1"
+        android:onClick="btn_back"
+        android:text="@string/cancel"
+        style="@style/btn_cancel"></Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="40dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_weight="1"
+        android:onClick="btn_confirm"
+        style="@style/btn_confirm"></Button>
+  </LinearLayout>
+
+</LinearLayout>

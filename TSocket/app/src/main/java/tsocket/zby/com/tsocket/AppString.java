@@ -5,4 +5,9 @@ package tsocket.zby.com.tsocket;
  */
 public class AppString {
   public static final java.lang.String FIRST = "first";
+  public static final String HOUR = "hour";
+  public static final String MINUTE = "minute";
+  public static final String SECOND = "second";
+  public static java.lang.String language = "language";
+
 }
