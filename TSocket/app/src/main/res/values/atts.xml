@@ -11,4 +11,13 @@
     <attr format="boolean" name="showRight"/>
     <attr format="boolean" name="showBack"/>
   </declare-styleable>
+
+  <declare-styleable name="DelayMinuteView">
+    <attr format="string" name="text" />
+    <attr format="boolean" name="check"/>
+  </declare-styleable>
+
+  <declare-styleable name="WeekView">
+    <attr format="integer" name="weekValue" />
+  </declare-styleable>
 </resources>

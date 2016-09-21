@@ -1,14 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:HeaderLayout="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-  <tsocket.zby.com.tsocket.wheel.HeaderLayout
+  <tsocket.zby.com.tsocket.view.HeaderLayout
       android:id="@+id/layout_header"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      HeaderLayout:textTitle=""/>
+      app:textTitle="@string/text_timer" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_startTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/layout_select">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          style="@style/text_normal"
+          android:text="@string/text_timer_start"/>
+
+      <TextView
+          android:id="@+id/tv_timer_start"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:background="@color/weekday_selectcolor"
+          android:textColor="@color/white"
+          style="@style/text_normal"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_endTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/layout_select">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          style="@style/text_normal"
+          android:text="@string/text_timer_end"/>
+
+      <TextView
+          android:id="@+id/tv_timer_end"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:background="@color/weekday_selectcolor"
+          android:textColor="@color/white"
+          style="@style/text_normal"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          style="@style/text_normal"
+          android:text="@string/text_delay_start"/>
+
+      <TextView
+          android:id="@+id/tv_delay_start"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:padding="@dimen/view_margin"
+          android:background="@color/weekday_selectcolor"
+          android:textColor="@color/white"
+          style="@style/text_normal"/>
 
 
-</RelativeLayout>
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          style="@style/text_normal"
+          android:text="@string/text_delay_end"/>
+
+      <TextView
+          android:id="@+id/tv_delay_end"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:padding="@dimen/view_margin"
+          android:background="@color/weekday_selectcolor"
+          android:textColor="@color/white"
+          style="@style/text_normal"/>
+
+      <CheckBox
+          android:id="@+id/cb_delay"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:button="@null"
+          android:background="@drawable/cb_select"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/timer_recycle"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        style="@style/text_normal"/>
+
+    <tsocket.zby.com.tsocket.view.WeekView
+        android:id="@+id/weekView_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/btn_confirm"
+        android:text="@string/confirm"/>
+
+
+  </LinearLayout>
+
+
+</LinearLayout>

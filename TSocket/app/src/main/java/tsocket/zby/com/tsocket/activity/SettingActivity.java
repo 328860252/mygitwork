@@ -8,7 +8,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tsocket.zby.com.tsocket.R;
-import tsocket.zby.com.tsocket.wheel.HeaderLayout;
+import tsocket.zby.com.tsocket.view.HeaderLayout;
 
 public class SettingActivity extends BaseActivity {
 

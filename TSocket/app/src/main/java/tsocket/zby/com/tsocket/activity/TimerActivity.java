@@ -1,19 +1,58 @@
 package tsocket.zby.com.tsocket.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.TextView;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
+import tsocket.zby.com.tsocket.bean.DeviceBean;
+import tsocket.zby.com.tsocket.bean.TimerBean;
+import tsocket.zby.com.tsocket.connection.agreement.CmdPackage;
+import tsocket.zby.com.tsocket.view.WeekView;
 
 public class TimerActivity extends BaseActivity {
+
+  @BindView(R.id.tv_timer_start) TextView mTvTimerStart;
+  @BindView(R.id.tv_timer_end) TextView mTvTimerEnd;
+  @BindView(R.id.tv_delay_start) TextView mTvDelayStart;
+  @BindView(R.id.tv_delay_end) TextView mTvDelayEnd;
+  @BindView(R.id.cb_delay) CheckBox mCbDelay;
+  @BindView(R.id.weekView_value) WeekView mWeekViewValue;
+
+  private DeviceBean mDeviceBean;
+  private TimerBean mTimerBean;
+  private final int activity_startTimer = 11;
+  private final int activity_endTimer = 12;
+  private final int activity_openTimer = 13;
+  private final int activity_closeTimer = 14;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_timer);
     ButterKnife.bind(this);
+    initViews();
   }
 
-  @OnClick(R.id.layout_title_right) public void onSave() {
+  private void initViews() {
+    mDeviceBean = mApp.getDeviceBean();
+    mTimerBean = TimerBean.getNewTimerBean();
+    mTvTimerStart.setText(String.format("%02d:%02d%02d", mTimerBean.getStartHour(), mTimerBean.getStartMinute(), mTimerBean.getStartSecond()));
+    mTvTimerEnd.setText(String.format("%02d:%02d%02d", mTimerBean.getEndHour(), mTimerBean.getEndMinute(), mTimerBean.getEndSecond()));
+    mTvDelayEnd.setText(String.format("%02d:%02d", mTimerBean.getOpenMinute(), mTimerBean.getOpenSecond()));
+    mTvDelayStart.setText(String.format("%02d%02d", mTimerBean.getCloseMinute(), mTimerBean.getCloseSecond()));
+
+    mCbDelay.setChecked(mTimerBean.isRecycle());
+    mWeekViewValue.setWeekValue(mTimerBean.getWeekValue());
+  }
+
+  @OnClick(R.id.btn_confirm) public void onSave() {
+    mTimerBean.setWeekValue(mWeekViewValue.getWeekValue());
+    mDeviceBean.write(CmdPackage.setTimer(mTimerBean));
   }
 
   @OnClick(R.id.layout_title_left) public void onBack() {
@@ -34,5 +73,83 @@ public class TimerActivity extends BaseActivity {
 
   @Override protected void onStop() {
     super.onStop();
+  }
+
+  @OnClick({
+      R.id.layout_startTimer, R.id.layout_endTimer, R.id.tv_delay_start, R.id.tv_delay_end
+  }) public void onClick(View view) {
+    Intent intent;
+    switch (view.getId()) {
+      case R.id.layout_startTimer:
+        intent = new Intent(this, WheelTimeActivity.class);
+        intent.putExtra(AppString.TITLE, getString(R.string.text_timer_start));
+        intent.putExtra(AppString.HOUR, mTimerBean.getStartHour());
+        intent.putExtra(AppString.MINUTE, mTimerBean.getStartMinute());
+        intent.putExtra(AppString.SECOND, mTimerBean.getStartSecond());
+        startActivityForResult(intent, activity_startTimer);
+        break;
+      case R.id.layout_endTimer:
+        intent = new Intent(this, WheelTimeActivity.class);
+        intent.putExtra(AppString.TITLE, getString(R.string.text_timer_end));
+        intent.putExtra(AppString.HOUR, mTimerBean.getEndHour());
+        intent.putExtra(AppString.MINUTE, mTimerBean.getEndMinute());
+        intent.putExtra(AppString.SECOND, mTimerBean.getEndSecond());
+        startActivityForResult(intent, activity_endTimer);
+        break;
+      case R.id.tv_delay_start:
+        intent = new Intent(this, WheelTimeActivity.class);
+        intent.putExtra(AppString.TITLE, getString(R.string.text_delay_start));
+        intent.putExtra(AppString.SHOW_HOUR, false);
+        intent.putExtra(AppString.HOUR, mTimerBean.getOpenHour());
+        intent.putExtra(AppString.MINUTE, mTimerBean.getOpenMinute());
+        intent.putExtra(AppString.SECOND, mTimerBean.getOpenSecond());
+        startActivityForResult(intent, activity_openTimer);
+        break;
+      case R.id.tv_delay_end:
+        intent = new Intent(this, WheelTimeActivity.class);
+        intent.putExtra(AppString.TITLE, getString(R.string.text_delay_end));
+        intent.putExtra(AppString.SHOW_HOUR, false);
+        intent.putExtra(AppString.HOUR, mTimerBean.getCloseHour());
+        intent.putExtra(AppString.MINUTE, mTimerBean.getCloseMinute());
+        intent.putExtra(AppString.SECOND, mTimerBean.getCloseSecond());
+        startActivityForResult(intent, activity_closeTimer);
+        break;
+      case R.id.btn_confirm:
+        break;
+    }
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (resultCode != RESULT_OK) return;
+    int hour = data.getIntExtra(AppString.HOUR, 0);
+    int minute = data.getIntExtra(AppString.MINUTE, 0);
+    int second = data.getIntExtra(AppString.SECOND, 0);
+    switch (requestCode) {
+      case activity_startTimer:
+        mTimerBean.setStartHour(hour);
+        mTimerBean.setStartMinute(minute);
+        mTimerBean.setStartSecond(second);
+        mTvTimerStart.setText(String.format("%02d:%02d%02d", hour, minute, second));
+        break;
+      case activity_endTimer:
+        mTimerBean.setEndHour(hour);
+        mTimerBean.setEndMinute(minute);
+        mTimerBean.setEndSecond(second);
+        mTvTimerEnd.setText(String.format("%02d:%02d%02d", hour, minute, second));
+        break;
+      case activity_openTimer:
+        //mTimerBean.setOpenHour(hour);
+        mTimerBean.setOpenMinute(minute);
+        mTimerBean.setOpenSecond(second);
+        mTvDelayStart.setText(String.format("%02d%02d", minute, second));
+        break;
+      case activity_closeTimer:
+        //mTimerBean.setCloseHour(hour);
+        mTimerBean.setCloseMinute(minute);
+        mTimerBean.setCloseSecond(second);
+        mTvDelayEnd.setText(String.format("%02d:%02d", minute, second));
+        break;
+    }
   }
 }

@@ -16,6 +16,7 @@ import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.utils.MyImage;
 import tsocket.zby.com.tsocket.utils.SharedPerfenceUtils;
+import tsocket.zby.com.tsocket.utils.Tools;
 
 /**
  * <p>Description: 引导图</p>
@@ -76,40 +77,26 @@ public class GuideViewActivity extends Activity {
 
     pageViews = new ArrayList<View>();
     ImageView view1 = new ImageView(this);
-    //view1.setBackgroundResource(R.drawable.guide1);
-    view1.setBackgroundDrawable(
-        MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide1, 800, 600,
-            new MyImage.ScalingLogic()));
-
     ImageView view2 = new ImageView(this);
-    //view2.setBackgroundResource(R.drawable.guide2);
-    view2.setBackgroundDrawable(
-        MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide2, 800, 600,
-            new MyImage.ScalingLogic()));
-
     ImageView view3 = new ImageView(this);
-    //view3.setBackgroundResource(R.drawable.guide3);
-    view3.setBackgroundDrawable(
-        MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide3, 800, 600,
-            new MyImage.ScalingLogic()));
-
     ImageView view4 = new ImageView(this);
-    //view4.setBackgroundResource(R.drawable.guide4);
-    view4.setBackgroundDrawable(
-        MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide4, 800, 600,
-            new MyImage.ScalingLogic()));
-
     ImageView view5 = new ImageView(this);
-    //view5.setBackgroundResource(R.drawable.guide5);
-    view5.setBackgroundDrawable(
-        MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide5, 800, 600,
-            new MyImage.ScalingLogic()));
-
     ImageView view6 = new ImageView(this);
-    //view6.setBackgroundResource(R.drawable.guide1);
-    view6.setBackgroundDrawable(
-        MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide6, 800, 600,
-            new MyImage.ScalingLogic()));
+    if (Tools.isLocalLanguageChina(this)) {
+      view1.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide1, 800, 600, new MyImage.ScalingLogic()));
+      view2.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide2, 800, 600, new MyImage.ScalingLogic()));
+      view3.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide3, 800, 600, new MyImage.ScalingLogic()));
+      view4.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide4, 800, 600, new MyImage.ScalingLogic()));
+      view5.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide5, 800, 600, new MyImage.ScalingLogic()));
+      view6.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide6, 800, 600, new MyImage.ScalingLogic()));
+    } else {
+      view1.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide1_en, 800, 600, new MyImage.ScalingLogic()));
+      view2.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide2_en, 800, 600, new MyImage.ScalingLogic()));
+      view3.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide3_en, 800, 600, new MyImage.ScalingLogic()));
+      view4.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide4_en, 800, 600, new MyImage.ScalingLogic()));
+      view5.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide5_en, 800, 600, new MyImage.ScalingLogic()));
+      view6.setBackgroundDrawable(MyImage.decodeFileBitmapDrawable(getResources(), R.mipmap.guide6_en, 800, 600, new MyImage.ScalingLogic()));
+    }
     pageViews.add(view1);
     pageViews.add(view2);
     pageViews.add(view3);
@@ -182,7 +169,9 @@ public class GuideViewActivity extends Activity {
       // 然后滑动，arg0 就会多次出现
       if (arg0 == (imageViews.length - 1)) {
         isScrolledCount++;
-        if (isScrolledCount > 1) {// 表示着界面往右滑动了
+        if (isScrolledCount > 1) {// 表示着最后一个界面往右滑动了
+          //第一次启动，是引导页，要到设备列表界面
+          //之后都是当做帮助页
           if (SharedPerfenceUtils.getSetupData(GuideViewActivity.this).readBoolean(AppString.FIRST, true) ) {
             SharedPerfenceUtils.getSetupData(GuideViewActivity.this).saveboolean(AppString.FIRST, false);
             Intent intent = new Intent(GuideViewActivity.this, DeviceListActivity.class);

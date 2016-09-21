@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-  <tsocket.zby.com.tsocket.wheel.HeaderLayout
+  <tsocket.zby.com.tsocket.view.HeaderLayout
       android:id="@+id/headerLayout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

@@ -17,4 +17,20 @@
   <string name="text_input_password">请输入密码</string>
   <string name="text_input_password_verify">请输入确认密码</string>
   <string name="text_input_name">请输入新名字</string>
+  <string name="text_minute">分钟</string>
+  <string name="text_delay">延时</string>
+  <string name="text_finish">完成</string>
+  <string name="text_timer">定时</string>
+  <string name="text_timer_start">开始时间</string>
+  <string name="text_timer_end">结束时间</string>
+  <string name="text_delay_start">延时开</string>
+  <string name="text_delay_end">延时关</string>
+  <string name="text_week_1">一</string>
+  <string name="text_week_2">二</string>
+  <string name="text_week_3">三</string>
+  <string name="text_week_4">四</string>
+  <string name="text_week_5">五</string>
+  <string name="text_week_6">六</string>
+  <string name="text_week_7">日</string>
+  <string name="timer_recycle">每周/重复</string>
 </resources>

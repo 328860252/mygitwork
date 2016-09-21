@@ -16,7 +16,7 @@ import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.adapter.LanguageAdapter;
 import tsocket.zby.com.tsocket.utils.SharedPerfenceUtils;
 import tsocket.zby.com.tsocket.utils.Tools;
-import tsocket.zby.com.tsocket.wheel.HeaderLayout;
+import tsocket.zby.com.tsocket.view.HeaderLayout;
 
 /**
  * @author Administrator

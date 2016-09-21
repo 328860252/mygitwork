@@ -14,17 +14,17 @@
   </style>
 
   <style name="text_normal">
-    <item name="android:textSize">15sp</item>
+    <item name="android:textSize">17sp</item>
     <item name="android:textColor">@color/text_normal</item>
   </style>
 
   <style name="text_big">
-    <item name="android:textSize">20sp</item>
+    <item name="android:textSize">21sp</item>
     <item name="android:textColor">@color/text_normal</item>
   </style>
 
   <style name="text_small">
-    <item name="android:textSize">13.5sp</item>
+    <item name="android:textSize">15sp</item>
     <item name="android:textColor">@color/text_normal</item>
   </style>
 

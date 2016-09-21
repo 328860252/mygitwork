@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package tsocket.zby.com.tsocket.wheel;
+package tsocket.zby.com.tsocket.view.wheel;
 
 /**
  * The simple Array wheel adapter

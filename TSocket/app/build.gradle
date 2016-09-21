@@ -60,6 +60,8 @@ dependencies {
   compile 'cn.bingoogolapple:bga-refreshlayout:1.1.4@aar'
   compile 'cn.bingoogolapple:bga-adapter:1.0.9@aar'
 
+  compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
+
   compile 'com.android.support:design:24.2.0'
   testCompile 'junit:junit:4.12'
 }

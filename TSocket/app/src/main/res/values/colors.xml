@@ -5,10 +5,15 @@
   <color name="colorAccent">#FF4081</color>
 
   <color name="bg_title">#4051B5</color>
-  <color name="text_normal">#666666</color>
+  <color name="text_normal">#444444</color>
   <color name="btn_unenable">#787878</color>
   <color name="bg_activity">#CABACA</color>
   <color name="white">#FFFFFF</color>
+  <color name="btn_press">#A0A0A0</color>
+
   <color name="text_while">#649874</color>
   <color name="number_selectcolor">#ff00b8e6</color>
+  <color name="layout_header">#4AE4A8</color>
+
+  <color name="weekday_selectcolor">#ff39f658</color>
 </resources>

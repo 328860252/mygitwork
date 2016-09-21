@@ -60,10 +60,12 @@ public class CmdPackage {
         buff[0] = (byte) TYPE_TIMER_REFRESH;
         buff[1] = (byte) (calendar.get(Calendar.YEAR) / 256);
         buff[2] = (byte) (calendar.get(Calendar.YEAR) % 256);
-        buff[3] = (byte) (calendar.get(Calendar.MONTH) / 256);
-        buff[4] = (byte) (calendar.get(Calendar.DAY_OF_WEEK));
+        buff[3] = (byte) (calendar.get(Calendar.MONTH)+1); //月份从0 开始
+        int week = calendar.get(Calendar.DAY_OF_WEEK) -1; //星期日是1， 星期6是7
+        if (week ==0 ) week = 7;
+        buff[4] = (byte) (week);
         buff[5] = (byte) (calendar.get(Calendar.DAY_OF_MONTH));
-        buff[6] = (byte) (calendar.get(Calendar.HOUR));
+        buff[6] = (byte) (calendar.get(Calendar.HOUR_OF_DAY));
         buff[7] = (byte) (calendar.get(Calendar.MINUTE));
         buff[8] = (byte) (calendar.get(Calendar.SECOND));
         return buff;

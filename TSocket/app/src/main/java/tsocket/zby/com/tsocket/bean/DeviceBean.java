@@ -1,6 +1,8 @@
 package tsocket.zby.com.tsocket.bean;
 
 import android.content.Context;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 import tsocket.zby.com.tsocket.AppConstants;
 import tsocket.zby.com.tsocket.connection.ICmdParseInterface;
@@ -10,103 +12,80 @@ import tsocket.zby.com.tsocket.connection.agreement.CmdParseImpl;
 /**
  * Created by zhuj on 2016/9/19 14:14.
  */
+@Data
 public class DeviceBean {
 
+  private String mac;
+
+  private String name;
   private boolean onOff;
   private boolean recycle;
   private boolean timerEnable;
-  private String name;
-  private String mac;
+  private List<TimerBean> mTimerBeanList;
+  private int delayNumber;
+  private boolean delaySwitch;
 
-  public IConnectInterface mConnect;
-
-  public ICmdParseInterface mParse;
+  public IConnectInterface connect;
+  public ICmdParseInterface parse;
 
   public void setConnectionInterface(IConnectInterface connectionInterface, Context context) {
-    this.mConnect = connectionInterface;
-    if (mParse == null) {
-      mParse = new CmdParseImpl(this, context);
+    this.connect = connectionInterface;
+    if (parse == null) {
+      parse = new CmdParseImpl(this, context);
     }
-    this.mConnect.setCmdParse(mParse);
+    this.connect.setCmdParse(parse);
   }
 
   public boolean isLink() {
     if (AppConstants.isDemo) {
       return true;
     }
-    if (mConnect == null) return false;
-    return mConnect.isLink();
+    if (connect == null) return false;
+    return connect.isLink();
   }
 
   public void stopConnect() {
-    if (mConnect != null) {
-      mConnect.stopConncet();
+    if (connect != null) {
+      connect.stopConncet();
     }
   }
 
   public boolean write(byte[] channel) {
-    if (!mConnect.isLink()) {
+    if (!connect.isLink()) {
       return false;
     }
-    if (mConnect != null) {
-      return mConnect.writeAgreement(channel);
-      //mConnect.write(CmdPackage.getCmdSuccess());
+    if (connect != null) {
+      return connect.writeAgreement(channel);
+      //connect.write(CmdPackage.getCmdSuccess());
     }
     return false;
   }
 
   public boolean writeNoEncrypt(byte[] channel) {
-    if (!mConnect.isLink()) {
+    if (!connect.isLink()) {
       return false;
     }
-    if (mConnect != null) {
-      return mConnect.write(channel);
+    if (connect != null) {
+      return connect.write(channel);
     }
     return false;
   }
 
-  public IConnectInterface getConnect() {
-    return mConnect;
+  public List<TimerBean> getTimerBeanList() {
+    if (mTimerBeanList==null) {
+      mTimerBeanList = new ArrayList<>();
+    }
+    return mTimerBeanList;
   }
 
-
-  public boolean isOnOff() {
-    return onOff;
-  }
-
-  public void setOnOff(boolean onOff) {
-    this.onOff = onOff;
-  }
-
-  public boolean isRecycle() {
-    return recycle;
-  }
-
-  public void setRecycle(boolean recycle) {
-    this.recycle = recycle;
-  }
-
-  public boolean isTimerEnable() {
-    return timerEnable;
-  }
-
-  public void setTimerEnable(boolean timerEnable) {
-    this.timerEnable = timerEnable;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getMac() {
-    return mac;
-  }
-
-  public void setMac(String mac) {
-    this.mac = mac;
+  public void updateTimerBeanList(TimerBean timerBean) {
+    for (int i=0; i<mTimerBeanList.size(); i++) {
+      if (timerBean.getId()==mTimerBeanList.get(i).getId()) {
+        mTimerBeanList.remove(i);
+        mTimerBeanList.add(i, timerBean);
+        return;
+      }
+    }
+    mTimerBeanList.add(timerBean);
   }
 }

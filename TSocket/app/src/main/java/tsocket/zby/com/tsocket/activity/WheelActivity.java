@@ -1,6 +1,5 @@
 package tsocket.zby.com.tsocket.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,9 +13,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tsocket.zby.com.tsocket.R;
-import tsocket.zby.com.tsocket.wheel.OnWheelChangedListener;
-import tsocket.zby.com.tsocket.wheel.WheelService;
-import tsocket.zby.com.tsocket.wheel.WheelView;
+import tsocket.zby.com.tsocket.view.wheel.OnWheelChangedListener;
+import tsocket.zby.com.tsocket.view.wheel.WheelView;
 
 public class WheelActivity extends BaseActivity {
 

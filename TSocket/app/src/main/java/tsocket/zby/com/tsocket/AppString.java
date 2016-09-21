@@ -8,6 +8,8 @@ public class AppString {
   public static final String HOUR = "hour";
   public static final String MINUTE = "minute";
   public static final String SECOND = "second";
+  public static final String TITLE = "title";
+  public static final String SHOW_HOUR = "show_hour";
   public static java.lang.String language = "language";
 
 }

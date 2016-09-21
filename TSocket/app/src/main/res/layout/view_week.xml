@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal">
+
+  <CheckBox
+      android:id="@+id/cb_day1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/view_margin"
+      android:background="@drawable/cb_week"
+      android:button="@null"
+      android:text="@string/text_week_1"
+      android:textColor="@drawable/text_dark2white" />
+
+  <CheckBox
+      android:id="@+id/cb_day2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/view_margin"
+      android:background="@drawable/cb_week"
+      android:button="@null"
+      android:text="@string/text_week_2"
+      android:textColor="@drawable/text_dark2white" />
+
+  <CheckBox
+      android:id="@+id/cb_day3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/view_margin"
+      android:background="@drawable/cb_week"
+      android:button="@null"
+      android:text="@string/text_week_3"
+      android:textColor="@drawable/text_dark2white" />
+
+  <CheckBox
+      android:id="@+id/cb_day4"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/view_margin"
+      android:background="@drawable/cb_week"
+      android:button="@null"
+      android:text="@string/text_week_4"
+      android:textColor="@drawable/text_dark2white" />
+
+  <CheckBox
+      android:id="@+id/cb_day5"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/view_margin"
+      android:background="@drawable/cb_week"
+      android:button="@null"
+      android:text="@string/text_week_5"
+      android:textColor="@drawable/text_dark2white" />
+
+  <CheckBox
+      android:id="@+id/cb_day6"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/view_margin"
+      android:background="@drawable/cb_week"
+      android:button="@null"
+      android:text="@string/text_week_6"
+      android:textColor="@drawable/text_dark2white" />
+
+  <CheckBox
+      android:id="@+id/cb_day7"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/view_margin"
+      android:background="@drawable/cb_week"
+      android:button="@null"
+      android:text="@string/text_week_7"
+      android:textColor="@drawable/text_dark2white" />
+
+</LinearLayout>

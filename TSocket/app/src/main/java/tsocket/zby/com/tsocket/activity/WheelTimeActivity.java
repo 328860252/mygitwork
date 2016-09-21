@@ -10,15 +10,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import java.util.Date;
 import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
-import tsocket.zby.com.tsocket.wheel.OnWheelChangedListener;
-import tsocket.zby.com.tsocket.wheel.WheelService;
-import tsocket.zby.com.tsocket.wheel.WheelView;
+import tsocket.zby.com.tsocket.view.wheel.OnWheelChangedListener;
+import tsocket.zby.com.tsocket.view.wheel.WheelService;
+import tsocket.zby.com.tsocket.view.wheel.WheelView;
 
 /**
  * <p>Description: 选择执行的定时时间</p>
@@ -39,8 +38,7 @@ public class WheelTimeActivity extends BaseActivity {
   private WheelView minute_wheelView;
   private WheelView second_wheelView;
   private final int wheelTextSize = 8;
-  private int maxHour = 23, minHour = 0, maxMinute = 59, minMinute = 0, maxSecond = 59, minSecond =
-      0;
+  private int maxHour = 23, minHour = 0, maxMinute = 59, minMinute = 0, maxSecond = 59, minSecond = 0;
 
   //handler
   private final int InitWheelView = 3;
@@ -125,6 +123,10 @@ public class WheelTimeActivity extends BaseActivity {
     second_wheelView = WheelService.getBinInt(this, maxSecond, minSecond, second, " S",
         mSecondLayout.getHeight() / wheelTextSize, phone_density);
     mSecondLayout.addView(second_wheelView);
+
+    if (!getIntent().getBooleanExtra(AppString.SHOW_HOUR, true)) {
+      mHourLayout.setVisibility(View.GONE);
+    }
   }
 
   private void initListener() {

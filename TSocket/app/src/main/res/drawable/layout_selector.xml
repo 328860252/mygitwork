@@ -1,4 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:color="@color/text_normal"/>
-    <item android:color="@color/white"/>
+    <item android:state_pressed="true" android:drawable="@drawable/layout_selector_press"/>
+    <item android:drawable="@drawable/layout_selector_normal"/>
 </selector>

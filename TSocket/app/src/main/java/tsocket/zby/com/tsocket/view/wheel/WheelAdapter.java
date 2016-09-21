@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package tsocket.zby.com.tsocket.wheel;
+package tsocket.zby.com.tsocket.view.wheel;
 
 public interface WheelAdapter {
 	/**

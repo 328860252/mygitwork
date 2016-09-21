@@ -49,7 +49,11 @@ public class LanguageAdapter extends BaseAdapter {
       mViewHolder = (ViewHolder) view.getTag();
     }
     mViewHolder.mTvName.setText(mList.get(i));
-    mViewHolder.mIvSelect.setSelected(mLanguageType == i);
+    if (mLanguageType == i) {
+      mViewHolder.mIvSelect.setVisibility(View.VISIBLE);
+    } else {
+      mViewHolder.mIvSelect.setVisibility(View.GONE);
+    }
     return view;
   }
 
