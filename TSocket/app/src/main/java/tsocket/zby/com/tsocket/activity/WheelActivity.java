@@ -1,5 +1,6 @@
 package tsocket.zby.com.tsocket.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,7 +17,7 @@ import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.view.wheel.OnWheelChangedListener;
 import tsocket.zby.com.tsocket.view.wheel.WheelView;
 
-public class WheelActivity extends BaseActivity {
+public class WheelActivity extends Activity {
 
   @BindView(R.id.tv_back) TextView mTvBack;
   @BindView(R.id.tv_title) TextView mTvTitle;

@@ -26,7 +26,7 @@ import tsocket.zby.com.tsocket.view.wheel.WheelView;
  * @author zhujiang
  * @date 2014-7-31
  */
-public class WheelTimeActivity extends BaseActivity {
+public class WheelTimeActivity extends Activity {
 
   private final static String TAG = WheelTimeActivity.class.getSimpleName();
   @BindView(R.id.hour_layout) LinearLayout mHourLayout;
@@ -42,13 +42,15 @@ public class WheelTimeActivity extends BaseActivity {
 
   //handler
   private final int InitWheelView = 3;
+  private float phone_density;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     // TODO Auto-generated method stub
     super.onCreate(savedInstanceState);
-    ButterKnife.bind(this);
     setContentView(R.layout.activity_wheel_time);
-
+    ButterKnife.bind(this);
+    
+    phone_density = getResources().getDisplayMetrics().density; //屏幕密度
     Window window = getWindow();
     window.setGravity(Gravity.BOTTOM);
     //背景阴影

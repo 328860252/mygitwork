@@ -51,6 +51,7 @@ public class DeviceControlActivity extends BaseActivity
     mTimerAdapter.setDatas(list);
     mRecyclerView.setAdapter(mTimerAdapter);
     mSwiperLayout.setDelegate(this);
+    headerLayout.setTextTitle(mDeviceBean.getName());
   }
 
   @OnClick(R.id.layout_title_left) public void onBack() {

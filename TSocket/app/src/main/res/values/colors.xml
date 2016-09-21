@@ -16,4 +16,7 @@
   <color name="layout_header">#4AE4A8</color>
 
   <color name="weekday_selectcolor">#ff39f658</color>
+
+  <color name="round_button_normbg_color">#ffff8822</color>
+  <color name="round_button_press_color">#ff994411</color>
 </resources>

@@ -33,7 +33,7 @@ public class DelayActivity extends BaseActivity {
     mDeviceBean = mApp.getDeviceBean();
     mSearchBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
       @Override public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        mTvDelayTime.setText("" + seekBar.getProgress());
+        mTvDelayTime.setText(String.format(getString(R.string.text_delay_minute), seekBar.getProgress()));
       }
 
       @Override public void onStartTrackingTouch(SeekBar seekBar) {
@@ -86,12 +86,13 @@ public class DelayActivity extends BaseActivity {
       case R.id.tv_minute_60:
         String text = ((DelayMinuteView) view).getTextNumber();
         mSearchBar.setProgress(Integer.parseInt(text));
+        initDelayMinute(Integer.parseInt(text));
         break;
     }
   }
 
   private void initDelayMinute(int number) {
-    mTvDelayTime.setText("" + number);
+    mTvDelayTime.setText(String.format(getString(R.string.text_delay_minute), number));
     initMinute(""+number);
   }
 

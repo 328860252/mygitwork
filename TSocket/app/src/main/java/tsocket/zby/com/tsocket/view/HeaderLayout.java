@@ -66,4 +66,8 @@ public class HeaderLayout extends RelativeLayout {
   public void setTextTitle(int textTitle) {
     mTvTitle.setText(textTitle);
   }
+
+  public void setTextTitle(String textTitle) {
+    mTvTitle.setText(textTitle);
+  }
 }

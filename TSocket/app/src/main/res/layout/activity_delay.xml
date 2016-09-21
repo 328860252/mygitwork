@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="vertical">
 
   <tsocket.zby.com.tsocket.view.HeaderLayout
       android:id="@+id/layout_header"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      app:textRight="@string/text_finish"
       app:showRight="true"
+      app:textRight="@string/text_finish"
       app:textTitle="@string/text_delay" />
 
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="@mipmap/appbg"
-      android:orientation="vertical"
-      android:padding="@dimen/activity_horizontal_margin"
-      android:layout_alignParentTop="true"
       android:layout_alignParentStart="true"
-      android:gravity="center_horizontal">
+      android:layout_alignParentTop="true"
+      android:background="@mipmap/appbg"
+      android:gravity="center_horizontal"
+      android:orientation="vertical"
+      android:padding="@dimen/activity_horizontal_margin">
 
     <TextView
         android:id="@+id/tv_delay_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/white"
         android:layout_marginTop="40dp"
-        tools:text="35min"
-        android:textSize="40sp" />
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        tools:text="35min" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,29 +42,32 @@
           android:id="@+id/search_bar"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:padding="@dimen/activity_horizontal_margin"
           android:max="60"
+          android:paddingBottom="@dimen/view_margin"
+          android:paddingLeft="@dimen/activity_horizontal_margin"
+          android:paddingRight="@dimen/activity_horizontal_margin"
+          android:paddingTop="@dimen/activity_horizontal_margin"
           android:progressDrawable="@drawable/seekbar_style"
           android:thumb="@drawable/seekbar_thumb" />
 
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_alignParentStart="true"
+          android:layout_alignRight="@+id/search_bar"
+          android:layout_below="@+id/search_bar"
           android:text="10min"
           android:textColor="@color/white"
-          style="@style/text_normal"
-          android:layout_below="@+id/search_bar"
-          android:layout_alignRight="@+id/search_bar"
-          android:layout_alignParentStart="true" />
+          style="@style/text_normal" />
 
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_below="@+id/search_bar"
           android:text="60min"
           android:textColor="@color/white"
-          style="@style/text_normal"
-          android:layout_below="@+id/search_bar"
-          android:layout_alignParentEnd="true" />
+          style="@style/text_normal" />
 
     </RelativeLayout>
 
@@ -71,13 +75,15 @@
         android:id="@+id/cb_delay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:button="@null"
-        android:background="@drawable/cb_select" />
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="@drawable/cb_select"
+        android:button="@null" />
 
 
     <GridLayout
         android:id="@+id/layout_grid"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:columnCount="3"
@@ -90,8 +96,8 @@
           android:layout_columnWeight="1"
           android:layout_rowWeight="1"
           android:gravity="center"
-          app:text="10"
-          app:check="false" />
+          app:check="false"
+          app:text="10" />
 
       <tsocket.zby.com.tsocket.view.DelayMinuteView
           android:id="@+id/tv_minute_20"
@@ -100,8 +106,8 @@
           android:layout_columnWeight="1"
           android:layout_rowWeight="1"
           android:gravity="center"
-          app:text="20"
-          app:check="false" />
+          app:check="false"
+          app:text="20" />
 
       <tsocket.zby.com.tsocket.view.DelayMinuteView
           android:id="@+id/tv_minute_30"
@@ -110,8 +116,8 @@
           android:layout_columnWeight="1"
           android:layout_rowWeight="1"
           android:gravity="center"
-          app:text="30"
-          app:check="false" />
+          app:check="false"
+          app:text="30" />
 
       <tsocket.zby.com.tsocket.view.DelayMinuteView
           android:id="@+id/tv_minute_40"
@@ -119,8 +125,8 @@
           android:layout_height="wrap_content"
           android:layout_columnWeight="1"
           android:gravity="center"
-          app:text="40"
-          app:check="false" />
+          app:check="false"
+          app:text="40" />
 
       <tsocket.zby.com.tsocket.view.DelayMinuteView
           android:id="@+id/tv_minute_50"
@@ -128,8 +134,8 @@
           android:layout_height="wrap_content"
           android:layout_columnWeight="1"
           android:gravity="center"
-          app:text="50"
-          app:check="false" />
+          app:check="false"
+          app:text="50" />
 
       <tsocket.zby.com.tsocket.view.DelayMinuteView
           android:id="@+id/tv_minute_60"
@@ -137,12 +143,12 @@
           android:layout_height="wrap_content"
           android:layout_columnWeight="1"
           android:gravity="center"
-          app:text="60"
-          app:check="false" />
+          app:check="false"
+          app:text="60" />
 
     </GridLayout>
 
   </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

@@ -1,11 +1,15 @@
 <resources>
 
+
   <!-- Base application theme. -->
-  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+  <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <!-- 沉浸式状态栏 -->
+    <item name="android:fitsSystemWindows">true</item>
+    <item name="android:clipToPadding">false</item>
     <!-- Customize your theme here. -->
-    <item name="colorPrimary">@color/colorPrimary</item>
-    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-    <item name="colorAccent">@color/colorAccent</item>
+    <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    <!--<item name="colorAccent">@color/colorAccent</item>-->
   </style>
 
   <style name="AppTheme.Launcher">
@@ -19,7 +23,7 @@
   </style>
 
   <style name="text_big">
-    <item name="android:textSize">21sp</item>
+    <item name="android:textSize">19sp</item>
     <item name="android:textColor">@color/text_normal</item>
   </style>
 
@@ -61,14 +65,16 @@
 
   <style name="btn_confirm">
     <item name="android:text">@string/confirm</item>
-    <item name="android:textSize">20sp</item>
+    <item name="android:textSize">19sp</item>
     <item name="android:textColor">#FFFFFF</item>
+    <item name="android:paddingTop">@dimen/view_margin</item>
+    <item name="android:paddingBottom">@dimen/view_margin</item>
     <item name="android:background">@drawable/btn_confirm</item>"
   </style>
 
   <style name="btn_cancel">
     <item name="android:text">@string/cancel</item>
-    <item name="android:textSize">20sp</item>
+    <item name="android:textSize">19sp</item>
     <item name="android:textColor">#FFFFFF</item>
     <item name="android:background">@drawable/btn_cancel</item>"
   </style>
