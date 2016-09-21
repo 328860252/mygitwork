@@ -10,7 +10,7 @@ import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.bean.BluetoothBean;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
 
-public class DeviceAdapter extends BGARecyclerViewAdapter<BluetoothBean> {
+public class DeviceAdapter extends BGARecyclerViewAdapter<DeviceBean> {
 
   private OnItemClickListener mOnItemClickListener;
 
@@ -18,7 +18,7 @@ public class DeviceAdapter extends BGARecyclerViewAdapter<BluetoothBean> {
     super(recyclerView, R.layout.device_item);
   }
 
-  @Override protected void fillData(BGAViewHolderHelper viewHolderHelper, int i, BluetoothBean deviceBean) {
+  @Override protected void fillData(BGAViewHolderHelper viewHolderHelper, int i, DeviceBean deviceBean) {
     viewHolderHelper.setText(R.id.tv_name, deviceBean.getName())
         .setText(R.id.tv_mac, deviceBean.getMac());
   }

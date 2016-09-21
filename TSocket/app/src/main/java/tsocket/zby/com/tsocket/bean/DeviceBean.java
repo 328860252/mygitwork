@@ -41,7 +41,7 @@ public class DeviceBean {
       return true;
     }
     if (connect == null) return false;
-    return connect.isLink();
+    return connect.isLink(mac);
   }
 
   public void stopConnect() {
@@ -87,5 +87,11 @@ public class DeviceBean {
       }
     }
     mTimerBeanList.add(timerBean);
+  }
+
+  public void connect() {
+    if(connect!=null) {
+      connect.connect(mac, "");
+    }
   }
 }

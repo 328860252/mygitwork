@@ -32,7 +32,7 @@ public class BaseActivity extends Activity {
 
   private Toast mToast;
 
-  private int lastLanguageItem;
+  private int lastLanguageItem = -1;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -75,7 +75,7 @@ public class BaseActivity extends Activity {
   }
 
   @Override protected void onResume() {
-    if (lastLanguageItem==0) {
+    if (lastLanguageItem== -1) {
       lastLanguageItem = SharedPerfenceUtils.getSetupData(this).readInt(AppString.language, AppConstants.language_default);
     } else {
       //跟之前的语言发生了变化

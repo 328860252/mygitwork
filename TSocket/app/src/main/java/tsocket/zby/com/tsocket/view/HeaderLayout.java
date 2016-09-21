@@ -55,8 +55,8 @@ public class HeaderLayout extends RelativeLayout {
       }
     }
     if (mLeftResId!=0) {//有图片优先显示图片
-      mTvTitleRight.setBackgroundResource(mRightResId);
-      mTvTitleRight.setText("");
+      mTvTitleLeft.setBackgroundResource(mLeftResId);
+      mTvTitleLeft.setText("");
     }
     mLayoutTitleRight.setVisibility(mShowRight ? View.VISIBLE:View.GONE);
     mLayoutTitleLeft.setVisibility(mShowBack ? View.VISIBLE:View.GONE);

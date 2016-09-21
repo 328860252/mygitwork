@@ -40,6 +40,7 @@ public class SettingLanguageActivity extends BaseActivity {
   }
 
   private void init() {
+    mSetupData = SharedPerfenceUtils.getSetupData(this);
     language_item = mSetupData.readInt(AppString.language, AppConstants.language_default);
     if (list == null) {
       list = new ArrayList<String>();
@@ -68,8 +69,13 @@ public class SettingLanguageActivity extends BaseActivity {
     wAdapter.notifyDataSetChanged();
   }
 
+  @OnClick(R.id.layout_title_right) public void onBack() {
+    finish();
+  }
+
   @OnClick(R.id.layout_title_right) public void onSave() {
     mSetupData.saveInt(AppString.language, language_item);
     Tools.switchLanguage(SettingLanguageActivity.this, language_item);
+    finish();
   }
 }

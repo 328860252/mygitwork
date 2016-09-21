@@ -38,6 +38,8 @@ public interface IConnectInterface {
 	 *   如果连上设备，返回true
 	 */
 	boolean isLink();//是否已连接
+
+	boolean isLink(String mac);//是否已连接
 	/**
 	 * 是否正在连接中
 	 * @return

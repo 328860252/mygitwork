@@ -66,7 +66,6 @@ public class GuideViewActivity extends Activity {
     //}
     viewPager.setAdapter(new GuidePageAdapter());
     viewPager.setOnPageChangeListener(new GuidePageChangeListener());
-    SharedPerfenceUtils.getSetupData(this).saveboolean(AppString.FIRST, false);
   }
 
   /**

@@ -21,6 +21,7 @@ import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.adapter.DeviceAdapter;
 import tsocket.zby.com.tsocket.bean.BluetoothBean;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
+import tsocket.zby.com.tsocket.connection.ble.BleManager;
 
 public class DeviceListActivity extends BaseActivity
     implements SwipeRefreshLayout.OnRefreshListener, BGARefreshLayout.BGARefreshLayoutDelegate {
@@ -28,8 +29,9 @@ public class DeviceListActivity extends BaseActivity
   @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
   @BindView(R.id.swiperLayout) BGARefreshLayout mSwiperLayout;
   private DeviceAdapter mDeviceAdapter;
-  private List<BluetoothBean> list;
+  private List<DeviceBean> list;
   private DeviceBean mDeviceBean;
+  private BleManager mBleManager;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -41,14 +43,14 @@ public class DeviceListActivity extends BaseActivity
     BGARefreshViewHolder RefreshViewHolder = new BGANormalRefreshViewHolder(this, true);
     mSwiperLayout.setRefreshViewHolder(RefreshViewHolder);
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    list = new ArrayList<>();
+    list = mApp.getList();
 
-    if (AppConstants.isDemo) {
-      BluetoothBean deviceBean = new BluetoothBean();
-      deviceBean.setName("test1");
-      deviceBean.setMac("test1");
-      list.add(deviceBean);
-    }
+    //if (AppConstants.isDemo) {
+    //  BluetoothBean deviceBean = new BluetoothBean();
+    //  deviceBean.setName("test1");
+    //  deviceBean.setMac("test1");
+    //  list.add(deviceBean);
+    //}
 
     mDeviceAdapter = new DeviceAdapter(mRecyclerView);
     mDeviceAdapter.setDatas(list);
@@ -60,8 +62,12 @@ public class DeviceListActivity extends BaseActivity
         //        mDeviceBean.setName(list.get(i).getName());
         //        mDeviceBean.getConnect().connect(list.get(i).getMac(), "");
         //mDeviceBean.isLink();
-        Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
-        startActivity(intent);
+        if (!mDeviceBean.isLink()) {
+          mDeviceBean.connect();
+        } else {
+          Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+          startActivity(intent);
+        }
       }
     });
   }
@@ -71,11 +77,18 @@ public class DeviceListActivity extends BaseActivity
   }
 
   @Override public void onRefresh() {
-
+    //if (mBleManager == null) {
+    //  mBleManager = new BleManager(this);
+    //}
+    //mBleManager.startScan();
   }
 
   @Override public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-    mSwiperLayout.endRefreshing();
+    //mSwiperLayout.endRefreshing();
+    if (mBleManager == null) {
+      mBleManager = new BleManager(this);
+    }
+    mBleManager.startScan();
   }
 
   @Override public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {

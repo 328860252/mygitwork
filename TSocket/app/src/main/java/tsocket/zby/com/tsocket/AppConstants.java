@@ -17,4 +17,5 @@ public class AppConstants {
   public static final long DELAY_TIME = 100;
   public final static String charset = "utf-8";
   public final static int connecting_count = 5;
+  public static long scan_time = 10000;
 }

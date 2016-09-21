@@ -41,10 +41,10 @@ public class TimerActivity extends BaseActivity {
   private void initViews() {
     mDeviceBean = mApp.getDeviceBean();
     mTimerBean = TimerBean.getNewTimerBean();
-    mTvTimerStart.setText(String.format("%02d:%02d%02d", mTimerBean.getStartHour(), mTimerBean.getStartMinute(), mTimerBean.getStartSecond()));
-    mTvTimerEnd.setText(String.format("%02d:%02d%02d", mTimerBean.getEndHour(), mTimerBean.getEndMinute(), mTimerBean.getEndSecond()));
+    mTvTimerStart.setText(String.format("%02d:%02d:%02d", mTimerBean.getStartHour(), mTimerBean.getStartMinute(), mTimerBean.getStartSecond()));
+    mTvTimerEnd.setText(String.format("%02d:%02d:%02d", mTimerBean.getEndHour(), mTimerBean.getEndMinute(), mTimerBean.getEndSecond()));
     mTvDelayEnd.setText(String.format("%02d:%02d", mTimerBean.getOpenMinute(), mTimerBean.getOpenSecond()));
-    mTvDelayStart.setText(String.format("%02d%02d", mTimerBean.getCloseMinute(), mTimerBean.getCloseSecond()));
+    mTvDelayStart.setText(String.format("%02d:%02d", mTimerBean.getCloseMinute(), mTimerBean.getCloseSecond()));
 
     mCbDelay.setChecked(mTimerBean.isRecycle());
     mWeekViewValue.setWeekValue(mTimerBean.getWeekValue());
@@ -130,19 +130,19 @@ public class TimerActivity extends BaseActivity {
         mTimerBean.setStartHour(hour);
         mTimerBean.setStartMinute(minute);
         mTimerBean.setStartSecond(second);
-        mTvTimerStart.setText(String.format("%02d:%02d%02d", hour, minute, second));
+        mTvTimerStart.setText(String.format("%02d:%02d:%02d", hour, minute, second));
         break;
       case activity_endTimer:
         mTimerBean.setEndHour(hour);
         mTimerBean.setEndMinute(minute);
         mTimerBean.setEndSecond(second);
-        mTvTimerEnd.setText(String.format("%02d:%02d%02d", hour, minute, second));
+        mTvTimerEnd.setText(String.format("%02d:%02d:%02d", hour, minute, second));
         break;
       case activity_openTimer:
         //mTimerBean.setOpenHour(hour);
         mTimerBean.setOpenMinute(minute);
         mTimerBean.setOpenSecond(second);
-        mTvDelayStart.setText(String.format("%02d%02d", minute, second));
+        mTvDelayStart.setText(String.format("%02d:%02d", minute, second));
         break;
       case activity_closeTimer:
         //mTimerBean.setCloseHour(hour);

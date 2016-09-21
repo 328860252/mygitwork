@@ -77,6 +77,10 @@ public class ConnectUsbImpl implements IConnectInterface {
     return false;
   }
 
+  @Override public boolean isLink(String mac) {
+    return false;
+  }
+
   @Override public boolean isConnecting() {
     return false;
   }

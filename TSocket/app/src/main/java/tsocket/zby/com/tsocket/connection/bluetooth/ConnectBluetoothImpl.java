@@ -63,6 +63,10 @@ public class ConnectBluetoothImpl implements IConnectInterface {
 		return BTchat.islink();
 	}
 
+	@Override public boolean isLink(String mac) {
+		return BTchat.islink();
+	}
+
 	@Override
 	public boolean isConnecting() {
 		return false;

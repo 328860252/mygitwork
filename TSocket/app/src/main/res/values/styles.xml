@@ -18,17 +18,17 @@
   </style>
 
   <style name="text_normal">
-    <item name="android:textSize">17sp</item>
+    <item name="android:textSize">@dimen/text_normal</item>
     <item name="android:textColor">@color/text_normal</item>
   </style>
 
   <style name="text_big">
-    <item name="android:textSize">19sp</item>
+    <item name="android:textSize">@dimen/text_big</item>
     <item name="android:textColor">@color/text_normal</item>
   </style>
 
   <style name="text_small">
-    <item name="android:textSize">15sp</item>
+    <item name="android:textSize">@dimen/text_small</item>
     <item name="android:textColor">@color/text_normal</item>
   </style>
 
@@ -65,7 +65,7 @@
 
   <style name="btn_confirm">
     <item name="android:text">@string/confirm</item>
-    <item name="android:textSize">19sp</item>
+    <item name="android:textSize">@dimen/text_big</item>
     <item name="android:textColor">#FFFFFF</item>
     <item name="android:paddingTop">@dimen/view_margin</item>
     <item name="android:paddingBottom">@dimen/view_margin</item>
@@ -74,7 +74,7 @@
 
   <style name="btn_cancel">
     <item name="android:text">@string/cancel</item>
-    <item name="android:textSize">19sp</item>
+    <item name="android:textSize">@dimen/text_big</item>
     <item name="android:textColor">#FFFFFF</item>
     <item name="android:background">@drawable/btn_cancel</item>"
   </style>
@@ -108,6 +108,8 @@
   <style name="layout_select">
     <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
     <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+    <item name="android:paddingTop">@dimen/view_margin</item>
+    <item name="android:paddingBottom">@dimen/view_margin</item>
     <item name="android:gravity">center_vertical</item>
     <item name="android:background">@drawable/layout_selector</item>
   </style>

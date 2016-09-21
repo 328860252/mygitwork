@@ -13,4 +13,10 @@
   <dimen name="dialog_info_bottom">8dp</dimen>
   <dimen name="dialog_info_top">8dp</dimen>
   <dimen name="fab_margin">16dp</dimen>
+
+
+  <dimen name="text_normal">16sp</dimen>
+  <dimen name="text_big">18sp</dimen>
+  <dimen name="text_small">18sp</dimen>
+  <dimen name="layout_paddingTop">3dp</dimen>
 </resources>

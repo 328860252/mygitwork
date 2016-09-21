@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:HeaderLayout="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:HeaderLayout="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_activity"
+              android:orientation="vertical">
 
   <tsocket.zby.com.tsocket.view.HeaderLayout
       android:id="@+id/layout_header"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      HeaderLayout:textTitle="@string/text_setting"/>
+      HeaderLayout:textTitle="@string/text_setting" />
 
-  <LinearLayout
+  <RelativeLayout
       android:id="@+id/layout_changeName"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -21,11 +22,18 @@
         android:id="@+id/tv_change_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/text_normal"
-        android:text="@string/text_change_name"/>
-  </LinearLayout>
+        android:text="@string/text_change_name"
+        style="@style/text_normal" />
 
-  <LinearLayout
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/img_arrow_right" />
+  </RelativeLayout>
+
+  <RelativeLayout
       android:id="@+id/layout_changePsd"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -35,11 +43,20 @@
         android:id="@+id/tv_changePsd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/text_normal"
-        android:text="@string/text_change_psd"/>
-  </LinearLayout>
+        android:text="@string/text_change_psd"
+        style="@style/text_normal" />
 
-  <LinearLayout
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/img_arrow_right" />
+  </RelativeLayout>
+
+  <include layout="@layout/view_line"/>
+
+  <RelativeLayout
       android:id="@+id/layout_help"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -49,11 +66,20 @@
         android:id="@+id/tv_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/text_normal"
-        android:text="@string/text_help"/>
-  </LinearLayout>
+        android:text="@string/text_help"
+        style="@style/text_normal" />
 
-  <LinearLayout
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/img_arrow_right" />
+  </RelativeLayout>
+
+  <include layout="@layout/view_line"/>
+
+  <RelativeLayout
       android:id="@+id/layout_language"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -63,9 +89,18 @@
         android:id="@+id/tv_language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/text_normal"
-        android:text="@string/text_language"/>
-  </LinearLayout>
+        android:text="@string/text_language"
+        style="@style/text_normal" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/img_arrow_right" />
+  </RelativeLayout>
+
+  <include layout="@layout/view_line"/>
 
 
-</RelativeLayout>
+</LinearLayout>

@@ -9,12 +9,12 @@ public class BleImpl implements IConnectInterface {
 
   private final String TAG = BleImpl.class.getSimpleName();
 
-  private BluetoothLeService mService;
+  private BluetoothLeServiceMulp mService;
   private String mDeviceAddress;
 
   private boolean isLink;
 
-  public BleImpl(BluetoothLeService service) {
+  public BleImpl(BluetoothLeServiceMulp service) {
     this.mService = service;
   }
 
@@ -68,6 +68,14 @@ public class BleImpl implements IConnectInterface {
   @Override public boolean isLink() {
     // TODO Auto-generated method stub
     if (mService == null) {
+      Log.d(TAG, "service is null");
+      return false;
+    }
+    return mService.isLink(mDeviceAddress);
+  }
+
+  @Override public boolean isLink(String mac) {
+    if (mService == null|| mac ==null) {
       Log.d(TAG, "service is null");
       return false;
     }

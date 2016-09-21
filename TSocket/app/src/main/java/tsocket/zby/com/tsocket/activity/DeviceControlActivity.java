@@ -20,6 +20,7 @@ import tsocket.zby.com.tsocket.adapter.TimerAdapter;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
 import tsocket.zby.com.tsocket.bean.TimerBean;
 import tsocket.zby.com.tsocket.connection.agreement.CmdPackage;
+import tsocket.zby.com.tsocket.connection.ble.BleManager;
 import tsocket.zby.com.tsocket.view.HeaderLayout;
 
 public class DeviceControlActivity extends BaseActivity
@@ -34,6 +35,7 @@ public class DeviceControlActivity extends BaseActivity
   private TimerAdapter mTimerAdapter;
   private List<TimerBean> list;
   private DeviceBean mDeviceBean;
+  private BleManager mBleManager;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -58,6 +60,11 @@ public class DeviceControlActivity extends BaseActivity
     finish();
   }
 
+  @OnClick(R.id.layout_title_right) public void onSetting() {
+    Intent intent = new Intent(this, SettingActivity.class);
+    startActivity(intent);
+  }
+
   @Override public void onRefresh() {
 
   }
@@ -68,6 +75,13 @@ public class DeviceControlActivity extends BaseActivity
 
   @Override public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
     return false;
+  }
+
+  @Override protected void onLanguageChange() {
+    tvDelay.setText(R.string.text_delay);
+    tvTimer.setText(R.string.text_timer);
+    mTimerAdapter.notifyDataSetChanged();
+    super.onLanguageChange();
   }
 
   @OnClick({ R.id.tv_delay, R.id.ctv_switch, R.id.tv_timer }) public void onClick(View view) {

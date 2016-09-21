@@ -3,9 +3,12 @@
     package="tsocket.zby.com.tsocket">
 
   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
   <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.BLUETOOTH" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
   <application
       android:allowBackup="true"
@@ -28,7 +31,7 @@
         android:name="io.fabric.ApiKey"
         android:value="c05c9a0ae92fa7ae610c8a23463851f040c6d42c" />
 
-    <service android:name=".connection.ble.BluetoothLeService"></service>
+    <service android:name=".connection.ble.BluetoothLeServiceMulp" android:enabled="true"></service>
 
     <activity android:name=".activity.DeviceListActivity" android:screenOrientation="portrait" />
     <activity android:name=".activity.GuideViewActivity" android:screenOrientation="portrait"/>
