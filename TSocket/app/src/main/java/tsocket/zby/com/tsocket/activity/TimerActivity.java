@@ -40,11 +40,21 @@ public class TimerActivity extends BaseActivity {
 
   private void initViews() {
     mDeviceBean = mApp.getDeviceBean();
-    mTimerBean = TimerBean.getNewTimerBean();
-    mTvTimerStart.setText(String.format("%02d:%02d:%02d", mTimerBean.getStartHour(), mTimerBean.getStartMinute(), mTimerBean.getStartSecond()));
-    mTvTimerEnd.setText(String.format("%02d:%02d:%02d", mTimerBean.getEndHour(), mTimerBean.getEndMinute(), mTimerBean.getEndSecond()));
-    mTvDelayEnd.setText(String.format("%02d:%02d", mTimerBean.getOpenMinute(), mTimerBean.getOpenSecond()));
-    mTvDelayStart.setText(String.format("%02d:%02d", mTimerBean.getCloseMinute(), mTimerBean.getCloseSecond()));
+    if (getIntent().hasExtra("timer")) { //修改
+      TimerBean tb = (TimerBean) getIntent().getSerializableExtra("timer");
+      try {
+        mTimerBean = (TimerBean) tb.clone();
+      } catch (CloneNotSupportedException e) {
+        e.printStackTrace();
+      }
+    }
+    if (mTimerBean != null) { //新增
+      mTimerBean = TimerBean.getNewTimerBean();
+    }
+    mTvTimerStart.setText(mTimerBean.getStartString());
+    mTvTimerEnd.setText(mTimerBean.getEndString());
+    mTvDelayEnd.setText(mTimerBean.getOpenString());
+    mTvDelayStart.setText(mTimerBean.getCloseString());
 
     mCbDelay.setChecked(mTimerBean.isRecycle());
     mWeekViewValue.setWeekValue(mTimerBean.getWeekValue());

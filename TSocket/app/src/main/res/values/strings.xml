@@ -34,4 +34,7 @@
   <string name="text_week_7">日</string>
   <string name="timer_recycle">每周/重复</string>
   <string name="text_delay_minute">%02d分钟</string>
+  <string name="text_adapter_timer">%%1$ms - %%2$s</string>
+  <string name="text_adapter_recyclestr">循环 ON %%1$s - OFF %%2$s</string>
+  <string name="text_adapter_week">重复: %%1$s</string>
 </resources>

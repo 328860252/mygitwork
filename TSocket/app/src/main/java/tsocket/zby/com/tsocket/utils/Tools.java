@@ -171,5 +171,36 @@ public class Tools {
 		return null;
 	}
 
+	/**
+	 * 获得当前进程名称
+	 */
+	public static String getCurrentProcessName(Context context) {
+		int pid = android.os.Process.myPid();
+		android.app.ActivityManager mActivityManager =
+				(android.app.ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		for (android.app.ActivityManager.RunningAppProcessInfo appProcess : mActivityManager.getRunningAppProcesses()) {
+			if (appProcess.pid == pid) {
+				return appProcess.processName;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 判断是否是主进程， 这里在androidManifest里设置进程名都带:xxxx
+	 * application 获得进程是  packageName
+	 */
+	public static boolean isMainProcess(Context mContext) {
+		String packageName = mContext.getPackageName();
+		// String className = mContext.getClass().getSimpleName();
+		String corrProcess = getCurrentProcessName(mContext);
+		if (corrProcess == null) {//iuni上会出现这个问题。
+			return false;
+		}
+		if (corrProcess.equals(packageName)) {
+			return true;
+		}
+		return false;
+	}
 
 }

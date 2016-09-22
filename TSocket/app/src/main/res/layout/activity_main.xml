@@ -1,14 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:HeaderLayout="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
   <tsocket.zby.com.tsocket.view.HeaderLayout
       android:id="@+id/layout_header"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      HeaderLayout:textTitle=""/>
+      android:background="#FFFFFF"
+      app:textTitle=""/>
 
 
-</RelativeLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:weightSum="2"
+      android:background="#123456"
+      android:orientation="horizontal">
+
+    <!--<tsocket.zby.com.tsocket.view.DelayMinuteView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:check="false"
+        app:text="10" />-->
+
+    <tsocket.zby.com.tsocket.view.DelayMinuteView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:check="false"
+        app:text="20" />
+
+   <!-- <tsocket.zby.com.tsocket.view.DelayMinuteView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        app:check="false"
+        app:text="30" />-->
+
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+
+
+    <tsocket.zby.com.tsocket.view.DelayMinuteView
+        android:id="@+id/tv_minute_10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:check="false"
+        app:text="10" />
+
+    <tsocket.zby.com.tsocket.view.DelayMinuteView
+        android:id="@+id/tv_minute_20"
+        android:layout_width="0dp"
+        android:background="#FFFFFF"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:check="false"
+        app:text="20" />
+
+    <tsocket.zby.com.tsocket.view.DelayMinuteView
+        android:id="@+id/tv_minute_30"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:check="false"
+        app:text="30" />
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+    <tsocket.zby.com.tsocket.view.DelayMinuteView
+        android:id="@+id/tv_minute_40"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:check="false"
+        app:text="40" />
+
+    <tsocket.zby.com.tsocket.view.DelayMinuteView
+        android:id="@+id/tv_minute_50"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:check="false"
+        app:text="50" />
+
+    <tsocket.zby.com.tsocket.view.DelayMinuteView
+        android:id="@+id/tv_minute_60"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:check="false"
+        app:text="60" />
+
+    </LinearLayout>
+
+
+  <include layout="@layout/view_line"></include>
+
+</LinearLayout>
+
+</LinearLayout>

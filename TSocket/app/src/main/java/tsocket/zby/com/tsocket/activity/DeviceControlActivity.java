@@ -2,18 +2,14 @@ package tsocket.zby.com.tsocket.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckedTextView;
+import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
-import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
-import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 import java.util.List;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.adapter.TimerAdapter;
@@ -23,37 +19,47 @@ import tsocket.zby.com.tsocket.connection.agreement.CmdPackage;
 import tsocket.zby.com.tsocket.connection.ble.BleManager;
 import tsocket.zby.com.tsocket.view.HeaderLayout;
 
-public class DeviceControlActivity extends BaseActivity
-    implements SwipeRefreshLayout.OnRefreshListener, BGARefreshLayout.BGARefreshLayoutDelegate {
+public class DeviceControlActivity extends BaseActivity {
 
-  @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
-  @BindView(R.id.swiperLayout) BGARefreshLayout mSwiperLayout;
   @BindView(R.id.headerLayout) HeaderLayout headerLayout;
   @BindView(R.id.tv_delay) TextView tvDelay;
   @BindView(R.id.tv_timer) TextView tvTimer;
   @BindView(R.id.ctv_switch) CheckedTextView ctvSwitch;
+  @BindView(R.id.listView) ListView mListView;
   private TimerAdapter mTimerAdapter;
   private List<TimerBean> list;
   private DeviceBean mDeviceBean;
-  private BleManager mBleManager;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_device_control);
     ButterKnife.bind(this);
+    initViews();
+  }
 
+  private void initViews() {
     mDeviceBean = mApp.getDeviceBean();
-
-    BGARefreshViewHolder RefreshViewHolder = new BGANormalRefreshViewHolder(this, true);
-    mSwiperLayout.setRefreshViewHolder(RefreshViewHolder);
-    mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     list = mDeviceBean.getTimerBeanList();
-
-    mTimerAdapter = new TimerAdapter(mRecyclerView);
-    mTimerAdapter.setDatas(list);
-    mRecyclerView.setAdapter(mTimerAdapter);
-    mSwiperLayout.setDelegate(this);
+    mTimerAdapter = new TimerAdapter(this, list);
+    mListView.setAdapter(mTimerAdapter);
     headerLayout.setTextTitle(mDeviceBean.getName());
+    mTimerAdapter.setListener(new TimerAdapter.OnTimerSwitchClickListener() {
+      @Override public void onTimerSwitchClick(TimerBean timerBean) {
+        mDeviceBean.write(CmdPackage.setTimer(timerBean));
+      }
+    });
+    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent intent = new Intent(DeviceControlActivity.this, TimerActivity.class);
+        intent.putExtra("timer", list.get(i));
+        startActivity(intent);
+      }
+    });
+    mListView.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override public boolean onLongClick(View view) {
+        return false;
+      }
+    });
   }
 
   @OnClick(R.id.layout_title_left) public void onBack() {
@@ -63,18 +69,6 @@ public class DeviceControlActivity extends BaseActivity
   @OnClick(R.id.layout_title_right) public void onSetting() {
     Intent intent = new Intent(this, SettingActivity.class);
     startActivity(intent);
-  }
-
-  @Override public void onRefresh() {
-
-  }
-
-  @Override public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-    mSwiperLayout.beginRefreshing();
-  }
-
-  @Override public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
-    return false;
   }
 
   @Override protected void onLanguageChange() {
@@ -99,8 +93,5 @@ public class DeviceControlActivity extends BaseActivity
         startActivity(intent);
         break;
     }
-  }
-
-  @OnClick(R.id.ctv_switch) public void onClick() {
   }
 }

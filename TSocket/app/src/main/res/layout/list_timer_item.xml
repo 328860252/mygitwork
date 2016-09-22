@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:background="@drawable/layout_selector"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:text="00:11:22 - 11:22:33"
+        style="@style/text_normal" />
+
+    <TextView
+        android:id="@+id/tv_recycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="循环:05:00 - 05:00"
+        style="@style/text_small"
+        android:layout_below="@+id/tv_timer"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/tv_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="周期: 一 二 三"
+        style="@style/text_small"
+        android:layout_below="@+id/tv_recycle"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/iv_timer_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:focusable="false"
+        android:background="@drawable/cb_select"/>
+
+</RelativeLayout>

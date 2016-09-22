@@ -42,7 +42,7 @@ public class LanguageAdapter extends BaseAdapter {
 
   @Override public View getView(int i, View view, ViewGroup viewGroup) {
     if (view == null) {
-      view = LayoutInflater.from(mContext).inflate(R.layout.language_item, null);
+      view = LayoutInflater.from(mContext).inflate(R.layout.list_language_item, null);
       mViewHolder = new ViewHolder(view);
       view.setTag(mViewHolder);
     } else {

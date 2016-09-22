@@ -19,6 +19,7 @@ import tsocket.zby.com.tsocket.connection.ble.BleImpl;
 import tsocket.zby.com.tsocket.connection.ble.BluetoothLeService;
 import tsocket.zby.com.tsocket.connection.ble.BluetoothLeServiceMulp;
 import tsocket.zby.com.tsocket.utils.LogUtils;
+import tsocket.zby.com.tsocket.utils.Tools;
 
 /**
  * Created by zhuj on 2016/9/19 17:10.
@@ -34,10 +35,12 @@ public class AppApplication extends Application {
   @Override public void onCreate() {
     super.onCreate();
     Fabric.with(this, new Crashlytics());
-    bindService();
-    IntentFilter interFilter = new IntentFilter(BluetoothLeServiceMulp.ACTION_BLUETOOTH_FOUND);
-    registerReceiver(receiver, interFilter);
-    registerReceiver(mGattUpdateReceiver ,makeGattUpdateIntentFilter());
+    if (Tools.isMainProcess(this)) {
+      bindService();
+      IntentFilter interFilter = new IntentFilter(BluetoothLeServiceMulp.ACTION_BLUETOOTH_FOUND);
+      registerReceiver(receiver, interFilter);
+      registerReceiver(mGattUpdateReceiver ,makeGattUpdateIntentFilter());
+    }
   }
 
   public DeviceBean getDeviceBean() {
@@ -63,10 +66,14 @@ public class AppApplication extends Application {
         // TODO Auto-generated method stub
         mBluetoothLeService = ((BluetoothLeServiceMulp.LocalBinder) service).getService();
         if (!mBluetoothLeService.initialize()) {
+          //蓝牙无法初始化
+        }
+        if (mInterface == null) {
+          mInterface = new BleImpl(mBluetoothLeService);
         }
       }
     };
-    Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+    Intent gattServiceIntent = new Intent(this, BluetoothLeServiceMulp.class);
     bindService(gattServiceIntent, serviceConnection, BIND_AUTO_CREATE);
   }
 
@@ -112,32 +119,29 @@ public class AppApplication extends Application {
         String mac =intent.getStringExtra("mac");
         String name =intent.getStringExtra("name");
         int rssi =intent.getIntExtra("rssi", 100);
-        autoLink(mac, name, rssi);
+        //autoLink(mac, name, rssi);
       }
     };
   };
 
-  private void autoLink(String mac, String name, int rssi) {
-    DeviceBean bean;
-    synchronized (list) {
-      for(int i=0; i<list.size(); i++) {
-        bean = list.get(i);
-        LogUtils.d("app", "bean.mac: " + bean.getMac() + "  " + mac + "  " + bean.getMac().equals(mac) + "  "+ bean.isLink());
-        if(bean.getMac().equals(mac)) {
-          if (mInterface == null) {
-            mInterface = new BleImpl(mBluetoothLeService);
-          }
-          if(bean.getConnect()==null) {
-            bean.setConnectionInterface(mInterface, this);
-          }
-          if(!bean.isLink()) { //没连上，就要连上
-            bean.connect();
-          }
-          return ;
-        }
-      }
-    }
-  }
+  //private void autoLink(String mac, String name, int rssi) {
+  //  DeviceBean bean;
+  //  synchronized (list) {
+  //    for(int i=0; i<list.size(); i++) {
+  //      bean = list.get(i);
+  //      LogUtils.d("app", "bean.mac: " + bean.getMac() + "  " + mac + "  " + bean.getMac().equals(mac) + "  "+ bean.isLink());
+  //      if(bean.getMac().equals(mac)) {
+  //        if(bean.getConnect()==null) {
+  //          bean.setConnectionInterface(mInterface, this);
+  //        }
+  //        if(!bean.isLink()) { //没连上，就要连上
+  //          bean.connect();
+  //        }
+  //        return ;
+  //      }
+  //    }
+  //  }
+  //}
 
   private static IntentFilter makeGattUpdateIntentFilter() {
     final IntentFilter intentFilter = new IntentFilter();

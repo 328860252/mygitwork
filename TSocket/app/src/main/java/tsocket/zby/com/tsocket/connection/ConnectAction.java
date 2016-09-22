@@ -37,5 +37,9 @@ public class ConnectAction {
 	 */
 	public final static String ACTION_GATT_SERVICES_DISCOVERED = "com.example.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
 
+	public final static String ACTION_DEVICE_SCAN_START = "com.example.bluetooth.scan_start";
+
+	public final static String ACTION_DEVICE_SCAN_FINISH = "com.example.bluetooth.scan_finish";
+
 	public static final String ACTION_SHOW_TOAST = "com.interphone.nolink";
 }

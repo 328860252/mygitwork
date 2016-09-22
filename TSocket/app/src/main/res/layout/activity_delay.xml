@@ -81,49 +81,53 @@
         android:button="@null" />
 
 
-    <GridLayout
-        android:id="@+id/layout_grid"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:columnCount="3"
-        android:rowCount="2">
+        android:padding="@dimen/view_margin"
+        android:orientation="horizontal">
+
 
       <tsocket.zby.com.tsocket.view.DelayMinuteView
           android:id="@+id/tv_minute_10"
-          android:layout_width="match_parent"
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:layout_columnWeight="1"
-          android:layout_rowWeight="1"
+          android:layout_weight="1"
           android:gravity="center"
           app:check="false"
           app:text="10" />
 
       <tsocket.zby.com.tsocket.view.DelayMinuteView
           android:id="@+id/tv_minute_20"
-          android:layout_width="match_parent"
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:layout_columnWeight="1"
-          android:layout_rowWeight="1"
+          android:layout_weight="1"
           android:gravity="center"
           app:check="false"
           app:text="20" />
 
       <tsocket.zby.com.tsocket.view.DelayMinuteView
           android:id="@+id/tv_minute_30"
-          android:layout_width="match_parent"
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:layout_columnWeight="1"
-          android:layout_rowWeight="1"
+          android:layout_weight="1"
           android:gravity="center"
           app:check="false"
           app:text="30" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/view_margin"
+        android:orientation="horizontal">
 
       <tsocket.zby.com.tsocket.view.DelayMinuteView
           android:id="@+id/tv_minute_40"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_columnWeight="1"
+          android:layout_weight="1"
           android:gravity="center"
           app:check="false"
           app:text="40" />
@@ -132,7 +136,7 @@
           android:id="@+id/tv_minute_50"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_columnWeight="1"
+          android:layout_weight="1"
           android:gravity="center"
           app:check="false"
           app:text="50" />
@@ -141,12 +145,12 @@
           android:id="@+id/tv_minute_60"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_columnWeight="1"
+          android:layout_weight="1"
           android:gravity="center"
           app:check="false"
           app:text="60" />
 
-    </GridLayout>
+    </LinearLayout>
 
   </LinearLayout>
 
