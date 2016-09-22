@@ -74,7 +74,7 @@
             android:drawablePadding="4dp"
             android:drawableTop="@drawable/btn_timer"
             android:gravity="center"
-            android:text="@string/text_delay"
+            android:text="@string/text_timer"
             style="@style/text_normal" />
       </LinearLayout>
     </LinearLayout>

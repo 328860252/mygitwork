@@ -38,19 +38,19 @@ public class DeviceListActivity extends BaseActivity
     setContentView(R.layout.activity_device_list);
     ButterKnife.bind(this);
 
-    mDeviceBean = mApp.getDeviceBean();
-
     BGARefreshViewHolder RefreshViewHolder = new BGANormalRefreshViewHolder(this, true);
     mSwiperLayout.setRefreshViewHolder(RefreshViewHolder);
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     list = mApp.getList();
 
-    //if (AppConstants.isDemo) {
-    //  BluetoothBean deviceBean = new BluetoothBean();
-    //  deviceBean.setName("test1");
-    //  deviceBean.setMac("test1");
-    //  list.add(deviceBean);
-    //}
+    if (AppConstants.isDemo) {
+      DeviceBean deviceBean = new DeviceBean();
+      deviceBean.setName("test1");
+      deviceBean.setMac("test1");
+      list.add(deviceBean);
+    }
+    String str = getString(R.string.text_adapter_timer);
+    String str2 = String.format(str, "23123", "23123'");
 
     mDeviceAdapter = new DeviceAdapter(mRecyclerView);
     mDeviceAdapter.setDatas(list);
@@ -62,6 +62,8 @@ public class DeviceListActivity extends BaseActivity
         //        mDeviceBean.setName(list.get(i).getName());
         //        mDeviceBean.getConnect().connect(list.get(i).getMac(), "");
         //mDeviceBean.isLink();
+        mApp.setDevcieBean(list.get(position));
+        mDeviceBean = mApp.getDeviceBean();
         if (!mDeviceBean.isLink()) {
           mDeviceBean.connect();
         } else {
@@ -85,10 +87,10 @@ public class DeviceListActivity extends BaseActivity
 
   @Override public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
     //mSwiperLayout.endRefreshing();
-    if (mBleManager == null) {
-      mBleManager = new BleManager(this);
-    }
-    mBleManager.startScan();
+    //if (mBleManager == null) {
+    //  mBleManager = new BleManager(this);
+    //}
+    //mBleManager.startScan();
   }
 
   @Override public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {

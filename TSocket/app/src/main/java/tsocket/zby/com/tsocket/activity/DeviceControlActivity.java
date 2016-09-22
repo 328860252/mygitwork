@@ -29,6 +29,7 @@ public class DeviceControlActivity extends BaseActivity {
   private TimerAdapter mTimerAdapter;
   private List<TimerBean> list;
   private DeviceBean mDeviceBean;
+  private final int activity_timer = 11;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -45,7 +46,9 @@ public class DeviceControlActivity extends BaseActivity {
     headerLayout.setTextTitle(mDeviceBean.getName());
     mTimerAdapter.setListener(new TimerAdapter.OnTimerSwitchClickListener() {
       @Override public void onTimerSwitchClick(TimerBean timerBean) {
+        timerBean.setTimerSwitch(!timerBean.isTimerSwitch());
         mDeviceBean.write(CmdPackage.setTimer(timerBean));
+        mTimerAdapter.notifyDataSetChanged();
       }
     });
     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -60,6 +63,17 @@ public class DeviceControlActivity extends BaseActivity {
         return false;
       }
     });
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    switch (requestCode) {
+      case activity_timer:
+        if (resultCode == RESULT_OK) {
+          mTimerAdapter.notifyDataSetChanged();
+        }
+        break;
+    }
   }
 
   @OnClick(R.id.layout_title_left) public void onBack() {
@@ -86,11 +100,12 @@ public class DeviceControlActivity extends BaseActivity {
         startActivity(intent);
         break;
       case R.id.ctv_switch:
-        mDeviceBean.write(CmdPackage.setSwitch(!ctvSwitch.isChecked()));
+        ctvSwitch.setChecked(!ctvSwitch.isChecked());
+        mDeviceBean.write(CmdPackage.setSwitch(ctvSwitch.isChecked()));
         break;
       case R.id.tv_timer:
         intent = new Intent(this, TimerActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, activity_timer);
         break;
     }
   }

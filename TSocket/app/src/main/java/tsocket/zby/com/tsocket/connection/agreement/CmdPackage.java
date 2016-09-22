@@ -21,7 +21,7 @@ public class CmdPackage {
     private final static int TYPE_SWITCH_OFF = 0x5A;
 
     public static byte[] setSwitch(boolean onOff) {
-        byte[] buff = new byte[4];
+        byte[] buff = new byte[3];
         buff[0] = (byte) TYPE_SWITCH;
         buff[1] = (byte) (onOff ? TYPE_SWITCH_ON : TYPE_SWITCH_OFF);
         return buff;
@@ -74,9 +74,12 @@ public class CmdPackage {
     ;
 
     public static byte[] setTimerDelay(boolean onOff, int hour, int minute, int second) {
-        byte[] buff = new byte[4];
-        buff[0] = (byte) TYPE_TIMER_GET;
+        byte[] buff = new byte[5];
+        buff[0] = (byte) TYPE_TIMER_DELAY;
         buff[1] = (byte) (onOff ? 0x01 : 0x00);
+        buff[2] = (byte) (hour);
+        buff[3] = (byte) (minute);
+        buff[4] = (byte) (second);
         return buff;
     }
 

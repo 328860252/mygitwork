@@ -16,7 +16,8 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="vertical"
-      android:padding="@dimen/activity_horizontal_margin">
+      android:paddingRight="@dimen/activity_horizontal_margin"
+      android:paddingLeft="@dimen/activity_horizontal_margin">
 
 
     <LinearLayout
@@ -28,6 +29,8 @@
           android:id="@+id/layout_startTimer"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:paddingTop="@dimen/view_margin"
+          android:paddingBottom="@dimen/view_margin"
           android:background="@drawable/layout_selector">
 
         <TextView
@@ -95,10 +98,17 @@
           android:gravity="center_vertical"
           android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_delay_start"
+            android:ellipsize="end"
             style="@style/text_normal" />
 
         <TextView
@@ -107,6 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@color/weekday_selectcolor"
+            android:layout_marginLeft="@dimen/view_margin"
             android:paddingLeft="@dimen/view_margin"
             android:paddingRight="@dimen/view_margin"
             android:paddingTop="@dimen/layout_paddingTop"
@@ -114,11 +125,19 @@
             android:textColor="@color/white"
             style="@style/text_normal" />
 
+          </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_delay_end"
+            android:ellipsize="end"
             style="@style/text_normal" />
 
         <TextView
@@ -127,6 +146,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@color/weekday_selectcolor"
+            android:layout_marginLeft="@dimen/view_margin"
             android:paddingLeft="@dimen/view_margin"
             android:paddingRight="@dimen/view_margin"
             android:paddingTop="@dimen/layout_paddingTop"
@@ -134,11 +154,15 @@
             android:textColor="@color/white"
             style="@style/text_normal" />
 
+
+        </LinearLayout>
+
         <CheckBox
             android:id="@+id/cb_delay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/cb_select"
+            android:layout_gravity="right"
             android:button="@null" />
 
       </LinearLayout>

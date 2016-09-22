@@ -19,4 +19,5 @@
 
   <color name="round_button_normbg_color">#ffff8822</color>
   <color name="round_button_press_color">#ff994411</color>
+  <color name="text_balck">#222222</color>
 </resources>

@@ -72,8 +72,6 @@ public class BluetoothLeServiceMulp extends Service {
 	private byte[] lastBuffer;
 
 
-	private final static String filterString = "02 01 06 03 02 F0 FF 05 FF 1C C1 B1 1B";
-
 	/**
 	 * ���������豸�㲥   name  device  asrc
 	 */
@@ -94,16 +92,15 @@ public class BluetoothLeServiceMulp extends Service {
 	public static final UUID SEND_SERVIE_UUID = UUID
 			.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
 	public static final UUID SEND_CHARACTERISTIC_UUID = UUID
-			.fromString("0000fff2-0000-1000-8000-00805f9b34fb");
+			.fromString("000051b0-0000-1000-8000-00805f9b34fb");
 
 	public static final UUID RECEIVER_SERVICE = UUID
 			.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
 	public static final UUID RECEIVER_CHARACTERISTIC = UUID
-			.fromString("0000fff3-0000-1000-8000-00805f9b34fb");
+			.fromString("000051b1-0000-1000-8000-00805f9b34fb");
 
 	public static String CLIENT_CHARACTERISTIC_CONFIG = "00002902-0000-1000-8000-00805f9b34fb";
-	public final static UUID UUID_HEART_RATE_MEASUREMENT = UUID
-			.fromString(CLIENT_CHARACTERISTIC_CONFIG);
+	public final static UUID UUID_HEART_RATE_MEASUREMENT = UUID.fromString(CLIENT_CHARACTERISTIC_CONFIG);
 
 
 	// Implements callback methods for GATT events that the app cares about. For

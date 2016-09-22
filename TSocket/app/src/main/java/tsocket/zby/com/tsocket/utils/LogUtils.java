@@ -61,9 +61,9 @@ public class LogUtils {
             @Override
             public void run() {
                 try {
-                    Log.e(tag, tag + "写入文件" + msg);
                     if(fos != null)
                     {
+                        Log.e(tag, tag + "写入文件" + msg);
                         File tmpFile = new File(mFileName);
                         if (!tmpFile.exists()) {
                             closeLogFile();

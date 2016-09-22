@@ -31,6 +31,7 @@ public class TimerBean implements Serializable, Cloneable{
 
     private int weekValue;
     private boolean isRecycle;
+    private boolean timerSwitch;
 
     public static TimerBean getNewTimerBean() {
         Calendar calendar = Calendar.getInstance();

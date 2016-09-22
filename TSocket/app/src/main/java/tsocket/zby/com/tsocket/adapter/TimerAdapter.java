@@ -46,10 +46,14 @@ public class TimerAdapter extends BaseAdapter {
       mHolder = (ViewHolder) view.getTag();
     }
     final TimerBean timerBean = mList.get(i);
-    mHolder.mTvTimer.setText(mContext.getString(R.string.text_adapter_timer, timerBean.getStartString(), timerBean.getEndString()));
-    mHolder.mTvRecycle.setText(mContext.getString(R.string.text_adapter_recyclestr, timerBean.getOpenString(), timerBean.getCloseString()));
-    mHolder.mTvWeek.setText(mContext.getString(R.string.text_adapter_week, timerBean.getWeekString(mContext)));
-    mHolder.mIvTimerSwitch.setSelected(timerBean.isRecycle());
+    mHolder.mTvTimer.setText(String.format(mContext.getString(R.string.text_adapter_timer), timerBean.getStartString(), timerBean.getEndString()));
+    if (timerBean.isRecycle()) {
+      mHolder.mTvRecycle.setText(String.format(mContext.getString(R.string.text_adapter_recyclestr), timerBean.getOpenString(), timerBean.getCloseString()));
+    } else {
+      mHolder.mTvRecycle.setText("");
+    }
+    mHolder.mTvWeek.setText(String.format(mContext.getString(R.string.text_adapter_week), timerBean.getWeekString(mContext)));
+    mHolder.mIvTimerSwitch.setSelected(timerBean.isTimerSwitch());
     mHolder.mIvTimerSwitch.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         if (mListener != null) {

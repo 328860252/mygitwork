@@ -61,6 +61,7 @@ public class DelayActivity extends BaseActivity {
     });
     mSearchBar.setProgress(mDeviceBean.getDelayNumber());
     mCbDelay.setChecked(mDeviceBean.isDelaySwitch());
+    mTvDelayTime.setText(String.format(getString(R.string.text_delay_minute), mSearchBar.getProgress()));
   }
 
   @OnClick(R.id.layout_title_right) public void onSave() {

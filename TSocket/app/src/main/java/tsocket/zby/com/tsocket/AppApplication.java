@@ -44,10 +44,11 @@ public class AppApplication extends Application {
   }
 
   public DeviceBean getDeviceBean() {
-    if (mDeviceBean == null) {
-      mDeviceBean = new DeviceBean();
-    }
     return mDeviceBean;
+  }
+
+  public void setDevcieBean(DeviceBean devcieBean) {
+    this.mDeviceBean = devcieBean;
   }
 
   @Override public void onTerminate() {

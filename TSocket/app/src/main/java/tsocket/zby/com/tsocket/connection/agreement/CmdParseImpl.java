@@ -15,6 +15,9 @@ import tsocket.zby.com.tsocket.utils.RxBus;
 public class CmdParseImpl implements ICmdParseInterface {
 
   private final static String TAG = CmdParseImpl.class.getSimpleName();
+  public static final int type_status = 0xB1;
+  public static final int type_timer = 0xB2;
+  public static final int type_receiver = 0xB3;
 
   private DeviceBean mDeviceBean;
   private Context mContext;

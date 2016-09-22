@@ -8,11 +8,13 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import tsocket.zby.com.tsocket.AppConstants;
 import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
 import tsocket.zby.com.tsocket.bean.TimerBean;
 import tsocket.zby.com.tsocket.connection.agreement.CmdPackage;
+import tsocket.zby.com.tsocket.connection.agreement.CmdParseImpl;
 import tsocket.zby.com.tsocket.view.WeekView;
 
 public class TimerActivity extends BaseActivity {
@@ -48,8 +50,9 @@ public class TimerActivity extends BaseActivity {
         e.printStackTrace();
       }
     }
-    if (mTimerBean != null) { //新增
+    if (mTimerBean == null) { //新增
       mTimerBean = TimerBean.getNewTimerBean();
+      mTimerBean.setId(mDeviceBean.getNewTimerId());
     }
     mTvTimerStart.setText(mTimerBean.getStartString());
     mTvTimerEnd.setText(mTimerBean.getEndString());
@@ -58,11 +61,7 @@ public class TimerActivity extends BaseActivity {
 
     mCbDelay.setChecked(mTimerBean.isRecycle());
     mWeekViewValue.setWeekValue(mTimerBean.getWeekValue());
-  }
-
-  @OnClick(R.id.btn_confirm) public void onSave() {
-    mTimerBean.setWeekValue(mWeekViewValue.getWeekValue());
-    mDeviceBean.write(CmdPackage.setTimer(mTimerBean));
+    mDeviceBean.write(CmdPackage.getTimer());
   }
 
   @OnClick(R.id.layout_title_left) public void onBack() {
@@ -86,7 +85,7 @@ public class TimerActivity extends BaseActivity {
   }
 
   @OnClick({
-      R.id.layout_startTimer, R.id.layout_endTimer, R.id.tv_delay_start, R.id.tv_delay_end
+      R.id.layout_startTimer, R.id.layout_endTimer, R.id.tv_delay_start, R.id.tv_delay_end, R.id.btn_confirm
   }) public void onClick(View view) {
     Intent intent;
     switch (view.getId()) {
@@ -125,6 +124,22 @@ public class TimerActivity extends BaseActivity {
         startActivityForResult(intent, activity_closeTimer);
         break;
       case R.id.btn_confirm:
+        if (mWeekViewValue.getWeekValue()==0) {
+          showToast(R.string.toast_timer_week_notnull);
+          return;
+        }
+        if (mTvTimerStart.getText().toString().compareTo(mTvTimerEnd.getText().toString()) <= 0) {
+          showToast(R.string.toast_timer_timerErr);
+          return;
+        }
+        mTimerBean.setRecycle(mCbDelay.isChecked());
+        mTimerBean.setWeekValue(mWeekViewValue.getWeekValue());
+        mDeviceBean.write(CmdPackage.setTimer(mTimerBean));
+        if (AppConstants.isDemo) {
+          mDeviceBean.updateTimerBeanList(mTimerBean);
+        }
+        setResult(RESULT_OK);
+        finish();
         break;
     }
   }
@@ -140,25 +155,30 @@ public class TimerActivity extends BaseActivity {
         mTimerBean.setStartHour(hour);
         mTimerBean.setStartMinute(minute);
         mTimerBean.setStartSecond(second);
-        mTvTimerStart.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+        mTvTimerStart.setText(mTimerBean.getStartString());
         break;
       case activity_endTimer:
         mTimerBean.setEndHour(hour);
         mTimerBean.setEndMinute(minute);
         mTimerBean.setEndSecond(second);
-        mTvTimerEnd.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+        mTvTimerEnd.setText(mTimerBean.getEndString());
         break;
       case activity_openTimer:
         //mTimerBean.setOpenHour(hour);
-        mTimerBean.setOpenMinute(minute);
+        int delayTime = minute * 60 + second;
+        if (delayTime < AppConstants.DELAY_TIME_MIN) {
+          showToast(R.string.toast_delay_min_error);
+          return ;
+        }
+            mTimerBean.setOpenMinute(minute);
         mTimerBean.setOpenSecond(second);
-        mTvDelayStart.setText(String.format("%02d:%02d", minute, second));
+        mTvDelayStart.setText(mTimerBean.getOpenString());
         break;
       case activity_closeTimer:
         //mTimerBean.setCloseHour(hour);
         mTimerBean.setCloseMinute(minute);
         mTimerBean.setCloseSecond(second);
-        mTvDelayEnd.setText(String.format("%02d:%02d", minute, second));
+        mTvDelayEnd.setText(mTimerBean.getCloseHour());
         break;
     }
   }

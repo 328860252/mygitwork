@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/activity_horizontal_margin"
-    android:background="@drawable/layout_selector"
     android:orientation="vertical">
 
     <TextView
@@ -13,7 +12,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         tools:text="00:11:22 - 11:22:33"
-        style="@style/text_normal" />
+        android:textColor="@color/text_balck"
+        style="@style/text_big" />
 
     <TextView
         android:id="@+id/tv_recycle"
