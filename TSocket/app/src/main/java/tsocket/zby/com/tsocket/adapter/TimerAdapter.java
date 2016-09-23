@@ -1,85 +1,94 @@
 package tsocket.zby.com.tsocket.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;
 import java.util.List;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.bean.TimerBean;
 
-public class TimerAdapter extends BaseAdapter {
+public class TimerAdapter extends SwipeMenuAdapter<TimerAdapter.TimerViewHolder> {
 
   private Context mContext;
   private List<TimerBean> mList;
-  private ViewHolder mHolder;
   private OnTimerSwitchClickListener mListener;
+
+  private OnItemClickListener mOnItemClickListener;
 
   public TimerAdapter(Context context, List<TimerBean> list) {
     this.mContext = context;
     this.mList = list;
   }
 
-  @Override public int getCount() {
-    return mList.size();
+  @Override public View onCreateContentView(ViewGroup parent, int viewType) {
+    return LayoutInflater.from(parent.getContext()).inflate(R.layout.list_timer_item, parent, false);
   }
 
-  @Override public Object getItem(int i) {
-    return mList.get(i);
+  @Override
+  public TimerAdapter.TimerViewHolder onCompatCreateViewHolder(View realContentView, int viewType) {
+    return new TimerViewHolder(realContentView);
   }
 
-  @Override public long getItemId(int i) {
-    return 0;
-  }
-
-  @Override public View getView(int i, View view, ViewGroup viewGroup) {
-    if (view == null) {
-      view = LayoutInflater.from(mContext).inflate(R.layout.list_timer_item, null);
-      mHolder = new ViewHolder(view);
-      view.setTag(mHolder);
-    } else {
-      mHolder = (ViewHolder) view.getTag();
-    }
-    final TimerBean timerBean = mList.get(i);
-    mHolder.mTvTimer.setText(String.format(mContext.getString(R.string.text_adapter_timer), timerBean.getStartString(), timerBean.getEndString()));
+  @Override public void onBindViewHolder(TimerViewHolder holder, int position) {
+    final TimerBean timerBean = mList.get(position);
+    holder.mTvTimer.setText(String.format(mContext.getString(R.string.text_adapter_timer), timerBean.getStartString(), timerBean.getEndString()));
     if (timerBean.isRecycle()) {
-      mHolder.mTvRecycle.setText(String.format(mContext.getString(R.string.text_adapter_recyclestr), timerBean.getOpenString(), timerBean.getCloseString()));
+      holder.mTvRecycle.setText(String.format(mContext.getString(R.string.text_adapter_recyclestr), timerBean.getOpenString(), timerBean.getCloseString()));
     } else {
-      mHolder.mTvRecycle.setText("");
+      holder.mTvRecycle.setText("");
     }
-    mHolder.mTvWeek.setText(String.format(mContext.getString(R.string.text_adapter_week), timerBean.getWeekString(mContext)));
-    mHolder.mIvTimerSwitch.setSelected(timerBean.isTimerSwitch());
-    mHolder.mIvTimerSwitch.setOnClickListener(new View.OnClickListener() {
+    holder.mTvWeek.setText(String.format(mContext.getString(R.string.text_adapter_week), timerBean.getWeekString(mContext)));
+    holder.mIvTimerSwitch.setSelected(timerBean.isEnable());
+    holder.mIvTimerSwitch.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         if (mListener != null) {
           mListener.onTimerSwitchClick(timerBean);
         }
       }
     });
-    return view;
+    holder.setOnItemClickListener(mOnItemClickListener);
   }
 
-  static class ViewHolder {
+  @Override public int getItemCount() {
+    return mList.size();
+  }
+
+  static class TimerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     @BindView(R.id.tv_timer) TextView mTvTimer;
     @BindView(R.id.tv_recycle) TextView mTvRecycle;
     @BindView(R.id.tv_week) TextView mTvWeek;
     @BindView(R.id.iv_timer_switch) ImageView mIvTimerSwitch;
+    OnItemClickListener mClickListener;
 
-    ViewHolder(View view) {
+    TimerViewHolder(View view) {
+      super(view);
+      itemView.setOnClickListener(this);
       ButterKnife.bind(this, view);
+    }
+
+    @Override public void onClick(View view) {
+      if (mClickListener != null) {
+        mClickListener.onClickItem(view , getAdapterPosition());
+      }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+      this.mClickListener = onItemClickListener;
     }
   }
 
-  public void setListener(OnTimerSwitchClickListener listener) {
+  public void setTimerSwitchListener(OnTimerSwitchClickListener listener) {
     mListener = listener;
   }
 
-  public interface OnTimerSwitchClickListener {
-    void onTimerSwitchClick(TimerBean timerBean);
+  public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    mOnItemClickListener = onItemClickListener;
   }
 }

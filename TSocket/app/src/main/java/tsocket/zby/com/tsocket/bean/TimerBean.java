@@ -30,8 +30,9 @@ public class TimerBean implements Serializable, Cloneable{
     private int closeSecond;
 
     private int weekValue;
-    private boolean isRecycle;
-    private boolean timerSwitch;
+    private boolean isRecycle;  //循环
+    private boolean isEnable; //有效
+    private boolean isDelete; //是否删除
 
     public static TimerBean getNewTimerBean() {
         Calendar calendar = Calendar.getInstance();
@@ -86,5 +87,15 @@ public class TimerBean implements Serializable, Cloneable{
 
     @Override public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public int getStatus() {
+        int status = 0;
+        if (isDelete()) status += 1 ; //删除
+        if (isEnable()) status += 1 << 1; //有效位，1
+        status += 1 << 2; //循环开关位，暂时固定为1
+        //if (isDelete()) status += 1 ^4; //倒计时定时1  普通0
+        if (isRecycle()) status += 1 <<4;  //循环开关
+        return status;
     }
 }

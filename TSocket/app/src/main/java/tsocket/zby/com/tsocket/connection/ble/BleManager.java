@@ -6,8 +6,12 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
+import java.util.HashSet;
+import java.util.Set;
 import tsocket.zby.com.tsocket.AppConstants;
 import tsocket.zby.com.tsocket.connection.ConnectAction;
+import tsocket.zby.com.tsocket.utils.LogUtils;
+import tsocket.zby.com.tsocket.utils.RxBus;
 
 /**
  * Created by Administrator on 2016/9/22.
@@ -17,30 +21,56 @@ public class BleManager {
 
   private BluetoothAdapter mBluetoothAdapter;
   private BluetoothManager mBluetoothManager;
+  private Context mContext;
+  private static volatile BleManager mBleManager;
   Thread scanThread;
 
-  private Context mContext;
+  Set<String> mMacSet = new HashSet<>();
 
-  public BleManager(Context context) {
+  private BleManager() {}
+
+  private BleManager(Context context) {
     mContext = context;
   }
 
-  public void startScan() {
-    if (scanThread == null) {
-      scanThread = new Thread(scanRunable);
-    }
-    if (mBluetoothManager == null) {
-      mBluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
-      if (mBluetoothManager == null) {
-        return;
+  public static BleManager getInstance(Context context) {
+    if (mBleManager == null) {
+      synchronized (BleManager.class) {
+        if (mBleManager==null) {
+          mBleManager = new BleManager(context);
+        }
       }
     }
+    return mBleManager;
+  }
 
-    mBluetoothAdapter = mBluetoothManager.getAdapter();
-    if (mBluetoothAdapter == null) {
-      return;
+  public void startScan(boolean isStartScan) {
+    if (isStartScan) { //开始搜索
+      if (scanThread == null) {
+        scanThread = new Thread(scanRunable);
+      }
+      if (mBluetoothManager == null) {
+        mBluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
+        if (mBluetoothManager == null) {
+          return;
+        }
+      }
+
+      if (mBluetoothAdapter == null) {
+        mBluetoothAdapter = mBluetoothManager.getAdapter();
+        if (mBluetoothAdapter == null) return;
+        return;
+      }
+      if (!scanThread.isAlive()) {
+        mMacSet.clear();
+        scanThread.start();
+      }
+    } else { //关闭搜索线程
+      if (scanThread!=null) {
+        scanThread.interrupt();
+        scanThread=null;
+      }
     }
-    scanThread.start();
   }
 
   Runnable scanRunable = new Runnable() {
@@ -62,6 +92,7 @@ public class BleManager {
         if (mBluetoothAdapter != null) {
           mBluetoothAdapter.stopLeScan(scanCallBack);
         }
+        RxBus.getDefault().post(ConnectAction.ACTION_DEVICE_SCAN_FINISH);
       }
     }
   };
@@ -70,7 +101,11 @@ public class BleManager {
 
     @Override public void onLeScan(BluetoothDevice arg0, int arg1, byte[] arg2) {
       // TODO Auto-generated method stub
-      foundDevice(arg0, arg1);
+      if (!mMacSet.contains(arg0.getAddress())) {//避免一次搜索， 同一个设备多次回调
+        LogUtils.d("bleManager", "found device :" + arg0.getAddress() + "  " +arg0.getName() );
+        mMacSet.add(arg0.getAddress());
+        foundDevice(arg0, arg1);
+      }
     }
   };
 

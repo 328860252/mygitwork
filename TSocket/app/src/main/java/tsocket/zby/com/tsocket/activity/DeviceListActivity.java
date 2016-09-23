@@ -21,6 +21,7 @@ import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.adapter.DeviceAdapter;
 import tsocket.zby.com.tsocket.bean.BluetoothBean;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
+import tsocket.zby.com.tsocket.connection.ConnectAction;
 import tsocket.zby.com.tsocket.connection.ble.BleManager;
 
 public class DeviceListActivity extends BaseActivity
@@ -31,7 +32,6 @@ public class DeviceListActivity extends BaseActivity
   private DeviceAdapter mDeviceAdapter;
   private List<DeviceBean> list;
   private DeviceBean mDeviceBean;
-  private BleManager mBleManager;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -49,8 +49,6 @@ public class DeviceListActivity extends BaseActivity
       deviceBean.setMac("test1");
       list.add(deviceBean);
     }
-    String str = getString(R.string.text_adapter_timer);
-    String str2 = String.format(str, "23123", "23123'");
 
     mDeviceAdapter = new DeviceAdapter(mRecyclerView);
     mDeviceAdapter.setDatas(list);
@@ -72,6 +70,7 @@ public class DeviceListActivity extends BaseActivity
         }
       }
     });
+    mSwiperLayout.beginRefreshing();
   }
 
   @OnClick(R.id.layout_title_left) public void onBack() {
@@ -86,15 +85,36 @@ public class DeviceListActivity extends BaseActivity
   }
 
   @Override public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-    //mSwiperLayout.endRefreshing();
-    //if (mBleManager == null) {
-    //  mBleManager = new BleManager(this);
-    //}
-    //mBleManager.startScan();
+    BleManager.getInstance(this).startScan(true);
   }
 
   @Override public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
     return false;
+  }
+
+  @Override protected void onReceiverCmd(Object message) {
+    if (message instanceof String) {
+      if (message.equals(ConnectAction.ACTION_DEVICE_SCAN_FINISH)) {
+        mSwiperLayout.endRefreshing();
+      } else if (message.equals(ConnectAction.ACTION_BLUETOOTH_FOUND)) {
+        mDeviceAdapter.notifyDataSetChanged();
+      }
+    }
+    super.onReceiverCmd(message);
+  }
+
+  @Override protected void onStart() {
+    subscribePushMessage();
+    mDeviceAdapter.notifyDataSetChanged();
+    super.onStart();
+  }
+
+  @Override protected void onStop() {
+    unSubscribePushMessage();
+    if (mSwiperLayout!=null && mSwiperLayout.isShown()) {
+      mSwiperLayout.endRefreshing();
+    }
+    super.onStop();
   }
 
   @Override protected void onDestroy() {

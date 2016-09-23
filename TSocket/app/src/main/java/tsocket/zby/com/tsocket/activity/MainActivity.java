@@ -8,6 +8,7 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
+import tsocket.zby.com.tsocket.connection.ble.BleManager;
 import tsocket.zby.com.tsocket.utils.Tools;
 
 public class MainActivity extends BaseActivity {
@@ -16,6 +17,7 @@ public class MainActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
+    BleManager.getInstance(this).startScan(true);
   }
 
   @OnClick(R.id.layout_title_right) public void onSave() {

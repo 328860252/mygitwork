@@ -69,7 +69,7 @@ public class SettingLanguageActivity extends BaseActivity {
     wAdapter.notifyDataSetChanged();
   }
 
-  @OnClick(R.id.layout_title_right) public void onBack() {
+  @OnClick(R.id.layout_title_left) public void onBack() {
     finish();
   }
 

@@ -128,7 +128,7 @@ public class TimerActivity extends BaseActivity {
           showToast(R.string.toast_timer_week_notnull);
           return;
         }
-        if (mTvTimerStart.getText().toString().compareTo(mTvTimerEnd.getText().toString()) <= 0) {
+        if (mTvTimerStart.getText().toString().compareTo(mTvTimerEnd.getText().toString()) >= 0) {
           showToast(R.string.toast_timer_timerErr);
           return;
         }

@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import tsocket.zby.com.tsocket.connection.ConnectAction;
 import tsocket.zby.com.tsocket.utils.MyHexUtils;
 
 /**
@@ -63,17 +64,17 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
   public static final int STATE_CONNECTING = 1;
   public static final int STATE_CONNECTED = 2;
 
-  public final static String ACTION_GATT_CONNECTED =
-      "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
-  public final static String ACTION_GATT_DISCONNECTED =
-      "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED";
-  public final static String ACTION_GATT_SERVICES_DISCOVERED =
-      "com.example.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
-  public final static String ACTION_GATT_RECONNECTING =
-      "com.example.bluetooth.le.ACTION_GATT_RECONNECTING";// 在重连中
-  public final static String ACTION_DATA_AVAILABLE =
-      "com.example.bluetooth.le.ACTION_DATA_AVAILABLE";
-  public final static String EXTRA_DATA = "com.example.bluetooth.le.EXTRA_DATA";
+  //public final static String ACTION_GATT_CONNECTED =
+  //    "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
+  //public final static String ACTION_GATT_DISCONNECTED =
+  //    "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED";
+  //public final static String ACTION_GATT_SERVICES_DISCOVERED =
+  //    "com.example.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
+  //public final static String ACTION_GATT_RECONNECTING =
+  //    "com.example.bluetooth.le.ACTION_GATT_RECONNECTING";// 在重连中
+  //public final static String ACTION_DATA_AVAILABLE =
+  //    "com.example.bluetooth.le.ACTION_DATA_AVAILABLE";
+  //public final static String EXTRA_DATA = "com.example.bluetooth.le.EXTRA_DATA";
 
   public static final UUID SEND_SERVIE_UUID =
       UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
@@ -96,7 +97,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
           String address = gatt.getDevice().getAddress();
           if (newState == BluetoothProfile.STATE_CONNECTED) {
             isReconnect = true;
-            intentAction = ACTION_GATT_CONNECTED;
+            intentAction = ConnectAction.ACTION_GATT_CONNECTED;
             removeGatt(gattMapsConnting, address);
             addGatt(gattMaps, address, gatt);
             broadcastUpdate(intentAction, address);
@@ -105,7 +106,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
             Log.i(TAG, "Attempting to start service discovery:" + gatt.discoverServices());
           } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
             // if(!isReconnect) {
-            intentAction = ACTION_GATT_DISCONNECTED;
+            intentAction = ConnectAction.ACTION_GATT_DISCONNECTED;
             Log.i(TAG, "Disconnected from GATT server.");
             removeGatt(gattMapsConnting, address);
             removeGatt(gattMaps, address);
@@ -124,7 +125,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
         @Override public void onServicesDiscovered(BluetoothGatt gatt, int status) {
           if (status == BluetoothGatt.GATT_SUCCESS) {
             String address = gatt.getDevice().getAddress();
-            broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, address);
+            broadcastUpdate(ConnectAction.ACTION_GATT_SERVICES_DISCOVERED, address);
           } else {
             Log.w(TAG, "onServicesDiscovered received: " + status);
           }
@@ -134,7 +135,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
             BluetoothGattCharacteristic characteristic, int status) {
           Log.i(TAG, "onCharacteristicRead");
           if (status == BluetoothGatt.GATT_SUCCESS) {
-            broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+            broadcastUpdate(ConnectAction.ACTION_RECEIVER_DATA, characteristic);
           }
         }
 
@@ -143,7 +144,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
          */
         @Override public void onCharacteristicChanged(BluetoothGatt gatt,
             BluetoothGattCharacteristic characteristic) {
-          broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+          broadcastUpdate(ConnectAction.ACTION_RECEIVER_DATA, characteristic);
         }
 
         @Override public void onCharacteristicWrite(BluetoothGatt gatt,
@@ -201,7 +202,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
       // StringBuilder(data.length);
       // for(byte byteChar : data)
       // stringBuilder.append(String.format("%02X ", byteChar));
-      intent.putExtra(EXTRA_DATA, ss);
+      intent.putExtra(ConnectAction.BROADCAST_DATA_value, ss);
     }
     // }
     sendBroadcast(intent);

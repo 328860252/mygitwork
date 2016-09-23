@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/layout_selector"
+    android:padding="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
-
-  <RelativeLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="horizontal"
-      android:background="@drawable/layout_selector"
-      android:padding="@dimen/activity_horizontal_margin">
 
     <TextView
         android:id="@+id/tv_name"
@@ -27,5 +22,4 @@
         android:layout_alignParentRight="true"
         android:background="@mipmap/img_select" />
 
-  </RelativeLayout>
-</merge>
+</RelativeLayout>

@@ -44,6 +44,14 @@ public class CmdParseImpl implements ICmdParseInterface {
         break;
       case (byte) 0xB3://应答
         break;
+      case (byte) 0xB5://倒计时信息
+           //开关1
+           //循环1
+           //启用1
+           //时
+           //分
+           //秒
+        break;
     }
     sendBroadcast(MyByteUtils.byteToInt(dataBuff[1]));
   }

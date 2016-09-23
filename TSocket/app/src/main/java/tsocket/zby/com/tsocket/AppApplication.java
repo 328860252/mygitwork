@@ -12,13 +12,15 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
-import tsocket.zby.com.tsocket.bean.BluetoothBean;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
+import tsocket.zby.com.tsocket.connection.ConnectAction;
 import tsocket.zby.com.tsocket.connection.IConnectInterface;
+import tsocket.zby.com.tsocket.connection.agreement.CmdPackage;
 import tsocket.zby.com.tsocket.connection.ble.BleImpl;
-import tsocket.zby.com.tsocket.connection.ble.BluetoothLeService;
 import tsocket.zby.com.tsocket.connection.ble.BluetoothLeServiceMulp;
 import tsocket.zby.com.tsocket.utils.LogUtils;
+import tsocket.zby.com.tsocket.utils.MyHexUtils;
+import tsocket.zby.com.tsocket.utils.RxBus;
 import tsocket.zby.com.tsocket.utils.Tools;
 
 /**
@@ -37,7 +39,7 @@ public class AppApplication extends Application {
     Fabric.with(this, new Crashlytics());
     if (Tools.isMainProcess(this)) {
       bindService();
-      IntentFilter interFilter = new IntentFilter(BluetoothLeServiceMulp.ACTION_BLUETOOTH_FOUND);
+      IntentFilter interFilter = new IntentFilter(ConnectAction.ACTION_BLUETOOTH_FOUND);
       registerReceiver(receiver, interFilter);
       registerReceiver(mGattUpdateReceiver ,makeGattUpdateIntentFilter());
     }
@@ -82,9 +84,9 @@ public class AppApplication extends Application {
     @Override public void onReceive(Context context, Intent intent) {
       final String action = intent.getAction();
       final String mac = intent.getStringExtra("mac");
-      if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-      } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-      } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+      if (ConnectAction.ACTION_GATT_CONNECTED.equals(action)) {
+      } else if (ConnectAction.ACTION_GATT_DISCONNECTED.equals(action)) {
+      } else if (ConnectAction.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
         ////蓝牙连接成功就自动检验密码
         new Thread(new Runnable() {
 
@@ -98,16 +100,23 @@ public class AppApplication extends Application {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
               }
-              //mDeviceBean.write(CmdPackage.set))
+              mDeviceBean.write(CmdPackage.setTiming());
+              try {
+                Thread.sleep(1000);
+              } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
+              mDeviceBean.write(CmdPackage.setTimerCheck());
             }
           }
         }).start();
-      } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) { //解析数据
-        String buffer = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
+      } else if (ConnectAction.ACTION_RECEIVER_DATA.equals(action)) { //解析数据
+        String buffer = intent.getStringExtra(ConnectAction.BROADCAST_DATA_value);
         LogUtils.v("tag", mac + "接受数据:" + buffer);
         if (mBluetoothLeService != null) {
           if (mDeviceBean != null) {
-            //mDeviceBean.get().parseData(MyHexUtils.hexStringToByte(buffer));
+            mDeviceBean.getParse().parseData(MyHexUtils.hexStringToByte(buffer));
           }
         }
       }
@@ -116,10 +125,11 @@ public class AppApplication extends Application {
 
   private BroadcastReceiver receiver = new BroadcastReceiver() {
     public void onReceive(android.content.Context arg0, android.content.Intent intent) {
-      if(intent.getAction().equals(BluetoothLeServiceMulp.ACTION_BLUETOOTH_FOUND)) {//发现了蓝牙设备
+      if (intent.getAction().equals(ConnectAction.ACTION_BLUETOOTH_FOUND)) {//发现了蓝牙设备
         String mac =intent.getStringExtra("mac");
         String name =intent.getStringExtra("name");
-        int rssi =intent.getIntExtra("rssi", 100);
+        addOrUpdateDeviceBean(name, mac);
+        //int rssi =intent.getIntExtra("rssi", 100);
         //autoLink(mac, name, rssi);
       }
     };
@@ -146,14 +156,29 @@ public class AppApplication extends Application {
 
   private static IntentFilter makeGattUpdateIntentFilter() {
     final IntentFilter intentFilter = new IntentFilter();
-    intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-    intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-    intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-    intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+    intentFilter.addAction(ConnectAction.ACTION_GATT_CONNECTED);
+    intentFilter.addAction(ConnectAction.ACTION_GATT_DISCONNECTED);
+    intentFilter.addAction(ConnectAction.ACTION_GATT_SERVICES_DISCOVERED);
+    intentFilter.addAction(ConnectAction.ACTION_RECEIVER_DATA);
     return intentFilter;
   }
 
   public List<DeviceBean> getList() {
     return list;
+  }
+
+  public void addOrUpdateDeviceBean(String name, String mac) {
+    DeviceBean dbin;
+    for (int i = 0; i < list.size(); i++) {
+      if (list.get(i).getMac().equals(mac)) {
+        list.get(i).setName(name);
+        return;
+      }
+    }
+    dbin = new DeviceBean();
+    dbin.setName(name);
+    dbin.setMac(mac);
+    list.add(dbin);
+    RxBus.getDefault().post("newDeviceBean");
   }
 }
