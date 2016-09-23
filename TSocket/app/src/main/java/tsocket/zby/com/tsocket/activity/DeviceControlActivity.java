@@ -25,6 +25,7 @@ import tsocket.zby.com.tsocket.adapter.TimerAdapter;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
 import tsocket.zby.com.tsocket.bean.TimerBean;
 import tsocket.zby.com.tsocket.connection.agreement.CmdPackage;
+import tsocket.zby.com.tsocket.connection.agreement.CmdParseImpl;
 import tsocket.zby.com.tsocket.view.HeaderLayout;
 import tsocket.zby.com.tsocket.view.ListViewDecoration;
 
@@ -52,6 +53,7 @@ public class DeviceControlActivity extends BaseActivity {
     list = mDeviceBean.getTimerBeanList();
     mTimerAdapter = new TimerAdapter(this, list);
     headerLayout.setTextTitle(mDeviceBean.getName());
+    ctvSwitch.setChecked(mDeviceBean.isOnOff());
     mTimerAdapter.setTimerSwitchListener(new OnTimerSwitchClickListener() {
       @Override public void onTimerSwitchClick(TimerBean timerBean) {
         timerBean.setEnable(!timerBean.isEnable());
@@ -77,9 +79,23 @@ public class DeviceControlActivity extends BaseActivity {
       }
     });
     mSwipeMenuRecyclerView.setAdapter(mTimerAdapter);
+
+    mDeviceBean.write(CmdPackage.getTimer());
   }
 
-
+  @Override protected void onReceiverCmd(Object message) {
+    super.onReceiverCmd(message);
+    if (message instanceof Byte) {
+      byte b = (byte) message;
+      switch (b) {
+        case (byte) CmdParseImpl.type_status://状态
+          ctvSwitch.setChecked(mDeviceBean.isOnOff());
+          break;
+        case (byte) CmdParseImpl.type_timer://定时
+          break;
+      }
+    }
+  }
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);

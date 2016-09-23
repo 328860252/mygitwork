@@ -92,17 +92,17 @@ public class AppApplication extends Application {
 
           @Override public void run() {
             // TODO Auto-generated method stub
-            LogUtils.d("tag", "接受广播1 " + " mac =" + mac);
+            LogUtils.d("application", "接受广播连接成功 " + " mac =" + mac);
             if (mDeviceBean != null) {
               try {
-                Thread.sleep(300);
+                Thread.sleep(600);
               } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
               }
               mDeviceBean.write(CmdPackage.setTiming());
               try {
-                Thread.sleep(1000);
+                Thread.sleep(4500);
               } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -111,9 +111,10 @@ public class AppApplication extends Application {
             }
           }
         }).start();
+        RxBus.getDefault().post(action);
       } else if (ConnectAction.ACTION_RECEIVER_DATA.equals(action)) { //解析数据
         String buffer = intent.getStringExtra(ConnectAction.BROADCAST_DATA_value);
-        LogUtils.v("tag", mac + "接受数据:" + buffer);
+        //LogUtils.v("application", mac + "接受数据:" + buffer);
         if (mBluetoothLeService != null) {
           if (mDeviceBean != null) {
             mDeviceBean.getParse().parseData(MyHexUtils.hexStringToByte(buffer));
@@ -178,6 +179,7 @@ public class AppApplication extends Application {
     dbin = new DeviceBean();
     dbin.setName(name);
     dbin.setMac(mac);
+    dbin.setConnectionInterface(mInterface, this);
     list.add(dbin);
     RxBus.getDefault().post("newDeviceBean");
   }

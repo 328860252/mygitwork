@@ -23,9 +23,12 @@ import tsocket.zby.com.tsocket.bean.BluetoothBean;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
 import tsocket.zby.com.tsocket.connection.ConnectAction;
 import tsocket.zby.com.tsocket.connection.ble.BleManager;
+import tsocket.zby.com.tsocket.utils.LogUtils;
 
 public class DeviceListActivity extends BaseActivity
     implements SwipeRefreshLayout.OnRefreshListener, BGARefreshLayout.BGARefreshLayoutDelegate {
+
+  private final static String TAG = DeviceListActivity.class.getSimpleName();
 
   @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
   @BindView(R.id.swiperLayout) BGARefreshLayout mSwiperLayout;
@@ -56,14 +59,17 @@ public class DeviceListActivity extends BaseActivity
     mSwiperLayout.setDelegate(this);
     mDeviceAdapter.setOnItemClickListener(new DeviceAdapter.OnItemClickListener() {
       @Override public void onClickItem(View view, int position) {
-        //        mDeviceBean.setConnectionInterface(new BleImpl(mBluetoothLeService), DeviceListActivity.this);
-        //        mDeviceBean.setName(list.get(i).getName());
-        //        mDeviceBean.getConnect().connect(list.get(i).getMac(), "");
-        //mDeviceBean.isLink();
+        //如果之前有其他设备连接着， 先断开
+        if (mApp.getDeviceBean()!= null && !mApp.getDeviceBean().getMac().equals(list.get(position).getMac())) {
+          if (mApp.getDeviceBean().isLink()) {
+            mApp.getDeviceBean().stopConnect();
+          }
+        }
         mApp.setDevcieBean(list.get(position));
         mDeviceBean = mApp.getDeviceBean();
         if (!mDeviceBean.isLink()) {
           mDeviceBean.connect();
+          showToast(R.string.toast_linking);
         } else {
           Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
           startActivity(intent);
@@ -97,7 +103,12 @@ public class DeviceListActivity extends BaseActivity
       if (message.equals(ConnectAction.ACTION_DEVICE_SCAN_FINISH)) {
         mSwiperLayout.endRefreshing();
       } else if (message.equals(ConnectAction.ACTION_BLUETOOTH_FOUND)) {
+        LogUtils.i(TAG, " deivceList " + mApp.getList().size());
         mDeviceAdapter.notifyDataSetChanged();
+      } else if (message.equals(ConnectAction.ACTION_GATT_SERVICES_DISCOVERED)) {//发现服务才算连接上
+        showToast(R.string.toast_linked);
+        Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+        startActivity(intent);
       }
     }
     super.onReceiverCmd(message);

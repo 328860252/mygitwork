@@ -62,6 +62,8 @@ dependencies {
 
   compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
 
+  compile 'com.yanzhenjie:recyclerview-swipe:1.0.2'
+
   compile 'com.android.support:design:24.2.0'
   testCompile 'junit:junit:4.12'
 }

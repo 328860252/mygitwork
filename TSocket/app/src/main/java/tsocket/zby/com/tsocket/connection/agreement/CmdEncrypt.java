@@ -31,9 +31,11 @@ public class CmdEncrypt {
 			return null;
 		}
 		System.out.println("校验："+ MyHexUtils.buffer2String(buff));
-		byte[] sendBuff = new byte[MyByteUtils.byteToInt(buff.length-2)];
-		if(MyByteUtils.byteToInt(buff[0]) == buff.length-1) { //长度判断
-			System.arraycopy(buff, 1, sendBuff, 0, buff.length - 1);
+		int length = MyByteUtils.byteToInt(buff[0])+1;
+		byte[] sendBuff = new byte[length-2];
+		if(MyByteUtils.byteToInt(buff[0]) == (length-1)) { //长度判断
+			System.arraycopy(buff, 1, sendBuff, 0, sendBuff.length);
+			String str = MyHexUtils.buffer2String(sendBuff);
 			return sendBuff;
 		}
 		return null;

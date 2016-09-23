@@ -66,12 +66,12 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
   private byte[] lastBuffer;
 
   public static final UUID SEND_SERVIE_UUID =
-      UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
-  public static final UUID SEND_CHARACTERISTIC_UUID =
       UUID.fromString("000051b0-0000-1000-8000-00805f9b34fb");
+  public static final UUID SEND_CHARACTERISTIC_UUID =
+      UUID.fromString("000051b1-0000-1000-8000-00805f9b34fb");
 
   public static final UUID RECEIVER_SERVICE =
-      UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
+      UUID.fromString("000051b0-0000-1000-8000-00805f9b34fb");
   public static final UUID RECEIVER_CHARACTERISTIC =
       UUID.fromString("000051b1-0000-1000-8000-00805f9b34fb");
 
@@ -144,7 +144,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
           // TODO Auto-generated method stub
           try {
             String address = gatt.getDevice().getAddress();
-            LogUtils.v("tag", gatt.getDevice().getAddress() + "   发送" + status);
+           System.out.println( address + "   发送回调  " + status);
           } catch (Exception e) {
             e.printStackTrace();
           }
@@ -176,7 +176,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
     // http://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml
     final byte[] data = characteristic.getValue();
     String ss = MyHexUtils.buffer2String(data);
-    LogUtils.v(TAG, mac + " 接受数据:" + ss);
+    LogUtils.e(TAG, mac + " 接受数据:" + ss);
     if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {//����
       int flag = characteristic.getProperties();
       int format = -1;
@@ -501,9 +501,9 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
 
     lastBuffer = bb;
     //resendThread(address);
-    LogUtils.e("tag_send", address + "  发送  " + "  " + status + " " + MyHexUtils.buffer2String(bb));
+    //LogUtils.e("tag_send", address + "  发送  " + "  " + status + " " + MyHexUtils.buffer2String(bb));
     //Log.w(TAG, "writeLlsAlertLevel() - status=" + status);
-    return true;
+    return status;
   }
 
   public void writeLlsAlertLevelWait(String address, byte[] bb) {
@@ -539,7 +539,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
 
     lastBuffer = bb;
     //resendThread(address);
-    LogUtils.e("tag_send", address + "  发送  " + " " + status + " " + MyHexUtils.buffer2String(bb));
+    System.out.println("tag_send"+ address + "  发送  " + " " + status + " " + MyHexUtils.buffer2String(bb));
     //Log.w(TAG, "writeLlsAlertLevel() - status=" + status);
   }
 

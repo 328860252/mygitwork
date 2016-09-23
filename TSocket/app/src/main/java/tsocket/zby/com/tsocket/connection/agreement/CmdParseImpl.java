@@ -29,6 +29,8 @@ public class CmdParseImpl implements ICmdParseInterface {
 
   @Override public void parseData(byte[] dataBuff) {
     if (dataBuff == null) return;
+    dataBuff = CmdEncrypt.processMessage(dataBuff);
+    if (dataBuff == null) return;
     String strBuffer = MyHexUtils.buffer2String(dataBuff);
     LogUtils.logD(TAG, "解析数据:" + strBuffer);
     if (dataBuff.length < 2) {

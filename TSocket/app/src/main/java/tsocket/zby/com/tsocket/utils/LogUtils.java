@@ -16,7 +16,7 @@ public class LogUtils {
     private static final String PARENT_DIR = "TSocket";
     private static final String LOG_DIR = "CmdLog";
 
-    private final static String Prefix = "interphone_";
+    private final static String Prefix = "TSocket_";
 
     public static void d(String TAG ,String log) {
         Log.d(Prefix+TAG, log);

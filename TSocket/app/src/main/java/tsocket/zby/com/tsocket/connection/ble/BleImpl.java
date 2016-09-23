@@ -24,7 +24,7 @@ public class BleImpl implements IConnectInterface {
   @Override public boolean connect(String address, String pwd) {
     // TODO Auto-generated method stub
     long nowTime = System.currentTimeMillis();
-    if (mService.isConnecting(mDeviceAddress)) {
+    if (mService.isConnecting(address)) {
       //if(nowTime - lastLinkTime>2000) {
       //	lastLinkTime = nowTime;
       //	count ++;
@@ -79,7 +79,7 @@ public class BleImpl implements IConnectInterface {
       Log.d(TAG, "service is null");
       return false;
     }
-    return mService.isLink(mDeviceAddress);
+    return mService.isLink(mac);
   }
 
   public String getDeviceAddress() {

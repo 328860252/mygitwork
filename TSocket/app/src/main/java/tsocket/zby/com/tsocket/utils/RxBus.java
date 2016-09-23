@@ -76,7 +76,7 @@ public class RxBus {
                      @Override
                      public void call(Object userEvent) {
                        if(userEvent!=null) {
-                         LogUtils.d("base", "receiver : " + userEvent.getClass());
+                         //LogUtils.d("base", "receiver : " + userEvent.getClass());
                          if (listener!=null) {
                            listener.subscribeCall(userEvent);
                          }

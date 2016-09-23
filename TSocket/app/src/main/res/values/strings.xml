@@ -40,4 +40,6 @@
   <string name="toast_timer_week_notnull">星期不能为空</string>
   <string name="toast_timer_timerErr">关闭时间要大于开启时间</string>
   <string name="toast_delay_min_error">循环时间不能低于5秒</string>
+  <string name="toast_linking">连接中...</string>
+  <string name="toast_linked">连接成功</string>
 </resources>

@@ -59,7 +59,6 @@ public class BleManager {
       if (mBluetoothAdapter == null) {
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         if (mBluetoothAdapter == null) return;
-        return;
       }
       if (!scanThread.isAlive()) {
         mMacSet.clear();

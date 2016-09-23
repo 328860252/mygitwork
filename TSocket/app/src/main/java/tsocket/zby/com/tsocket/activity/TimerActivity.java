@@ -61,7 +61,6 @@ public class TimerActivity extends BaseActivity {
 
     mCbDelay.setChecked(mTimerBean.isRecycle());
     mWeekViewValue.setWeekValue(mTimerBean.getWeekValue());
-    mDeviceBean.write(CmdPackage.getTimer());
   }
 
   @OnClick(R.id.layout_title_left) public void onBack() {
