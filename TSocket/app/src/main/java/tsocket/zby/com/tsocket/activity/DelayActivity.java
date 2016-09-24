@@ -10,9 +10,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import java.util.ArrayList;
 import java.util.List;
+import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
 import tsocket.zby.com.tsocket.connection.agreement.CmdPackage;
+import tsocket.zby.com.tsocket.utils.SharedPerfenceUtils;
 import tsocket.zby.com.tsocket.view.DelayMinuteView;
 
 public class DelayActivity extends BaseActivity {
@@ -60,13 +62,20 @@ public class DelayActivity extends BaseActivity {
       }
     });
     //mSearchBar.setProgress(mDeviceBean.getDelayNumber());
-    mCbDelay.setChecked(mDeviceBean.isDelaySwitch());
+    //刚好是相反的
+    mCbDelay.setChecked(!mDeviceBean.isOnOff());
+    int lastPro = SharedPerfenceUtils.getSetupData(this).readInt(AppString.Last_Delay_Timer, 0);
+    mSearchBar.setProgress(lastPro);
     mTvDelayTime.setText(String.format(getString(R.string.text_delay_minute), mSearchBar.getProgress()));
   }
 
   @OnClick(R.id.layout_title_right) public void onSave() {
-    mDeviceBean.write(
-        CmdPackage.setTimerDelay(mCbDelay.isChecked(), 0, mSearchBar.getProgress(), 0));
+    if (mDeviceBean.write(CmdPackage.setTimerDelay(mCbDelay.isChecked(), 0, mSearchBar.getProgress(), 0))){
+      SharedPerfenceUtils.getSetupData(this).saveInt(AppString.Last_Delay_Timer, mSearchBar.getProgress());
+      mDeviceBean.setDownCountSecond(mSearchBar.getProgress()*60);
+      setResult(RESULT_OK);
+      finish();
+    }
   }
 
   @OnClick(R.id.layout_title_left) public void onBack() {

@@ -42,4 +42,7 @@
   <string name="toast_delay_min_error">循环时间不能低于5秒</string>
   <string name="toast_linking">连接中...</string>
   <string name="toast_linked">连接成功</string>
+  <string name="toast_name_tolong">名字太长</string>
+  <string name="toast_name_enmpty">名字不能为空</string>
+  <string name="toast_psd_notequals">密码不一致</string>
 </resources>

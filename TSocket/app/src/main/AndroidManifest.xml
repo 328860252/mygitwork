@@ -33,7 +33,7 @@
 
     <service android:name=".connection.ble.BluetoothLeServiceMulp" android:enabled="true"></service>
 
-    <activity android:name=".activity.DeviceListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".activity.DeviceListActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>
     <activity android:name=".activity.GuideViewActivity" android:screenOrientation="portrait" android:theme="@style/AppTheme.Fullscreen"/>
     <activity android:name=".activity.SettingActivity" android:screenOrientation="portrait"/>
     <activity android:name=".activity.SettingChangeNameActivity" android:screenOrientation="portrait"/>

@@ -501,7 +501,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
 
     lastBuffer = bb;
     //resendThread(address);
-    //LogUtils.e("tag_send", address + "  发送  " + "  " + status + " " + MyHexUtils.buffer2String(bb));
+    LogUtils.e("tag_send", address + "发送  :"  + MyHexUtils.buffer2String(bb));
     //Log.w(TAG, "writeLlsAlertLevel() - status=" + status);
     return status;
   }

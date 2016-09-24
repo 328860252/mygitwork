@@ -16,7 +16,7 @@ public class CmdPackage {
   private final static int TYPE_TIMER_REFRESH = 0xA4;//时间校准
   private final static int TYPE_TIMER_DELAY = 0xA7; //随机延时
   private final static int TYPE_TIMER_ENABLE = 0xA8; //取消启动所有定时
-  private final static int TYPE_TIMING = 0xA9;      //倒计时信息
+  private final static int TYPE_DOWN_COUNT = 0xA9;      //倒计时信息
 
   private final static int TYPE_SWITCH_ON = 0xA5;
   private final static int TYPE_SWITCH_OFF = 0x5A;
@@ -84,9 +84,9 @@ public class CmdPackage {
     return buff;
   }
 
-  public static byte[] setTiming() {
+  public static byte[] getDownCountTimer() {
     byte[] buff = new byte[3];
-    buff[0] = (byte) TYPE_TIMING;
+    buff[0] = (byte) TYPE_DOWN_COUNT;
     return buff;
   }
 

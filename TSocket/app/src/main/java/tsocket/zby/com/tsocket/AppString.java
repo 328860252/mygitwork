@@ -12,4 +12,8 @@ public class AppString {
   public static final String SHOW_HOUR = "show_hour";
   public static java.lang.String language = "language";
 
+  /**
+   * 上次循环时间
+   */
+  public static java.lang.String Last_Delay_Timer = "last_delay_timer";
 }

@@ -43,10 +43,12 @@ public class DeviceControlActivity extends BaseActivity {
   @BindView(R.id.tv_timer) TextView tvTimer;
   @BindView(R.id.ctv_switch) CheckedTextView ctvSwitch;
   @BindView(R.id.recycler_view) SwipeMenuRecyclerView mSwipeMenuRecyclerView;
+  @BindView(R.id.tv_downCount) TextView mTvDownCount;
   private TimerAdapter mTimerAdapter;
   private List<TimerBean> list;
   private DeviceBean mDeviceBean;
   private final int activity_timer = 11;
+  private final int activity_delay = 12;
   private Subscription mTimeSubscription;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class DeviceControlActivity extends BaseActivity {
     setContentView(R.layout.activity_device_control);
     ButterKnife.bind(this);
     initViews();
+    subscribePushMessage();
   }
 
   private void initViews() {
@@ -69,7 +72,6 @@ public class DeviceControlActivity extends BaseActivity {
         mTimerAdapter.notifyDataSetChanged();
       }
     });
-
 
     mSwipeMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
     //mSwipeMenuRecyclerView.setHasFixedSize(true);// 如果Item够简单，高度是确定的，打开FixSize将提高性能。
@@ -88,7 +90,7 @@ public class DeviceControlActivity extends BaseActivity {
     });
     mSwipeMenuRecyclerView.setAdapter(mTimerAdapter);
 
-    mDeviceBean.write(CmdPackage.getTimer());
+    startDownCount();
   }
 
   @Override protected void onReceiverCmd(Object message) {
@@ -96,35 +98,14 @@ public class DeviceControlActivity extends BaseActivity {
     if (message instanceof Byte) {
       byte b = (byte) message;
       switch (b) {
-        case  CmdParseImpl.type_status://状态
+        case CmdParseImpl.type_status://状态
           ctvSwitch.setChecked(mDeviceBean.isOnOff());
           break;
         case CmdParseImpl.type_timer://定时
+          mTimerAdapter.notifyDataSetChanged();
           break;
         case CmdParseImpl.type_downCount:
-          mTimeSubscription = Observable.interval(1, TimeUnit.SECONDS)
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .unsubscribeOn(AndroidSchedulers.mainThread())
-              .subscribe(new Subscriber<Long>() {
-                @Override public void onCompleted() {
-                  Log.e("------ onCompleted ", "onCompleted");
-                  ctvSwitch.setText("");
-                }
-
-                @Override public void onError(Throwable e) {
-                  Log.e("------ onError ", "onCompleted");
-                }
-
-                @Override public void onNext(Long aLong) {
-                  Log.e("------ onNext ", "aLong : " + aLong);
-                  if (aLong< mDeviceBean.getDownCountSecond()) {
-                    ctvSwitch.setText(mDeviceBean.getDownCountString());
-                  } else {
-                    this.unsubscribe();
-                  }
-                }
-              });
+          startDownCount();
           break;
       }
     }
@@ -136,6 +117,11 @@ public class DeviceControlActivity extends BaseActivity {
       case activity_timer:
         if (resultCode == RESULT_OK) {
           mTimerAdapter.notifyDataSetChanged();
+        }
+        break;
+      case activity_delay:
+        if (resultCode == RESULT_OK) {
+          startDownCount();
         }
         break;
     }
@@ -162,7 +148,7 @@ public class DeviceControlActivity extends BaseActivity {
     switch (view.getId()) {
       case R.id.tv_delay:
         intent = new Intent(this, DelayActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, activity_delay);
         break;
       case R.id.ctv_switch:
         ctvSwitch.setChecked(!ctvSwitch.isChecked());
@@ -173,6 +159,40 @@ public class DeviceControlActivity extends BaseActivity {
         startActivityForResult(intent, activity_timer);
         break;
     }
+  }
+
+  private void startDownCount() {
+    if (mTimeSubscription!=null) {
+      if (mTimeSubscription.isUnsubscribed()) {
+        mTimeSubscription.unsubscribe();
+      }
+      mTimeSubscription = null;
+    }
+    mTimeSubscription = Observable.interval(1, TimeUnit.SECONDS)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .unsubscribeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Long>() {
+          @Override public void onCompleted() {
+            Log.e("------ onCompleted ", "onCompleted");
+            mTvDownCount.setText("");
+            this.unsubscribe();
+          }
+
+          @Override public void onError(Throwable e) {
+            Log.e("------ onError ", "onCompleted");
+          }
+
+          @Override public void onNext(Long aLong) {
+            Log.e("------ onNext ", "aLong : " + aLong);
+            if (mDeviceBean.getDownCountSecond()>0) {
+              mTvDownCount.setText(mDeviceBean.getDownCountString());
+            } else {
+              mTvDownCount.setText("");
+              this.unsubscribe();
+            }
+          }
+        });
   }
 
   /**
@@ -186,8 +206,8 @@ public class DeviceControlActivity extends BaseActivity {
      * @param menuPosition    menuPosition. 这个菜单的position。比如你为某个Item创建了2个MenuItem，那么这个position可能是是 0、1，
      * @param direction       如果是左侧菜单，值是：SwipeMenuRecyclerView#LEFT_DIRECTION，如果是右侧菜单，值是：SwipeMenuRecyclerView#RIGHT_DIRECTION.
      */
-    @Override
-    public void onItemClick(Closeable closeable, int adapterPosition, int menuPosition, int direction) {
+    @Override public void onItemClick(Closeable closeable, int adapterPosition, int menuPosition,
+        int direction) {
       closeable.smoothCloseMenu();// 关闭被点击的菜单。
       //if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION) {
       //  Toast.makeText(mContext, "list第" + adapterPosition + "; 右侧菜单第" + menuPosition, Toast.LENGTH_SHORT).show();
@@ -205,7 +225,6 @@ public class DeviceControlActivity extends BaseActivity {
     }
   };
 
-
   /**
    * 菜单创建器。在Item要创建菜单的时候调用。
    */
@@ -214,14 +233,13 @@ public class DeviceControlActivity extends BaseActivity {
     public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
       // MATCH_PARENT 自适应高度，保持和内容一样高；也可以指定菜单具体高度，也可以用WRAP_CONTENT。
       int height = ViewGroup.LayoutParams.MATCH_PARENT;
-      SwipeMenuItem deleteItem = new SwipeMenuItem(DeviceControlActivity.this)
-          .setBackgroundDrawable(R.drawable.btn_delete)
-          //.setImage(R.mipmap.ic_launcher) // 图标。
-          .setText("删除") // 文字。
-          .setTextColor(Color.WHITE) // 文字颜色。
-          .setTextSize(16) // 文字大小。
-          .setWidth((int) (phone_density * 100))
-          .setHeight(height);
+      SwipeMenuItem deleteItem =
+          new SwipeMenuItem(DeviceControlActivity.this).setBackgroundDrawable(R.drawable.btn_delete)
+              //.setImage(R.mipmap.ic_launcher) // 图标。
+              .setText("删除") // 文字。
+              .setTextColor(Color.WHITE) // 文字颜色。
+              .setTextSize(16) // 文字大小。
+              .setWidth((int) (phone_density * 100)).setHeight(height);
       swipeRightMenu.addMenuItem(deleteItem);// 添加一个按钮到右侧侧菜单。.
 
       // 上面的菜单哪边不要菜单就不要添加。
@@ -232,6 +250,7 @@ public class DeviceControlActivity extends BaseActivity {
     if (mTimeSubscription != null && !mTimeSubscription.isUnsubscribed()) {
       mTimeSubscription.unsubscribe();
     }
+    unSubscribePushMessage();
     super.onDestroy();
   }
 }

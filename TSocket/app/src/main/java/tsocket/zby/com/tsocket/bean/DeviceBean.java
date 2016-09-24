@@ -28,7 +28,7 @@ public class DeviceBean {
   private boolean onOff;
   private boolean recycle;
   private boolean timerEnable;
-  private List<TimerBean> mTimerBeanList;
+  private List<TimerBean> mTimerBeanList = new ArrayList<>();;
   private int delayNumber;
   private boolean delaySwitch;
 
@@ -93,9 +93,6 @@ public class DeviceBean {
   }
 
   public List<TimerBean> getTimerBeanList() {
-    if (mTimerBeanList==null) {
-      mTimerBeanList = new ArrayList<>();
-    }
     return mTimerBeanList;
   }
 

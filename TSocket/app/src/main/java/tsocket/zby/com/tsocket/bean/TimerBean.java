@@ -55,6 +55,7 @@ public class TimerBean implements Serializable, Cloneable{
         timerBean.setCloseMinute(5);
         timerBean.setCloseSecond(0);
 
+        timerBean.setRecycle(true);
         timerBean.setWeekValue(127);
         return timerBean;
     }
@@ -78,7 +79,7 @@ public class TimerBean implements Serializable, Cloneable{
         if (weekValue%2 == 1)       sb.append(context.getString(R.string.text_week_7) + " ");
         if (weekValue %4 /2 == 1)   sb.append(context.getString(R.string.text_week_1) + " ");
         if (weekValue %8 /4 == 1)   sb.append(context.getString(R.string.text_week_2) + " ");
-        if (weekValue %16 /2 == 1)  sb.append(context.getString(R.string.text_week_3) + " ");
+        if (weekValue %16 /8 == 1)  sb.append(context.getString(R.string.text_week_3) + " ");
         if (weekValue %32 /16 == 1) sb.append(context.getString(R.string.text_week_4) + " ");
         if (weekValue %64 /32 == 1) sb.append(context.getString(R.string.text_week_5) + " ");
         if (weekValue /64 == 1)     sb.append(context.getString(R.string.text_week_6) + " ");

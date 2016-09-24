@@ -83,7 +83,7 @@ public class AppApplication extends Application {
   private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
     @Override public void onReceive(Context context, Intent intent) {
       final String action = intent.getAction();
-      final String mac = intent.getStringExtra("mac");
+      final String mac = intent.getStringExtra(ConnectAction.BROADCAST_DEVICE_MAC);
       if (ConnectAction.ACTION_GATT_CONNECTED.equals(action)) {
       } else if (ConnectAction.ACTION_GATT_DISCONNECTED.equals(action)) {
       } else if (ConnectAction.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
@@ -94,27 +94,36 @@ public class AppApplication extends Application {
             // TODO Auto-generated method stub
             LogUtils.d("application", "接受广播连接成功 " + " mac =" + mac);
             if (mDeviceBean != null) {
+              mDeviceBean.write(CmdPackage.getTimer());
               try {
-                Thread.sleep(600);
+                Thread.sleep(AppConstants.SEND_TIME_DEALY);
               } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
               }
-              mDeviceBean.write(CmdPackage.setTiming());
+              mDeviceBean.write(CmdPackage.getTimer());
               try {
-                Thread.sleep(4500);
+                Thread.sleep(AppConstants.SEND_TIME_DEALY);
               } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
               }
               mDeviceBean.write(CmdPackage.setTimerCheck());
+              try {
+                Thread.sleep(AppConstants.SEND_TIME_DEALY);
+              } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
+              mDeviceBean.write(CmdPackage.getDownCountTimer());
+
             }
           }
         }).start();
         RxBus.getDefault().post(action);
       } else if (ConnectAction.ACTION_RECEIVER_DATA.equals(action)) { //解析数据
         byte[] buffer = intent.getByteArrayExtra(ConnectAction.BROADCAST_DATA_value);
-        LogUtils.v("tag", mac + "接受数据:" + buffer);
+        LogUtils.v("tag", mac + "接受数据:" + MyHexUtils.buffer2String(buffer));
         if (mBluetoothLeService != null) {
           if (mDeviceBean != null) {
             mDeviceBean.getProccess().ProcessDataCommand(buffer,buffer.length);

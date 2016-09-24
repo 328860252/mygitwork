@@ -26,7 +26,14 @@ public class CmdProcess {
   private byte[] data_command = new byte[512];//在构成一条协议数据时 清空
   private int data_length; //当前缓存的数据长度， 收到的字节个数， 在构成一条协议数据时 清0
 
-  private Set<Byte> mCmdSet = new HashSet(){ {add(CmdParseImpl.type_receiver); add(CmdParseImpl.type_status); add(CmdParseImpl.type_timer);}};
+  private Set<Byte> mCmdSet = new HashSet(){
+    {
+      add(CmdParseImpl.type_receiver);
+      add(CmdParseImpl.type_status);
+      add(CmdParseImpl.type_timer);
+      add(CmdParseImpl.type_downCount);
+    }
+  };
 
   /**
    * 将收到的数据 截取符合协议的子集

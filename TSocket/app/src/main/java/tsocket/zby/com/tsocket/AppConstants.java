@@ -5,7 +5,7 @@ package tsocket.zby.com.tsocket;
  */
 public class AppConstants {
 
-  public final static boolean isDemo = true;
+  public final static boolean isDemo = false;
 
   /**
    * 英语
@@ -17,6 +17,10 @@ public class AppConstants {
   public static final long DELAY_TIME = 1000;
   public final static String charset = "utf-8";
   public final static int connecting_count = 5;
+  /**
+   * 发送协议间隔时间
+   */
+  public static final long SEND_TIME_DEALY = 1000;
   public static long scan_time = 10000;
 
   /**

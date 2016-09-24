@@ -102,8 +102,7 @@ public class DeviceListActivity extends BaseActivity
     if (message instanceof String) {
       if (message.equals(ConnectAction.ACTION_DEVICE_SCAN_FINISH)) {
         mSwiperLayout.endRefreshing();
-      } else if (message.equals(ConnectAction.ACTION_BLUETOOTH_FOUND)) {
-        LogUtils.i(TAG, " deivceList " + mApp.getList().size());
+      } else if (message.equals("newDeviceBean")) {
         mDeviceAdapter.notifyDataSetChanged();
       } else if (message.equals(ConnectAction.ACTION_GATT_SERVICES_DISCOVERED)) {//发现服务才算连接上
         showToast(R.string.toast_linked);
@@ -125,6 +124,7 @@ public class DeviceListActivity extends BaseActivity
     if (mSwiperLayout!=null && mSwiperLayout.isShown()) {
       mSwiperLayout.endRefreshing();
     }
+    BleManager.getInstance(this).startScan(false);
     super.onStop();
   }
 

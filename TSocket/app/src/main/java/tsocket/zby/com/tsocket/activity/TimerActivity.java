@@ -133,12 +133,11 @@ public class TimerActivity extends BaseActivity {
         }
         mTimerBean.setRecycle(mCbDelay.isChecked());
         mTimerBean.setWeekValue(mWeekViewValue.getWeekValue());
-        mDeviceBean.write(CmdPackage.setTimer(mTimerBean));
-        if (AppConstants.isDemo) {
+        if (mDeviceBean.write(CmdPackage.setTimer(mTimerBean))) {
           mDeviceBean.updateTimerBeanList(mTimerBean);
+          setResult(RESULT_OK);
+          finish();
         }
-        setResult(RESULT_OK);
-        finish();
         break;
     }
   }
