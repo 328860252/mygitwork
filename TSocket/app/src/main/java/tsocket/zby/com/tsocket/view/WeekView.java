@@ -62,7 +62,7 @@ public class WeekView extends LinearLayout {
     mCbDay7.setChecked(weekValue%2 == 1);
     mCbDay1.setChecked(weekValue %4 /2 == 1);
     mCbDay2.setChecked(weekValue %8 /4 == 1);
-    mCbDay3.setChecked(weekValue %16 /2 == 1);
+    mCbDay3.setChecked(weekValue %16 /8 == 1);
     mCbDay4.setChecked(weekValue %32 /16 == 1);
     mCbDay5.setChecked(weekValue %64 /32 == 1);
     mCbDay6.setChecked(weekValue /64 == 1);
