@@ -12,6 +12,7 @@ import tsocket.zby.com.tsocket.connection.ICmdParseInterface;
 import tsocket.zby.com.tsocket.connection.IConnectInterface;
 import tsocket.zby.com.tsocket.connection.agreement.CmdEncrypt;
 import tsocket.zby.com.tsocket.connection.agreement.CmdParseImpl;
+import tsocket.zby.com.tsocket.connection.agreement.CmdProcess;
 import tsocket.zby.com.tsocket.utils.LogUtils;
 import tsocket.zby.com.tsocket.utils.MyHexUtils;
 
@@ -31,13 +32,19 @@ public class DeviceBean {
   private int delayNumber;
   private boolean delaySwitch;
 
+  private int downCountSecond; //单位秒
+
   public IConnectInterface connect;
   public ICmdParseInterface parse;
+  private CmdProcess proccess;
 
   public void setConnectionInterface(IConnectInterface connectionInterface, Context context) {
     this.connect = connectionInterface;
     if (parse == null) {
       parse = new CmdParseImpl(this, context);
+    }
+    if (proccess == null) {
+      proccess = new CmdProcess(parse);
     }
     this.connect.setCmdParse(parse);
   }
@@ -119,5 +126,14 @@ public class DeviceBean {
       id++;
     }
     return id;
+  }
+
+  public String getDownCountString() {
+    downCountSecond--;
+    if (downCountSecond>60) {
+      return downCountSecond / 60 + "min";
+    } else {
+      return downCountSecond % 60 + "sec";
+    }
   }
 }

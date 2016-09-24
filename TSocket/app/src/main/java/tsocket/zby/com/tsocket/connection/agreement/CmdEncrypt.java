@@ -20,7 +20,7 @@ public class CmdEncrypt {
 				(byte) (sendBuff[0] ^ sendBuff[1] ^ sendBuff[sendBuff.length-3] ^ sendBuff[sendBuff.length-2]);
 
 		sendBuff[sendBuff.length-1] = checkByte;
-		LogUtils.d(TAG, "加密:"+MyHexUtils.buffer2String(buff));
+		System.out.println("加密:"+MyHexUtils.buffer2String(buff));
 		//System.out.println(MyHexUtils.buffer2String(sendBuff));
 		return sendBuff;
 	}
@@ -31,11 +31,10 @@ public class CmdEncrypt {
 			return null;
 		}
 		System.out.println("校验："+ MyHexUtils.buffer2String(buff));
-		int length = MyByteUtils.byteToInt(buff[0])+1;
-		byte[] sendBuff = new byte[length-2];
-		if(MyByteUtils.byteToInt(buff[0]) == (length-1)) { //长度判断
-			System.arraycopy(buff, 1, sendBuff, 0, sendBuff.length);
-			String str = MyHexUtils.buffer2String(sendBuff);
+		byte checkByte = (byte) (buff[0] ^ buff[1] ^ buff[buff.length-3] ^ buff[buff.length-2]);
+		if(checkByte == buff[buff.length-1]) { //校验位
+			byte[] sendBuff = new byte[MyByteUtils.byteToInt(buff.length-2)];
+			System.arraycopy(buff, 1, sendBuff, 0, buff.length - 2);
 			return sendBuff;
 		}
 		return null;

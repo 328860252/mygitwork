@@ -181,7 +181,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
     // carried out as per profile specifications:
     // http://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml
     final byte[] data = characteristic.getValue();
-    String ss = MyHexUtils.buffer2String(data);
+    //String ss = MyHexUtils.buffer2String(data);
     // if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
     // int flag = characteristic.getProperties();
     // int format = -1;
@@ -202,7 +202,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
       // StringBuilder(data.length);
       // for(byte byteChar : data)
       // stringBuilder.append(String.format("%02X ", byteChar));
-      intent.putExtra(ConnectAction.BROADCAST_DATA_value, ss);
+      intent.putExtra(ConnectAction.BROADCAST_DATA_value, data);
     }
     // }
     sendBroadcast(intent);

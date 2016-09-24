@@ -2,6 +2,7 @@ package tsocket.zby.com.tsocket.connection.agreement;
 
 import android.content.Context;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
+import tsocket.zby.com.tsocket.bean.TimerBean;
 import tsocket.zby.com.tsocket.connection.ICmdParseInterface;
 import tsocket.zby.com.tsocket.utils.LogUtils;
 import tsocket.zby.com.tsocket.utils.MyByteUtils;
@@ -15,9 +16,10 @@ import tsocket.zby.com.tsocket.utils.RxBus;
 public class CmdParseImpl implements ICmdParseInterface {
 
   private final static String TAG = CmdParseImpl.class.getSimpleName();
-  public static final int type_status = 0xB1;
-  public static final int type_timer = 0xB2;
-  public static final int type_receiver = 0xB3;
+  public static final byte type_status = (byte) 0xB1;
+  public static final byte type_timer = (byte) 0xB2;
+  public static final byte type_receiver = (byte) 0xB3;
+  public static final byte type_downCount = (byte) 0xB5;
 
   private DeviceBean mDeviceBean;
   private Context mContext;
@@ -37,31 +39,55 @@ public class CmdParseImpl implements ICmdParseInterface {
       return;
     }
     switch (dataBuff[0]) {
-      case (byte) 0xB1: //状态
+      case  type_status: //状态
         mDeviceBean.setOnOff(dataBuff[1] == 0x01);
         mDeviceBean.setRecycle(dataBuff[2] == 0x01);
         mDeviceBean.setTimerEnable(dataBuff[3] == 0x01);
         break;
-      case (byte) 0xB2://定时
+      case type_timer://定时
+        TimerBean tb = new TimerBean();
+        tb.setId(MyByteUtils.byteToInt(dataBuff[1]));
+        tb.setStartHour(MyByteUtils.byteToInt(dataBuff[2]));
+        tb.setStartMinute(MyByteUtils.byteToInt(dataBuff[3]));
+        tb.setStartSecond(MyByteUtils.byteToInt(dataBuff[4]));
+        tb.setEndHour(MyByteUtils.byteToInt(dataBuff[5]));
+        tb.setEndMinute(MyByteUtils.byteToInt(dataBuff[6]));
+        tb.setEndSecond(MyByteUtils.byteToInt(dataBuff[7]));
+        tb.setOpenHour(MyByteUtils.byteToInt(dataBuff[8]));
+        tb.setOpenMinute(MyByteUtils.byteToInt(dataBuff[9]));
+        tb.setOpenSecond(MyByteUtils.byteToInt(dataBuff[10]));
+        tb.setCloseHour(MyByteUtils.byteToInt(dataBuff[11]));
+        tb.setCloseMinute(MyByteUtils.byteToInt(dataBuff[12]));
+        tb.setCloseSecond(MyByteUtils.byteToInt(dataBuff[13]));
+        tb.setWeekValue(MyByteUtils.byteToInt(dataBuff[14]));
+
+        tb.setStatus(MyByteUtils.byteToInt(dataBuff[15]));
+        mDeviceBean.updateTimerBeanList(tb);
         break;
-      case (byte) 0xB3://应答
+      case type_receiver://应答
         break;
-      case (byte) 0xB5://倒计时信息
+      case type_downCount://倒计时信息
            //开关1
            //循环1
            //启用1
            //时
            //分
            //秒
+        mDeviceBean.setOnOff(dataBuff[1] == 0x01);
+        mDeviceBean.setRecycle(dataBuff[2] == 0x01);
+        //mDeviceBean.setTimerEnable(dataBuff[3] == 0x01);
+        int downCount = MyByteUtils.byteToInt(dataBuff[4]) * 3600 + MyByteUtils.byteToInt(dataBuff[5]) * 60
+            + MyByteUtils.byteToInt(dataBuff[6]);
+        mDeviceBean.setDownCountSecond(downCount);
         break;
     }
-    sendBroadcast(MyByteUtils.byteToInt(dataBuff[1]));
+    RxBus.getDefault().post(dataBuff[1]);
   }
 
-  private void sendBroadcast(int type) {
-    //Intent intent = new Intent(ConnectAction.ACTION_RECEIVER_DATA);
-    //intent.putExtra(ConnectAction.BROADCAST_DATA_TYPE, type);
-    //mContext.sendBroadcast(intent);
-    RxBus.getDefault().post(type);
-  }
+  //private void sendBroadcast(int type) {
+  //  //Intent intent = new Intent(ConnectAction.ACTION_RECEIVER_DATA);
+  //  //intent.putExtra(ConnectAction.BROADCAST_DATA_TYPE, type);
+  //  //mContext.sendBroadcast(intent);
+  //  RxBus.getDefault().post(type);
+  //}
 }

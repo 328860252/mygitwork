@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
@@ -18,6 +19,12 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.adapter.OnItemClickListener;
 import tsocket.zby.com.tsocket.adapter.OnTimerSwitchClickListener;
@@ -40,6 +47,7 @@ public class DeviceControlActivity extends BaseActivity {
   private List<TimerBean> list;
   private DeviceBean mDeviceBean;
   private final int activity_timer = 11;
+  private Subscription mTimeSubscription;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -88,10 +96,35 @@ public class DeviceControlActivity extends BaseActivity {
     if (message instanceof Byte) {
       byte b = (byte) message;
       switch (b) {
-        case (byte) CmdParseImpl.type_status://状态
+        case  CmdParseImpl.type_status://状态
           ctvSwitch.setChecked(mDeviceBean.isOnOff());
           break;
-        case (byte) CmdParseImpl.type_timer://定时
+        case CmdParseImpl.type_timer://定时
+          break;
+        case CmdParseImpl.type_downCount:
+          mTimeSubscription = Observable.interval(1, TimeUnit.SECONDS)
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .unsubscribeOn(AndroidSchedulers.mainThread())
+              .subscribe(new Subscriber<Long>() {
+                @Override public void onCompleted() {
+                  Log.e("------ onCompleted ", "onCompleted");
+                  ctvSwitch.setText("");
+                }
+
+                @Override public void onError(Throwable e) {
+                  Log.e("------ onError ", "onCompleted");
+                }
+
+                @Override public void onNext(Long aLong) {
+                  Log.e("------ onNext ", "aLong : " + aLong);
+                  if (aLong< mDeviceBean.getDownCountSecond()) {
+                    ctvSwitch.setText(mDeviceBean.getDownCountString());
+                  } else {
+                    this.unsubscribe();
+                  }
+                }
+              });
           break;
       }
     }
@@ -194,4 +227,11 @@ public class DeviceControlActivity extends BaseActivity {
       // 上面的菜单哪边不要菜单就不要添加。
     }
   };
+
+  @Override protected void onDestroy() {
+    if (mTimeSubscription != null && !mTimeSubscription.isUnsubscribed()) {
+      mTimeSubscription.unsubscribe();
+    }
+    super.onDestroy();
+  }
 }

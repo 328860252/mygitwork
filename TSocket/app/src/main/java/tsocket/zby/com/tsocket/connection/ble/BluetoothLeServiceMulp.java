@@ -175,8 +175,8 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
     // carried out as per profile specifications:
     // http://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml
     final byte[] data = characteristic.getValue();
-    String ss = MyHexUtils.buffer2String(data);
-    LogUtils.e(TAG, mac + " 接受数据:" + ss);
+    //String ss = MyHexUtils.buffer2String(data);
+    //LogUtils.v(TAG, mac + " 接受数据:" + ss);
     if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {//����
       int flag = characteristic.getProperties();
       int format = -1;
@@ -189,7 +189,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
       }
       final int heartRate = characteristic.getIntValue(format, 1);
       Log.d(TAG, String.format("Received heart rate: %d", heartRate));
-      intent.putExtra(ConnectAction.BROADCAST_DATA_value, String.valueOf(heartRate));
+      intent.putExtra(ConnectAction.BROADCAST_DATA_value, (byte)heartRate);
     } else {
       // For all other profiles, writes the data formatted in HEX.
       if (data != null && data.length > 0) {
@@ -197,7 +197,7 @@ import tsocket.zby.com.tsocket.utils.MyHexUtils;
         // StringBuilder(data.length);
         // for(byte byteChar : data)
         // stringBuilder.append(String.format("%02X ", byteChar));
-        intent.putExtra(ConnectAction.BROADCAST_DATA_value, ss);
+        intent.putExtra(ConnectAction.BROADCAST_DATA_value, data);
         intent.putExtra(ConnectAction.BROADCAST_DEVICE_MAC, mac);
       }
     }

@@ -98,4 +98,10 @@ public class TimerBean implements Serializable, Cloneable{
         if (isRecycle()) status += 1 <<4;  //循环开关
         return status;
     }
+
+    public void setStatus(int status) {
+        isDelete = status % 2==1;
+        isEnable = status>>1 %2 ==1;
+        isRecycle = status>>4 %2 ==1;
+    }
 }

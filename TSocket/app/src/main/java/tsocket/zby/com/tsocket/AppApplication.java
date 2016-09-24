@@ -113,11 +113,11 @@ public class AppApplication extends Application {
         }).start();
         RxBus.getDefault().post(action);
       } else if (ConnectAction.ACTION_RECEIVER_DATA.equals(action)) { //解析数据
-        String buffer = intent.getStringExtra(ConnectAction.BROADCAST_DATA_value);
-        //LogUtils.v("application", mac + "接受数据:" + buffer);
+        byte[] buffer = intent.getByteArrayExtra(ConnectAction.BROADCAST_DATA_value);
+        LogUtils.v("tag", mac + "接受数据:" + buffer);
         if (mBluetoothLeService != null) {
           if (mDeviceBean != null) {
-            mDeviceBean.getParse().parseData(MyHexUtils.hexStringToByte(buffer));
+            mDeviceBean.getProccess().ProcessDataCommand(buffer,buffer.length);
           }
         }
       }
