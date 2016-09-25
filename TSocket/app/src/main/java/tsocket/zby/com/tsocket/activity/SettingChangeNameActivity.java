@@ -26,7 +26,8 @@ public class SettingChangeNameActivity extends BaseActivity {
     setContentView(R.layout.activity_setting_name);
     ButterKnife.bind(this);
     mDeviceBean = mApp.getDeviceBean();
-    mTvName.setText(mDeviceBean.getName());
+    String str = getString(R.string.text_oldName);
+    mTvName.setText(String.format(str, mDeviceBean.getName()));
   }
 
   @OnClick(R.id.layout_title_left) public void onBack() {
@@ -63,14 +64,16 @@ public class SettingChangeNameActivity extends BaseActivity {
       }
       new Thread(new Runnable() {
         @Override public void run() {
-          mDeviceBean.write(CmdPackage.setName(name));
+          byte[] buff = CmdPackage.setName(name);
           try {
+            mDeviceBean.writeNoEncrypt(buff);
+            mDeviceBean.setName(name);
             Thread.sleep(AppConstants.SEND_TIME_DEALY);
+            mDeviceBean.writeNoEncrypt(CmdPackage.setReboot());
+            finish();
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
-          mDeviceBean.write(CmdPackage.setReboot());
-          finish();
         }
       }).start();
     } catch (UnsupportedEncodingException e) {

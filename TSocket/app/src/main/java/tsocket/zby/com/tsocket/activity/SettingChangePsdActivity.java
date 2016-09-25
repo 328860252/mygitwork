@@ -1,6 +1,5 @@
 package tsocket.zby.com.tsocket.activity;
 
-import android.bluetooth.BluetoothClass;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,19 +48,23 @@ public class SettingChangePsdActivity extends BaseActivity {
   @OnClick(R.id.btn_confirm) public void onClick() {
     final  String newPsd = mEtPsd.getText().toString().trim();
     String psd2 = mEtPsdVerify.getText().toString().trim();
+    if (newPsd.length()!=6) {
+      showToast(R.string.toast_password_min6);
+      return;
+    }
     if (!newPsd.equals(psd2)) {
       showToast(R.string.toast_psd_notequals);
       return;
     }
     new Thread(new Runnable() {
       @Override public void run() {
-        mDeviceBean.write(CmdPackage.setPassword(newPsd));
+        mDeviceBean.writeNoEncrypt(CmdPackage.setPassword(newPsd));
         try {
           Thread.sleep(AppConstants.SEND_TIME_DEALY);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-        mDeviceBean.write(CmdPackage.setReboot());
+        mDeviceBean.writeNoEncrypt(CmdPackage.setReboot());
         finish();
       }
     }).start();

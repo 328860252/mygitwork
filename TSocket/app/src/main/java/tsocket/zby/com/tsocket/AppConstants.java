@@ -20,7 +20,7 @@ public class AppConstants {
   /**
    * 发送协议间隔时间
    */
-  public static final long SEND_TIME_DEALY = 1000;
+  public static final long SEND_TIME_DEALY = 500;
   public static long scan_time = 10000;
 
   /**

@@ -16,7 +16,8 @@
   <string name="text_change_psd">修改密码</string>
   <string name="text_input_password">请输入密码</string>
   <string name="text_input_password_verify">请输入确认密码</string>
-  <string name="text_input_name">请输入新名字</string>
+  <string name="text_oldName">旧名字:%s</string>
+  <string name="text_input_name">输入新名字</string>
   <string name="text_minute">分钟</string>
   <string name="text_delay">延时</string>
   <string name="text_finish">完成</string>
@@ -37,7 +38,7 @@
   <string name="text_adapter_timer">%1$s - %2$s</string>
   <string name="text_adapter_recyclestr">循环 ON %1$s - OFF %2$s</string>
   <string name="text_adapter_week">重复: %1$s</string>
-  <string name="toast_timer_week_notnull">星期不能为空</string>
+  <string name="toast_timer_week_notnull">每周重复至少应选择一天</string>
   <string name="toast_timer_timerErr">关闭时间要大于开启时间</string>
   <string name="toast_delay_min_error">循环时间不能低于5秒</string>
   <string name="toast_linking">连接中...</string>
@@ -45,4 +46,7 @@
   <string name="toast_name_tolong">名字太长</string>
   <string name="toast_name_enmpty">名字不能为空</string>
   <string name="toast_psd_notequals">密码不一致</string>
+  <string name="toast_timer_max">最多可以设置10组定时</string>
+  <string name="toast_password_min6">设备密码只允许为6位</string>
+  <string name="toast_linkLost">连接失败</string>
 </resources>

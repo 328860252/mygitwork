@@ -127,6 +127,10 @@ public class TimerActivity extends BaseActivity {
           showToast(R.string.toast_timer_week_notnull);
           return;
         }
+        if (mTimerBean.getId()>9) {
+          showToast(R.string.toast_timer_max);
+          return ;
+        }
         if (mTvTimerStart.getText().toString().compareTo(mTvTimerEnd.getText().toString()) >= 0) {
           showToast(R.string.toast_timer_timerErr);
           return;

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +47,11 @@ public class TimerAdapter extends SwipeMenuAdapter<TimerAdapter.TimerViewHolder>
     }
     holder.mTvWeek.setText(String.format(mContext.getString(R.string.text_adapter_week), timerBean.getWeekString(mContext)));
     holder.mIvTimerSwitch.setSelected(timerBean.isEnable());
+    if (timerBean.isEnable()) {
+      holder.mLayoutTimer.setBackgroundResource(R.drawable.layout_selector_timer);
+    } else {
+      holder.mLayoutTimer.setBackgroundResource(R.drawable.layout_selector_timer1);
+    }
     holder.mIvTimerSwitch.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         if (mListener != null) {
@@ -65,6 +71,7 @@ public class TimerAdapter extends SwipeMenuAdapter<TimerAdapter.TimerViewHolder>
     @BindView(R.id.tv_recycle) TextView mTvRecycle;
     @BindView(R.id.tv_week) TextView mTvWeek;
     @BindView(R.id.iv_timer_switch) ImageView mIvTimerSwitch;
+    @BindView(R.id.layout_timer) RelativeLayout mLayoutTimer;
     OnItemClickListener mClickListener;
 
     TimerViewHolder(View view) {

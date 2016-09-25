@@ -246,6 +246,11 @@ public class DeviceControlActivity extends BaseActivity {
     }
   };
 
+  @Override protected void onResume() {
+    headerLayout.setTextTitle(mDeviceBean.getName());
+    super.onResume();
+  }
+
   @Override protected void onDestroy() {
     if (mTimeSubscription != null && !mTimeSubscription.isUnsubscribed()) {
       mTimeSubscription.unsubscribe();

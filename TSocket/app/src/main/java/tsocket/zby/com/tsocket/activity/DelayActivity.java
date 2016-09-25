@@ -31,6 +31,11 @@ public class DelayActivity extends BaseActivity {
   private DeviceBean mDeviceBean;
   private List<DelayMinuteView> mViewList = new ArrayList<>();
 
+  /**
+   * 定时是1 - 60 ， 但是seekbar 默认最小值为0 ，范围为0-59 ，所以全部要加上1
+   */
+  private final int SEEKBAR_MIN = 1;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_delay);
@@ -49,7 +54,7 @@ public class DelayActivity extends BaseActivity {
     mSearchBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
       @Override public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         mTvDelayTime.setText(
-            String.format(getString(R.string.text_delay_minute), seekBar.getProgress()));
+            String.format(getString(R.string.text_delay_minute), getSeekbarProgressValue()));
       }
 
       @Override public void onStartTrackingTouch(SeekBar seekBar) {
@@ -57,22 +62,22 @@ public class DelayActivity extends BaseActivity {
       }
 
       @Override public void onStopTrackingTouch(SeekBar seekBar) {
-        int procress = seekBar.getProgress();
-        initDelayMinute(procress);
+        initDelayMinute(getSeekbarProgressValue());
       }
     });
-    //mSearchBar.setProgress(mDeviceBean.getDelayNumber());
     //刚好是相反的
     mCbDelay.setChecked(!mDeviceBean.isOnOff());
-    int lastPro = SharedPerfenceUtils.getSetupData(this).readInt(AppString.Last_Delay_Timer, 0);
-    mSearchBar.setProgress(lastPro);
-    mTvDelayTime.setText(String.format(getString(R.string.text_delay_minute), mSearchBar.getProgress()));
+    int lastPro = SharedPerfenceUtils.getSetupData(this).readInt(AppString.Last_Delay_Timer, 1);
+    setSeekbarProgressValue(lastPro);
+    mTvDelayTime.setText(
+        String.format(getString(R.string.text_delay_minute), getSeekbarProgressValue()));
   }
 
   @OnClick(R.id.layout_title_right) public void onSave() {
-    if (mDeviceBean.write(CmdPackage.setTimerDelay(mCbDelay.isChecked(), 0, mSearchBar.getProgress(), 0))){
-      SharedPerfenceUtils.getSetupData(this).saveInt(AppString.Last_Delay_Timer, mSearchBar.getProgress());
-      mDeviceBean.setDownCountSecond(mSearchBar.getProgress()*60);
+    int minute = getSeekbarProgressValue();
+    if (mDeviceBean.write(CmdPackage.setTimerDelay(mCbDelay.isChecked(), 0, minute, 0))) {
+      SharedPerfenceUtils.getSetupData(this).saveInt(AppString.Last_Delay_Timer, minute);
+      mDeviceBean.setDownCountSecond(minute * 60);
       setResult(RESULT_OK);
       finish();
     }
@@ -110,7 +115,7 @@ public class DelayActivity extends BaseActivity {
       case R.id.tv_minute_50:
       case R.id.tv_minute_60:
         String text = ((DelayMinuteView) view).getTextNumber();
-        mSearchBar.setProgress(Integer.parseInt(text));
+        setSeekbarProgressValue(Integer.parseInt(text));
         initDelayMinute(Integer.parseInt(text));
         break;
     }
@@ -131,5 +136,13 @@ public class DelayActivity extends BaseActivity {
         view.setChecked(false);
       }
     }
+  }
+
+  private int getSeekbarProgressValue() {
+    return mSearchBar.getProgress() + SEEKBAR_MIN;
+  }
+
+  private void setSeekbarProgressValue(int value) {
+    mSearchBar.setProgress(value - SEEKBAR_MIN);
   }
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class AppApplication extends Application {
       final String mac = intent.getStringExtra(ConnectAction.BROADCAST_DEVICE_MAC);
       if (ConnectAction.ACTION_GATT_CONNECTED.equals(action)) {
       } else if (ConnectAction.ACTION_GATT_DISCONNECTED.equals(action)) {
+        Toast.makeText(getApplicationContext(), R.string.toast_linkLost, Toast.LENGTH_LONG).show();
       } else if (ConnectAction.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
         ////蓝牙连接成功就自动检验密码
         new Thread(new Runnable() {
