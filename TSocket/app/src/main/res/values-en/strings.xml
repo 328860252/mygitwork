@@ -16,7 +16,8 @@
   <string name="text_change_psd">Change password</string>
   <string name="text_input_password">please input password</string>
   <string name="text_input_password_verify">please input password again</string>
-  <string name="text_input_name">Old name:%s</string>
+  <string name="text_input_name">input new name</string>
+  <string name="text_oldName">Old name:%s</string>
   <string name="text_minute">min</string>
   <string name="text_delay">Delayer</string>
   <string name="text_finish">finish</string>
@@ -45,7 +46,7 @@
   <string name="toast_name_tolong">Name is too long.</string>
   <string name="toast_name_enmpty">Name not allow empty.</string>
   <string name="toast_psd_notequals">Two input password is not the same</string>
-
+  <string name="toast_timer_max">set up 10 groups time at most</string>
   <string name="toast_password_min6">Password must be 6 number.</string>
   <string name="toast_linkLost">Link lost</string>
 </resources>
