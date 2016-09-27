@@ -1,6 +1,8 @@
 package tsocket.zby.com.tsocket.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,8 +16,10 @@ import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
+import com.tbruyelle.rxpermissions.RxPermissions;
 import java.util.ArrayList;
 import java.util.List;
+import rx.functions.Action1;
 import tsocket.zby.com.tsocket.AppConstants;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.adapter.DeviceAdapter;
@@ -40,7 +44,23 @@ public class DeviceListActivity extends BaseActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_device_list);
     ButterKnife.bind(this);
+    BleManager.getInstance(this).bluetoothEnable();
+    initViews();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //6.0蓝牙搜索需要 location权限
+      RxPermissions.getInstance(this)
+          .request(Manifest.permission.ACCESS_COARSE_LOCATION,
+              Manifest.permission.ACCESS_FINE_LOCATION)
+          .subscribe(new Action1<Boolean>() {
+            @Override public void call(Boolean aBoolean) {
+              mSwiperLayout.beginRefreshing();
+            }});
+    } else {
+      mSwiperLayout.beginRefreshing();
+    }
 
+  }
+
+  private void initViews() {
     BGARefreshViewHolder RefreshViewHolder = new BGANormalRefreshViewHolder(this, true);
     mSwiperLayout.setRefreshViewHolder(RefreshViewHolder);
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -76,7 +96,6 @@ public class DeviceListActivity extends BaseActivity
         }
       }
     });
-    mSwiperLayout.beginRefreshing();
   }
 
   @OnClick(R.id.layout_title_left) public void onBack() {

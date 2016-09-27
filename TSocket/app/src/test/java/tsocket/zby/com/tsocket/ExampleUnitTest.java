@@ -31,15 +31,17 @@ public class ExampleUnitTest {
   @Test
   public void test () {
     TimerBean tb = TimerBean.getNewTimerBean();
-    TimerBean tb2;
+    TimerBean tb2 = null;
     try {
       tb2 = (TimerBean) tb.clone();
       tb2.setWeekValue(113);
       tb.setWeekValue(111);
-      tb2.setId(11111);
+      tb2.setId(9);
     } catch (CloneNotSupportedException e) {
       e.printStackTrace();
     }
+    System.out.println(MyHexUtils.buffer2String(CmdPackage.setTimer(tb)));
+    System.out.println(MyHexUtils.buffer2String(CmdPackage.setTimer(tb2)));
   }
 
   @Test

@@ -44,11 +44,32 @@ public class BleManager {
     return mBleManager;
   }
 
+  public void bluetoothEnable() {
+    if (mBluetoothManager == null) {
+      mBluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
+      if (mBluetoothManager == null) {
+        return;
+      }
+    }
+
+    if (mBluetoothAdapter == null) {
+      mBluetoothAdapter = mBluetoothManager.getAdapter();
+      if (mBluetoothAdapter == null) return;
+    }
+    if (!mBluetoothAdapter.isEnabled()) {
+      mBluetoothAdapter.enable();
+    }
+  }
+
   public void startScan(boolean isStartScan) {
     if (isStartScan) { //开始搜索
-      if (scanThread == null) {
-        scanThread = new Thread(scanRunable);
+      if (scanThread != null) {
+        if (scanThread.isAlive()) {
+          scanThread.interrupt();
+        }
+        scanThread = null;
       }
+      scanThread = new Thread(scanRunable);
       if (mBluetoothManager == null) {
         mBluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
         if (mBluetoothManager == null) {

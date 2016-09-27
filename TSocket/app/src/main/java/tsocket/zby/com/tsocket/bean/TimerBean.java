@@ -95,7 +95,7 @@ public class TimerBean implements Serializable, Cloneable{
         if (isDelete()) status += 1 ; //删除
         if (isEnable()) status += 1 << 1; //有效位，1
         status += 1 << 2; //循环开关位，暂时固定为1
-        //if (isDelete()) status += 1 ^4; //倒计时定时1  普通0
+        //if (isDelete()) status += 1 ^3; //倒计时定时1  普通0
         if (isRecycle()) status += 1 <<4;  //循环开关
         return status;
     }
