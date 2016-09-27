@@ -125,8 +125,13 @@ public class DeviceListActivity extends BaseActivity
         mDeviceAdapter.notifyDataSetChanged();
       } else if (message.equals(ConnectAction.ACTION_GATT_SERVICES_DISCOVERED)) {//发现服务才算连接上
         showToast(R.string.toast_linked);
-        Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
-        startActivity(intent);
+        if (mDeviceBean.isBonded()) {
+          Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+          startActivity(intent);
+        } else if (BleManager.getInstance(DeviceListActivity.this).isBonded(mDeviceBean.getMac())) {
+          Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+          startActivity(intent);
+        }
       }
     }
     super.onReceiverCmd(message);

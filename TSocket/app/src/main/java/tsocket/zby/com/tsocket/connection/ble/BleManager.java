@@ -136,6 +136,15 @@ public class BleManager {
     intent.putExtra("mac", device.getAddress());
     intent.putExtra("name", device.getName());
     intent.putExtra("rssi", arg1);
+    intent.putExtra("isBonded", device.getBondState()==BluetoothDevice.BOND_BONDED);
     mContext.sendBroadcast(intent);
+  }
+
+  public boolean isBonded(String mac) {
+    BluetoothDevice bd = mBluetoothAdapter.getRemoteDevice(mac);
+    if (bd!=null) {
+      return bd.getBondState() == BluetoothDevice.BOND_BONDED;
+    }
+    return false;
   }
 }

@@ -55,6 +55,7 @@ public class TimerBean implements Serializable, Cloneable{
         timerBean.setCloseMinute(5);
         timerBean.setCloseSecond(0);
 
+        timerBean.setEnable(true);
         timerBean.setRecycle(true);
         timerBean.setWeekValue(127);
         return timerBean;
@@ -102,7 +103,8 @@ public class TimerBean implements Serializable, Cloneable{
 
     public void setStatus(int status) {
         isDelete = status % 2==1;
-        isEnable = status>>1 %2 ==1;
-        isRecycle = status>>4 %2 ==1;
+        int a = status >>1;
+        isEnable = (status>>1) %2 ==1;
+        isRecycle = (status>>4) %2 ==1;
     }
 }

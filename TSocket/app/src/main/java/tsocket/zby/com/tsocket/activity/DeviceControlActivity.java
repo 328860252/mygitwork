@@ -163,7 +163,7 @@ public class DeviceControlActivity extends BaseActivity {
 
   private void startDownCount() {
     if (mTimeSubscription!=null) {
-      if (mTimeSubscription.isUnsubscribed()) {
+      if (!mTimeSubscription.isUnsubscribed()) {
         mTimeSubscription.unsubscribe();
       }
       mTimeSubscription = null;

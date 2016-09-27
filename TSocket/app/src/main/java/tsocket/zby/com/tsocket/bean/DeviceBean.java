@@ -33,6 +33,7 @@ public class DeviceBean {
   private boolean delaySwitch;
 
   private int downCountSecond; //单位秒
+  private boolean isBonded;
 
   public IConnectInterface connect;
   public ICmdParseInterface parse;

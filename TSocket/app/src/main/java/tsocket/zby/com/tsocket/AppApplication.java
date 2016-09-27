@@ -140,7 +140,8 @@ public class AppApplication extends Application {
       if (intent.getAction().equals(ConnectAction.ACTION_BLUETOOTH_FOUND)) {//发现了蓝牙设备
         String mac =intent.getStringExtra("mac");
         String name =intent.getStringExtra("name");
-        addOrUpdateDeviceBean(name, mac);
+        boolean isbond =intent.getBooleanExtra("isBonded", false);
+        addOrUpdateDeviceBean(name, mac, isbond);
         //int rssi =intent.getIntExtra("rssi", 100);
         //autoLink(mac, name, rssi);
       }
@@ -179,7 +180,7 @@ public class AppApplication extends Application {
     return list;
   }
 
-  public void addOrUpdateDeviceBean(String name, String mac) {
+  public void addOrUpdateDeviceBean(String name, String mac, boolean isBonded) {
     DeviceBean dbin;
     for (int i = 0; i < list.size(); i++) {
       if (list.get(i).getMac().equals(mac)) {
@@ -189,6 +190,7 @@ public class AppApplication extends Application {
     }
     dbin = new DeviceBean();
     dbin.setName(name);
+    dbin.setBonded(isBonded);
     dbin.setMac(mac);
     dbin.setConnectionInterface(mInterface, this);
     list.add(dbin);
