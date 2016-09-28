@@ -42,4 +42,5 @@ public class ConnectAction {
 	public final static String ACTION_DEVICE_SCAN_FINISH = "com.example.bluetooth.scan_finish";
 
 	public static final String ACTION_SHOW_TOAST = "com.interphone.nolink";
+	public static final Object ACTION_BLUETOOTH_BOUNED = "com.example.bluetooth.device_bounded";
 }

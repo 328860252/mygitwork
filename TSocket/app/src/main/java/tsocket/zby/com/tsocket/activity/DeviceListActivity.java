@@ -1,6 +1,7 @@
 package tsocket.zby.com.tsocket.activity;
 
 import android.Manifest;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -91,8 +92,15 @@ public class DeviceListActivity extends BaseActivity
           mDeviceBean.connect();
           showToast(R.string.toast_linking);
         } else {
-          Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
-          startActivity(intent);
+          if (mDeviceBean.isBonded()) {
+            Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+            startActivity(intent);
+          } else if (BleManager.getInstance(DeviceListActivity.this).isBonded(mDeviceBean.getMac())) {
+            Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+            startActivity(intent);
+          } else {
+            showToast(R.string.toast_no_bond);
+          }
         }
       }
     });
@@ -132,6 +140,9 @@ public class DeviceListActivity extends BaseActivity
           Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
           startActivity(intent);
         }
+      } else if (message.equals(ConnectAction.ACTION_BLUETOOTH_BOUNED)) {
+        Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+        startActivity(intent);
       }
     }
     super.onReceiverCmd(message);

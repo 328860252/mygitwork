@@ -1,6 +1,7 @@
 package tsocket.zby.com.tsocket;
 
 import android.app.Application;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -41,6 +42,7 @@ public class AppApplication extends Application {
     if (Tools.isMainProcess(this)) {
       bindService();
       IntentFilter interFilter = new IntentFilter(ConnectAction.ACTION_BLUETOOTH_FOUND);
+      interFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
       registerReceiver(receiver, interFilter);
       registerReceiver(mGattUpdateReceiver ,makeGattUpdateIntentFilter());
     }
@@ -144,8 +146,15 @@ public class AppApplication extends Application {
         addOrUpdateDeviceBean(name, mac, isbond);
         //int rssi =intent.getIntExtra("rssi", 100);
         //autoLink(mac, name, rssi);
+      } else if(intent.getAction().equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {//
+        BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+        if (device == null) return;
+        addOrUpdateDeviceBean(device.getName(), device.getAddress(), device.getBondState() == BluetoothDevice.BOND_BONDED);
+        if (mDeviceBean != null && mDeviceBean.getMac().equals(device.getAddress())) {
+          RxBus.getDefault().post(ConnectAction.ACTION_BLUETOOTH_BOUNED);
+        }
       }
-    };
+    }
   };
 
   //private void autoLink(String mac, String name, int rssi) {
@@ -185,6 +194,7 @@ public class AppApplication extends Application {
     for (int i = 0; i < list.size(); i++) {
       if (list.get(i).getMac().equals(mac)) {
         list.get(i).setName(name);
+        list.get(i).setBonded(isBonded);
         return;
       }
     }
