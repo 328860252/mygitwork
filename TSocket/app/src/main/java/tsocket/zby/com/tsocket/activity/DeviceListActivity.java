@@ -165,5 +165,8 @@ public class DeviceListActivity extends BaseActivity
 
   @Override protected void onDestroy() {
     super.onDestroy();
+    if (mApp != null) {
+      mApp.onTerminate();
+    }
   }
 }

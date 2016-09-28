@@ -57,6 +57,9 @@ public class AppApplication extends Application {
   }
 
   @Override public void onTerminate() {
+    if (mDeviceBean!=null) {
+      mDeviceBean.stopConnect();
+    }
     super.onTerminate();
   }
 
