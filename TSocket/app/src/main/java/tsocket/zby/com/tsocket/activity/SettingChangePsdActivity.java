@@ -60,7 +60,7 @@ public class SettingChangePsdActivity extends BaseActivity {
       @Override public void run() {
         mDeviceBean.writeNoEncrypt(CmdPackage.setPassword(newPsd));
         try {
-          Thread.sleep(AppConstants.SEND_TIME_DEALY);
+          Thread.sleep(1000);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }

@@ -128,6 +128,7 @@ public class DeviceListActivity extends BaseActivity
 
   @Override protected void onReceiverCmd(Object message) {
     if (message instanceof String) {
+      LogUtils.v("deviceList", "onReceiver  "+ message);
       if (message.equals(ConnectAction.ACTION_DEVICE_SCAN_FINISH)) {
         mSwiperLayout.endRefreshing();
       } else if (message.equals("newDeviceBean")) {

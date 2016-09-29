@@ -29,7 +29,6 @@ public class DeviceBean {
   private boolean recycle;
   private boolean timerEnable;
   private List<TimerBean> mTimerBeanList = new ArrayList<>();;
-  private int delayNumber;
   private boolean delaySwitch;
 
   private int downCountSecond; //单位秒

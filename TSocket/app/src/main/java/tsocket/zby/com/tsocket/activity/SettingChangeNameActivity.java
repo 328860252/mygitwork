@@ -68,7 +68,7 @@ public class SettingChangeNameActivity extends BaseActivity {
           try {
             mDeviceBean.writeNoEncrypt(buff);
             mDeviceBean.setName(name);
-            Thread.sleep(AppConstants.SEND_TIME_DEALY);
+            Thread.sleep(1000);
             mDeviceBean.writeNoEncrypt(CmdPackage.setReboot());
             finish();
           } catch (InterruptedException e) {

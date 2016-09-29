@@ -199,6 +199,7 @@ public class AppApplication extends Application {
       if (list.get(i).getMac().equals(mac)) {
         list.get(i).setName(name);
         list.get(i).setBonded(isBonded);
+        RxBus.getDefault().post("newDeviceBean");
         return;
       }
     }

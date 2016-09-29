@@ -27,6 +27,11 @@ public class ExampleUnitTest {
     System.out.println(1<<1);
     TimerBean timerBean = TimerBean.getNewTimerBean();
     System.out.println(MyHexUtils.buffer2String(CmdPackage.setTimerCheck()));
+
+    String str = "57 52 2B 4E 41 4D 45 2B 31 31 31 22 ";
+    String str2 = "57 52 2B 52 45 53 54 41 52 54 22";
+    System.out.println( new String(MyHexUtils.hexStringToByte(str)));
+    System.out.println( new String(MyHexUtils.hexStringToByte(str2)));
   }
 
   @Test

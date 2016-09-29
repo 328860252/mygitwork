@@ -85,7 +85,7 @@ public class DeviceControlActivity extends BaseActivity {
       @Override public void onClickItem(View view, int position) {
         Intent intent = new Intent(DeviceControlActivity.this, TimerActivity.class);
         intent.putExtra("timer", list.get(position));
-        startActivity(intent);
+        startActivityForResult(intent, activity_timer);
       }
     });
     mSwipeMenuRecyclerView.setAdapter(mTimerAdapter);
@@ -152,7 +152,13 @@ public class DeviceControlActivity extends BaseActivity {
         break;
       case R.id.ctv_switch:
         ctvSwitch.setChecked(!ctvSwitch.isChecked());
-        mDeviceBean.write(CmdPackage.setSwitch(ctvSwitch.isChecked()));
+        if (mDeviceBean.write(CmdPackage.setSwitch(ctvSwitch.isChecked()))) {
+          if (mDeviceBean.getDownCountSecond()>0) {
+            mTvDownCount.setText("");
+            unSubscribePushMessage();
+            mDeviceBean.setDownCountSecond(0);
+          }
+        }
         break;
       case R.id.tv_timer:
         intent = new Intent(this, TimerActivity.class);

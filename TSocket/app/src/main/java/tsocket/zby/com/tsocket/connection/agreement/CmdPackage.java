@@ -115,7 +115,7 @@ public class CmdPackage {
 
   public static byte[] setReboot() {
     byte[] buff = null;
-      buff = ("WR+RESTART+" + "\"").getBytes();
+      buff = ("WR+RESTART" + "\"").getBytes();
     return buff;
   }
 }
