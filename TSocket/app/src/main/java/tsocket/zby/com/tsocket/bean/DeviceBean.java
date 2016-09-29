@@ -47,7 +47,9 @@ public class DeviceBean {
     if (proccess == null) {
       proccess = new CmdProcess(parse);
     }
-    this.connect.setCmdParse(parse);
+    if (connect!=null) {
+      this.connect.setCmdParse(parse);
+    }
   }
 
   public boolean isLink() {
@@ -94,6 +96,9 @@ public class DeviceBean {
   }
 
   public List<TimerBean> getTimerBeanList() {
+    if (mTimerBeanList == null) {
+      mTimerBeanList = new ArrayList<>();
+    }
     return mTimerBeanList;
   }
 
@@ -133,5 +138,33 @@ public class DeviceBean {
     } else {
       return downCountSecond % 60 + "sec";
     }
+  }
+
+  /**
+   * 校验是否冲突
+   * @param timerBean
+   * @return
+   */
+  public boolean verifyConflict(TimerBean timerBean) {
+    for (TimerBean tb : getTimerBeanList()) {
+      if (tb.getId()==timerBean.getId()) {//遇到修改的定时就是自己本身，不做校验
+        continue;
+      }
+      if ((tb.getWeekValue() & timerBean.getWeekValue()) >0) { //表示有相同的星期位 同时为1
+        //时间比较，
+        int startCompareTo = tb.getStartString().compareTo(timerBean.getStartString());
+        int endCompareTo = tb.getEndString().compareTo(timerBean.getEndString());
+        int start2endCompareTo = tb.getStartString().compareTo(timerBean.getEndString());
+        int end2startCompareTo = tb.getEndString().compareTo(timerBean.getStartString());
+        if (startCompareTo==0 || endCompareTo==0) { //有同样的开始时间 或 同样的结束时间
+          return false;
+        } else if (startCompareTo>0 && start2endCompareTo<0) { //tb开始时间比timerBean大，但比timerBean的结束时间 小
+          return false;
+        } else if (startCompareTo <0 && end2startCompareTo>0) {//tb开始时间比timerBean开始小， 但比timerBean结束时间大
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }

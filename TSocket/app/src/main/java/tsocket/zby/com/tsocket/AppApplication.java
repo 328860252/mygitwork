@@ -44,7 +44,7 @@ public class AppApplication extends Application {
       IntentFilter interFilter = new IntentFilter(ConnectAction.ACTION_BLUETOOTH_FOUND);
       interFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
       registerReceiver(receiver, interFilter);
-      registerReceiver(mGattUpdateReceiver ,makeGattUpdateIntentFilter());
+      registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
     }
   }
 
@@ -57,8 +57,11 @@ public class AppApplication extends Application {
   }
 
   @Override public void onTerminate() {
-    if (mDeviceBean!=null) {
-      mDeviceBean.stopConnect();
+    if (mInterface != null) {
+      mInterface.stopConncet();
+    }
+    if (mBluetoothLeService != null) {
+      mBluetoothLeService.closeAll();
     }
     super.onTerminate();
   }
@@ -123,7 +126,6 @@ public class AppApplication extends Application {
                 e.printStackTrace();
               }
               mDeviceBean.write(CmdPackage.getDownCountTimer());
-
             }
           }
         }).start();
@@ -133,7 +135,7 @@ public class AppApplication extends Application {
         LogUtils.v("tag", mac + "接受数据:" + MyHexUtils.buffer2String(buffer));
         if (mBluetoothLeService != null) {
           if (mDeviceBean != null) {
-            mDeviceBean.getProccess().ProcessDataCommand(buffer,buffer.length);
+            mDeviceBean.getProccess().ProcessDataCommand(buffer, buffer.length);
           }
         }
       }
@@ -143,16 +145,15 @@ public class AppApplication extends Application {
   private BroadcastReceiver receiver = new BroadcastReceiver() {
     public void onReceive(android.content.Context arg0, android.content.Intent intent) {
       if (intent.getAction().equals(ConnectAction.ACTION_BLUETOOTH_FOUND)) {//发现了蓝牙设备
-        String mac =intent.getStringExtra("mac");
-        String name =intent.getStringExtra("name");
-        boolean isbond =intent.getBooleanExtra("isBonded", false);
+        String mac = intent.getStringExtra("mac");
+        String name = intent.getStringExtra("name");
+        boolean isbond = intent.getBooleanExtra("isBonded", false);
         addOrUpdateDeviceBean(name, mac, isbond);
-        //int rssi =intent.getIntExtra("rssi", 100);
-        //autoLink(mac, name, rssi);
-      } else if(intent.getAction().equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {//
+      } else if (intent.getAction().equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {//
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         if (device == null) return;
-        addOrUpdateDeviceBean(device.getName(), device.getAddress(), device.getBondState() == BluetoothDevice.BOND_BONDED);
+        addOrUpdateDeviceBean(device.getName(), device.getAddress(),
+            device.getBondState() == BluetoothDevice.BOND_BONDED);
         if (mDeviceBean != null && mDeviceBean.getMac().equals(device.getAddress())) {
           RxBus.getDefault().post(ConnectAction.ACTION_BLUETOOTH_BOUNED);
         }

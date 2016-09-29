@@ -71,6 +71,7 @@ public class DeviceListActivity extends BaseActivity
       DeviceBean deviceBean = new DeviceBean();
       deviceBean.setName("test1");
       deviceBean.setMac("test1");
+      deviceBean.setBonded(true);
       list.add(deviceBean);
     }
 

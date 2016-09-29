@@ -81,8 +81,8 @@ public class BleManager {
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         if (mBluetoothAdapter == null) return;
       }
-        mMacSet.clear();
-        scanThread.start();
+      mMacSet.clear();
+      scanThread.start();
     } else { //关闭搜索线程
       if (scanThread!=null) {
         scanThread.interrupt();

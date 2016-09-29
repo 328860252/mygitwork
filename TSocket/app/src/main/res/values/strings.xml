@@ -50,4 +50,5 @@
   <string name="toast_password_min6">设备密码只允许为6位</string>
   <string name="toast_linkLost">连接失败</string>
   <string name="toast_no_bond">请先配对设备</string>
+  <string name="toast_timer_conflict">时间设置有冲突</string>
 </resources>

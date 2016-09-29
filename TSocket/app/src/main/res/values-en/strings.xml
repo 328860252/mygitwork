@@ -49,4 +49,6 @@
   <string name="toast_timer_max">set up 10 groups time at most</string>
   <string name="toast_password_min6">Password must be 6 number.</string>
   <string name="toast_linkLost">Link lost</string>
+  <string name="toast_no_bond">please pair first</string>
+  <string name="toast_timer_conflict">Timing task has superimposed region</string>
 </resources>

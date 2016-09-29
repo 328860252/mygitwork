@@ -14,7 +14,6 @@ import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
 import tsocket.zby.com.tsocket.bean.TimerBean;
 import tsocket.zby.com.tsocket.connection.agreement.CmdPackage;
-import tsocket.zby.com.tsocket.connection.agreement.CmdParseImpl;
 import tsocket.zby.com.tsocket.view.WeekView;
 
 public class TimerActivity extends BaseActivity {
@@ -137,6 +136,10 @@ public class TimerActivity extends BaseActivity {
         }
         mTimerBean.setRecycle(mCbDelay.isChecked());
         mTimerBean.setWeekValue(mWeekViewValue.getWeekValue());
+        if (!mDeviceBean.verifyConflict(mTimerBean) ){
+          showToast(R.string.toast_timer_conflict);
+         return;
+        }
         if (mDeviceBean.write(CmdPackage.setTimer(mTimerBean))) {
           mDeviceBean.updateTimerBeanList(mTimerBean);
           setResult(RESULT_OK);
@@ -180,7 +183,7 @@ public class TimerActivity extends BaseActivity {
         //mTimerBean.setCloseHour(hour);
         mTimerBean.setCloseMinute(minute);
         mTimerBean.setCloseSecond(second);
-        mTvDelayEnd.setText(mTimerBean.getCloseHour());
+        mTvDelayEnd.setText(mTimerBean.getCloseString());
         break;
     }
   }

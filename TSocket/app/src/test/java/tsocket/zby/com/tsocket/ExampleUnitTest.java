@@ -3,6 +3,7 @@ package tsocket.zby.com.tsocket;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
+import tsocket.zby.com.tsocket.bean.DeviceBean;
 import tsocket.zby.com.tsocket.bean.TimerBean;
 import tsocket.zby.com.tsocket.connection.agreement.CmdPackage;
 import tsocket.zby.com.tsocket.connection.agreement.CmdParseImpl;
@@ -30,19 +31,25 @@ public class ExampleUnitTest {
 
   @Test
   public void test () {
+
+    DeviceBean db = new DeviceBean();
     TimerBean tb = TimerBean.getNewTimerBean();
-    //TimerBean tb2 = null;
-    //try {
-    //  tb2 = (TimerBean) tb.clone();
-    //  tb2.setWeekValue(113);
-    //  tb.setWeekValue(111);
-    //  tb2.setId(9);
-    //} catch (CloneNotSupportedException e) {
-    //  e.printStackTrace();
-    //}
-    tb.setOpenMinute(18);
-    tb.setStatus(22);
+    TimerBean tb2 = null;
+    try {
+      tb2 = (TimerBean) tb.clone();
+      tb2.setEndHour(12);
+      tb2.setStartHour(11);
+      tb2.setWeekValue(3);
+      tb2.setId(9);
+    } catch (CloneNotSupportedException e) {
+      e.printStackTrace();
+    }
+    tb.setWeekValue(69);
+    tb.setEndHour(tb.getEndHour()+1);
+    db.getTimerBeanList().add(tb);
+    db.getTimerBeanList().add(tb2);
     System.out.println(MyHexUtils.buffer2String(CmdPackage.setTimer(tb)));
+    System.out.println("比较结果："+ db.verifyConflict(tb2));
     //System.out.println(MyHexUtils.buffer2String(CmdPackage.setTimer(tb2)));
   }
 
