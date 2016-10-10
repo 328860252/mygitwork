@@ -248,6 +248,27 @@ public class CmdPackage {
     return buff;
   }
 
+  public static byte[] setPTT(boolean PTT) {
+    byte[] buff = new byte[7];
+    buff[0] = 0x03;
+    buff[1] = Cmd_type_power;
+    return buff;
+  }
+
+  public static byte[] setScan(boolean scan) {
+    byte[] buff = new byte[7];
+    buff[0] = 0x03;
+    buff[1] = Cmd_type_power;
+    return buff;
+  }
+
+  public static byte[] setMonitor(boolean monitor) {
+    byte[] buff = new byte[7];
+    buff[0] = 0x03;
+    buff[1] = Cmd_type_power;
+    return buff;
+  }
+
   //public static byte[] setPowerTest(List<PowerTestSeekBean> list) {
   //	int singleLength =  4; //单组数据长度int singleLength =  4; //单组数据长度
   //	byte[] buff = new byte[list.size()* singleLength + 2];

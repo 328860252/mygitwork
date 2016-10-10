@@ -25,7 +25,7 @@
   <string name="text_sms">短信</string>
   <string name="text_proterty_VHF">VHF/UHF</string>
   <string name="text_proterty_pttid">用户Id</string>
-  <string name="text_proterty_vox">VOX</string>
+  <string name="text_proterty_vox">VOL</string>
   <string name="text_proterty_tot">TOT/s</string>
   <string name="text_power_low">低功率</string>
   <string name="text_power_middle">中功率</string>
@@ -60,4 +60,7 @@
   <string name="text_UHF">UHF</string>
   <string name="text_VHF">VHF</string>
   <string name="text_device_mode">机器型号</string>
+  <string name="btn_monitor">Monitor</string>
+  <string name="btn_scan">Scan</string>
+  <string name="btn_ptt">PTT</string>
 </resources>

@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +17,8 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
+import com.crashlytics.android.Crashlytics;
 import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
 import com.interphone.AppConstants;
@@ -27,23 +29,27 @@ import com.interphone.connection.agreement.CmdPackage;
 import com.interphone.connection.bluetooth.ConnectBluetoothImpl;
 import com.interphone.connection.usb.ConnectUsbImpl;
 import com.interphone.view.wheel.AlertDialogService;
+import io.fabric.sdk.android.Fabric;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements View.OnTouchListener{
 
-  @Bind(R.id.tv_title) TextView mTvTitle;
-  @Bind(R.id.tv_title_right) TextView mTvTitleRight;
-  @Bind(R.id.layout_title_left) LinearLayout mLayoutTitleLeft;
-  @Bind(R.id.layout_content) LinearLayout mLayoutContent;
-  @Bind(R.id.layout_activity) LinearLayout mLayoutActivity;
-  @Bind(R.id.tv_title_left) TextView mTvTitleLeft;
-  @Bind(R.id.btn_usbOTG) Button mBtnUsbOTG;
-  @Bind(R.id.rb_TX) RadioButton mRbTX;
-  @Bind(R.id.rb_RX) RadioButton mRbRX;
-  @Bind(R.id.rb_idel) RadioButton mRbIdel;
-  @Bind(R.id.btn_channelData) Button mBtnChannelData;
-  @Bind(R.id.btn_proterty) Button mBtnProterty;
-  @Bind(R.id.btn_sms) Button mBtnSms;
-  @Bind(R.id.btn_powerTest) Button mBtnPowerTest;
+  @Bind(R.id.tv_title)            TextView      mTvTitle;
+  @Bind(R.id.tv_title_right)      TextView      mTvTitleRight;
+  @Bind(R.id.layout_title_left)   LinearLayout  mLayoutTitleLeft;
+  @Bind(R.id.layout_content)      LinearLayout  mLayoutContent;
+  @Bind(R.id.layout_activity)     LinearLayout  mLayoutActivity;
+  @Bind(R.id.tv_title_left)       TextView      mTvTitleLeft;
+  @Bind(R.id.btn_usbOTG)          Button        mBtnUsbOTG;
+  @Bind(R.id.rb_TX)               RadioButton   mRbTX;
+  @Bind(R.id.rb_RX)               RadioButton   mRbRX;
+  @Bind(R.id.rb_idel)             RadioButton   mRbIdel;
+  @Bind(R.id.btn_channelData)     Button        mBtnChannelData;
+  @Bind(R.id.btn_proterty)        Button        mBtnProterty;
+  @Bind(R.id.btn_sms)             Button        mBtnSms;
+  @Bind(R.id.btn_powerTest)       Button        mBtnPowerTest;
+  @Bind(R.id.btn_ptt)             Button        mBtnPtt;
+  @Bind(R.id.btn_scan)            Button        mBtnScan;
+  @Bind(R.id.btn_monitor)         Button        mBtnMonitor;
 
   private DeviceBean dbin;
   private final static int activity_device_list_bluetooth = 11;
@@ -51,6 +57,7 @@ public class HomeActivity extends BaseActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Fabric.with(this, new Crashlytics());
     setContentView(R.layout.activity_home);
     ButterKnife.bind(this);
 
@@ -62,7 +69,6 @@ public class HomeActivity extends BaseActivity {
     intentFilter.addAction(ConnectAction.ACTION_GATT_CONNECTING);
     intentFilter.addAction(ConnectAction.ACTION_SHOW_TOAST);
     registerReceiver(receiver, intentFilter);
-
   }
 
   private void initViews() {
@@ -137,6 +143,38 @@ public class HomeActivity extends BaseActivity {
     startActivityForResult(intent, activity_device_list_bluetooth);
   }
 
+  @OnTouch ({ R.id.btn_ptt, R.id.btn_scan, R.id.btn_monitor})
+  public boolean onTouch(View v, MotionEvent event) {
+    boolean isPress ;
+    if (event.getAction() == MotionEvent.ACTION_DOWN){
+      isPress = true;
+    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+      isPress = false;
+    } else {
+      return false;
+    }
+    switch (v.getId()) {
+      case R.id.btn_ptt:
+        dbin.write(CmdPackage.setPTT(isPress));
+        break;
+      case R.id.btn_scan:
+        dbin.write(CmdPackage.setScan(isPress));
+        break;
+      case R.id.btn_monitor:
+        dbin.write(CmdPackage.setMonitor(isPress));
+        break;
+    }
+    return false;
+  }
+
+  private boolean isLink() {
+    if (!dbin.isLink()) {
+      showToast(R.string.noLink);
+      return false;
+    }
+    return  true;
+  }
+
   @OnClick({ R.id.btn_proterty, R.id.btn_channelData, R.id.btn_sms, R.id.btn_powerTest })
   public void onClick(View view) {
     Intent intent = null;
@@ -151,28 +189,28 @@ public class HomeActivity extends BaseActivity {
         startActivity(intent);
         break;
       case R.id.btn_sms:
-        if (dbin != null && !TextUtils.isEmpty(dbin.getPassword())) { //有密码
-          AlertDialogService.getInputDialog(this, "", getString(R.string.input_password),
-              new AlertDialogService.onMyInputListener() {
-                @Override public void onClick(Dialog d, EditText tv) {
-                  if (dbin.isPasswordRight(tv.getText().toString())) {
-                    Intent intent = new Intent(HomeActivity.this, DeviceSmsActivity.class);
-                    startActivity(intent);
-                    d.dismiss();
-                  } else {
-                    tv.setText("");
-                    showToast(R.string.password_error);
-                  }
-                }
-
-                @Override public void onCancel(Dialog d) {
-
-                }
-              }).show();
-        } else {
-          intent = new Intent(HomeActivity.this, DeviceSmsActivity.class);
-          startActivity(intent);
-        }
+        //if (dbin != null && !TextUtils.isEmpty(dbin.getPassword())) { //有密码
+        //  AlertDialogService.getInputDialog(this, "", getString(R.string.input_password),
+        //      new AlertDialogService.onMyInputListener() {
+        //        @Override public void onClick(Dialog d, EditText tv) {
+        //          if (dbin.isPasswordRight(tv.getText().toString())) {
+        //            Intent intent = new Intent(HomeActivity.this, DeviceSmsActivity.class);
+        //            startActivity(intent);
+        //            d.dismiss();
+        //          } else {
+        //            tv.setText("");
+        //            showToast(R.string.password_error);
+        //          }
+        //        }
+        //
+        //        @Override public void onCancel(Dialog d) {
+        //
+        //        }
+        //      }).show();
+        //} else {
+        intent = new Intent(HomeActivity.this, DeviceSmsActivity.class);
+        startActivity(intent);
+        //}
         break;
       case R.id.btn_powerTest://调频
         AlertDialogService.getInputDialog(this, "", getString(R.string.input_password),
@@ -264,11 +302,11 @@ public class HomeActivity extends BaseActivity {
     }
   }
 
-
-  private void  testCmd () {
+  private void testCmd() {
     if (AppConstants.isDemo) {
-      byte[]  cmd6= new byte[] {0x01, 0x06, 0x0A};
+      byte[] cmd6 = new byte[] { 0x01, 0x06, 0x0A };
       dbin.getMParse().parseData(cmd6);
     }
   }
+
 }

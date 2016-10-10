@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:gravity="center_horizontal"
         android:layout_marginTop="30dp">
 
 
@@ -48,12 +48,6 @@
 
     </RadioGroup>
 
-    <Button
-        android:id="@+id/btn_usbOTG"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="USB OTG"/>
 
     </RelativeLayout>
 
@@ -61,18 +55,60 @@
         android:id="@+id/layout_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center_horizontal"
         >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btn_ptt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_ptt"
+                />
+
+            <Button
+                android:id="@+id/btn_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_scan"
+                />
+
+            <Button
+                android:id="@+id/btn_monitor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_monitor"
+                />
+
+            <Button
+                android:id="@+id/btn_usbOTG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:text="USB OTG"/>
+
+            </LinearLayout>
+
 
 
         <LinearLayout
             android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            >
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btn_proterty"
