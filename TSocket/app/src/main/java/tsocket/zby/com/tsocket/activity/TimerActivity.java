@@ -55,8 +55,8 @@ public class TimerActivity extends BaseActivity {
     }
     mTvTimerStart.setText(mTimerBean.getStartString());
     mTvTimerEnd.setText(mTimerBean.getEndString());
-    mTvDelayEnd.setText(mTimerBean.getOpenString());
-    mTvDelayStart.setText(mTimerBean.getCloseString());
+    mTvDelayStart.setText(mTimerBean.getOpenString());
+    mTvDelayEnd.setText(mTimerBean.getCloseString());
 
     mCbDelay.setChecked(mTimerBean.isRecycle());
     mWeekViewValue.setWeekValue(mTimerBean.getWeekValue());

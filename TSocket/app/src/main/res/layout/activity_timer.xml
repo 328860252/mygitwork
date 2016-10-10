@@ -46,11 +46,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@color/weekday_selectcolor"
-            android:paddingLeft="@dimen/view_margin"
-            android:paddingRight="@dimen/view_margin"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:paddingTop="@dimen/layout_paddingTop"
             android:paddingBottom="@dimen/layout_paddingTop"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_small"
             style="@style/text_normal" />
 
       </RelativeLayout>
@@ -79,11 +80,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@color/weekday_selectcolor"
-            android:paddingLeft="@dimen/view_margin"
-            android:paddingRight="@dimen/view_margin"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:paddingTop="@dimen/layout_paddingTop"
             android:paddingBottom="@dimen/layout_paddingTop"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_small"
             style="@style/text_normal" />
 
       </RelativeLayout>
@@ -118,11 +120,12 @@
             android:layout_alignParentRight="true"
             android:background="@color/weekday_selectcolor"
             android:layout_marginLeft="@dimen/view_margin"
-            android:paddingLeft="@dimen/view_margin"
-            android:paddingRight="@dimen/view_margin"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:paddingTop="@dimen/layout_paddingTop"
             android:paddingBottom="@dimen/layout_paddingTop"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_small"
             style="@style/text_normal" />
 
           </LinearLayout>
@@ -146,12 +149,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@color/weekday_selectcolor"
-            android:layout_marginLeft="@dimen/view_margin"
-            android:paddingLeft="@dimen/view_margin"
-            android:paddingRight="@dimen/view_margin"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:paddingTop="@dimen/layout_paddingTop"
             android:paddingBottom="@dimen/layout_paddingTop"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_small"
             style="@style/text_normal" />
 
 

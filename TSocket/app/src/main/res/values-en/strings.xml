@@ -25,7 +25,7 @@
   <string name="text_timer_start">Start</string>
   <string name="text_timer_end">Finish</string>
   <string name="text_delay_start">Loop ON</string>
-  <string name="text_delay_end">OfFF</string>
+  <string name="text_delay_end">OFF</string>
   <string name="text_week_1">Mo</string>
   <string name="text_week_2">Tu</string>
   <string name="text_week_3">We</string>

@@ -24,8 +24,8 @@
   <string name="text_timer">定时</string>
   <string name="text_timer_start">开始时间</string>
   <string name="text_timer_end">结束时间</string>
-  <string name="text_delay_start">延时开</string>
-  <string name="text_delay_end">延时关</string>
+  <string name="text_delay_start">循环开</string>
+  <string name="text_delay_end">关</string>
   <string name="text_week_1">一</string>
   <string name="text_week_2">二</string>
   <string name="text_week_3">三</string>
