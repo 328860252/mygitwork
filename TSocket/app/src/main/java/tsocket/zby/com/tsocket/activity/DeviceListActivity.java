@@ -143,8 +143,12 @@ public class DeviceListActivity extends BaseActivity
           startActivity(intent);
         }
       } else if (message.equals(ConnectAction.ACTION_BLUETOOTH_BOUNED)) {
-        Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
-        startActivity(intent);
+        if (mDeviceBean.isBonded()) {
+          Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+          startActivity(intent);
+        } else {
+          mDeviceBean.stopConnect();
+        }
       }
     }
     super.onReceiverCmd(message);
