@@ -2,9 +2,12 @@ package com.interphone.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,7 +29,7 @@ public class DeviceProtertyActivity extends BaseActivity {
   @Bind(R.id.tv_title) TextView mTvTitle;
   @Bind(R.id.tv_proterty_tot) TextView mTvProtertyTot;
   @Bind(R.id.layout_proterty_tot) LinearLayout mLayoutProtertyTot;
-  @Bind(R.id.tv_device_id) TextView mTvDeviceId;
+  @Bind(R.id.et_device_id) EditText mEtDeviceId;
   @Bind(R.id.tv_proterty_VHF) TextView mTvProtertyVHF;
   @Bind(R.id.spinner_proterty_VOX) Spinner mSpinnerProtertyVOX;
   @Bind(R.id.spinner_channel) Spinner mSpinnerChannel;
@@ -61,7 +64,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     mProtertyData = dbin.getProtertyData();
 
     mTvDeviceSerialNumber.setText(mProtertyData.getSerialNumber());
-    mTvDeviceId.setText(mProtertyData.getUserId().trim());
+    mEtDeviceId.setText(mProtertyData.getUserId().trim());
     mTvDeviceMode.setText(mProtertyData.getDeviceMode());
     mTvProtertyVHF.setText(mProtertyData.getHFValueString());
 
@@ -108,6 +111,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     try {
       mSpinnerProtertyVOX.setSelection(mProtertyData.getVox());
       mTvProtertyTot.setText(("" + mProtertyData.getTotTime()));
+      mEtDeviceId.setText(mProtertyData.getUserId().trim());
       //ID从1-16 ， 下标是0-15
       mSpinnerChannel.setSelection(mProtertyData.getActivityChannelId() - 1);
     } catch (IndexOutOfBoundsException e) {
@@ -140,18 +144,48 @@ public class DeviceProtertyActivity extends BaseActivity {
           showToast(R.string.noLink);
           return;
         }
+        if (mEtDeviceId.getText().toString().trim().length() != 6) {
+          showToast(R.string.toast_device_id_error);
+          return;
+        }
         mProtertyWriteData = dbin.getProtertyData();
         mProtertyWriteData.setVox(mSpinnerProtertyVOX.getSelectedItemPosition());
         //mProtertyWriteData.setHFvalue(mSpinnerProtertyVHF.getSelectedItemPosition());
+        mProtertyWriteData.setUserId(mEtDeviceId.getText().toString().trim());
         mProtertyWriteData.setTotTime(Integer.parseInt(mTvProtertyTot.getText().toString()));
         //channelId 是1-16， 下标是0开始
-        mProtertyWriteData.setActivityChannelId(mSpinnerChannel.getSelectedItemPosition()+1);
-        if (dbin.write(CmdPackage.setProteries(mProtertyWriteData))) {
-          showSendToast(false);
-        }
+        mProtertyWriteData.setActivityChannelId(mSpinnerChannel.getSelectedItemPosition() + 1);
+        //if (dbin.write(CmdPackage.setProteries(mProtertyWriteData))) {
+        //  showSendToast(false);
+        //}
+        new Thread(new Runnable() {
+          @Override public void run() {
+            if (dbin.write(CmdPackage.setProteries(dbin.getProtertyData()))) {
+              mHandler.sendEmptyMessage(1);
+            }
+            try {
+              Thread.sleep(1000);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+            if (dbin.write(CmdPackage.setChannel(dbin.getListChannel()))) {
+              mHandler.sendEmptyMessage(1);
+            }
+          }
+        }).start();
         break;
     }
   }
+
+  private Handler mHandler = new Handler() {
+    public void handleMessage(Message msg) {
+      switch (msg.what) {
+        case 1:
+          showSendToast(false);
+          break;
+      }
+    }
+  };
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode) {

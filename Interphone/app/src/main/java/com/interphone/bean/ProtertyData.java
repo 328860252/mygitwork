@@ -1,5 +1,6 @@
 package com.interphone.bean;
 
+import android.text.TextUtils;
 import lombok.Data;
 
 /**
@@ -46,6 +47,19 @@ public class ProtertyData {
      */
     private String serialNumber;
 
+    /**
+     * 扫描频率 BCD码，16进制的10位数  比如数字12 0x12 而不是0x0b
+     * "VHF:136-174MHz
+     * 最多到小数点后4位， 也就是固定的 xxx.xxxx ，
+     * 必须能被5整除 或 6.25整除
+     */
+    private String scanRate;
+
+    public String getScanRate() {
+        if (TextUtils.isEmpty(scanRate)) return "";
+        if (scanRate.equals("00000000")) return "";
+        return scanRate;
+    }
 
     public int getActivityChannelId() {
         if (activityChannelId <1 || activityChannelId > 16) return 1;

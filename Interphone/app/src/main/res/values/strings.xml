@@ -63,4 +63,7 @@
   <string name="btn_monitor">Monitor</string>
   <string name="btn_scan">Scan</string>
   <string name="btn_ptt">PTT</string>
+  <string name="text_scanRate">扫描频率:</string>
+  <string name="text_vol">音    量:</string>
+  <string name="toast_device_id_error">输入6位用户id</string>
 </resources>

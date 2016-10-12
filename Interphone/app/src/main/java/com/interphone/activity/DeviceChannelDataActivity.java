@@ -2,6 +2,8 @@ package com.interphone.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -288,9 +290,24 @@ public class DeviceChannelDataActivity extends BaseActivity {
             mChannelData.setAnalogToneSend(toneSend);
             mChannelData.setAnalogToneReceive(toneReceive);
           }
-          if (dbin.write(CmdPackage.setChannel(dbin.getListChannel()))) {
-            showSendToast(false);
-          }
+          //if (dbin.write(CmdPackage.setChannel(dbin.getListChannel()))) {
+          //  showSendToast(false);
+          //}
+          new Thread(new Runnable() {
+            @Override public void run() {
+              if (dbin.write(CmdPackage.setProteries(dbin.getProtertyData()))) {
+                mHandler.sendEmptyMessage(1);
+              }
+              try {
+                Thread.sleep(1000);
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
+              if (dbin.write(CmdPackage.setChannel(dbin.getListChannel()))) {
+                mHandler.sendEmptyMessage(1);
+              }
+            }
+          }).start();
         } catch (Exception e) {
           showToast(R.string.text_data_error);
           e.printStackTrace();
@@ -298,6 +315,16 @@ public class DeviceChannelDataActivity extends BaseActivity {
         break;
     }
   }
+
+  private Handler mHandler = new Handler() {
+    public void handleMessage(Message msg) {
+      switch (msg.what) {
+        case 1:
+          showSendToast(false);
+          break;
+      }
+    }
+  };
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     String value;

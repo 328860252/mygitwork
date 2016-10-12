@@ -5,7 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,12 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
-import com.crashlytics.android.Crashlytics;
 import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
 import com.interphone.AppConstants;
@@ -29,9 +32,8 @@ import com.interphone.connection.agreement.CmdPackage;
 import com.interphone.connection.bluetooth.ConnectBluetoothImpl;
 import com.interphone.connection.usb.ConnectUsbImpl;
 import com.interphone.view.wheel.AlertDialogService;
-import io.fabric.sdk.android.Fabric;
 
-public class HomeActivity extends BaseActivity implements View.OnTouchListener{
+public class HomeActivity extends BaseActivity implements View.OnTouchListener {
 
   @Bind(R.id.tv_title)            TextView      mTvTitle;
   @Bind(R.id.tv_title_right)      TextView      mTvTitleRight;
@@ -50,6 +52,9 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener{
   @Bind(R.id.btn_ptt)             Button        mBtnPtt;
   @Bind(R.id.btn_scan)            Button        mBtnScan;
   @Bind(R.id.btn_monitor)         Button        mBtnMonitor;
+  @Bind(R.id.tv_scanRate)         TextView      mTvScanRate;
+  @Bind(R.id.sb_volica)           SeekBar       mSbVolica;
+  @Bind(R.id.tv_volice_value)     TextView      mTvVoliceValue;
 
   private DeviceBean dbin;
   private final static int activity_device_list_bluetooth = 11;
@@ -57,7 +62,7 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener{
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    Fabric.with(this, new Crashlytics());
+    //Fabric.with(this, new Crashlytics());
     setContentView(R.layout.activity_home);
     ButterKnife.bind(this);
 
@@ -73,12 +78,55 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener{
 
   private void initViews() {
     mTvTitleRight.setText("设备");
-    //mLayoutTitleLeft.setVisibility(View.GONE);
+    mLayoutTitleLeft.setVisibility(View.GONE);
 
+    mTvVoliceValue.setText("0");
     dbin = ((AppApplication) getApplication()).getDbin();
     //设置true ， 是防止初始化时， 执行onitemnSlelectListener
     //mSpinnerChannel.setSelection(0 , true);
+    mSbVolica.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+      @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        mTvVoliceValue.setText(""+progress);
+      }
+
+      @Override public void onStartTrackingTouch(SeekBar seekBar) {
+
+      }
+
+      @Override public void onStopTrackingTouch(SeekBar seekBar) {
+        if (dbin== null || !dbin.isLink()) {
+          showToast(R.string.noLink);
+          return;
+        }
+        dbin.getProtertyData().setVox(mSbVolica.getProgress());
+        new Thread(new Runnable() {
+          @Override public void run() {
+            if (dbin.write(CmdPackage.setProteries(dbin.getProtertyData()))) {
+              mHandler.sendEmptyMessage(1);
+            }
+            try {
+              Thread.sleep(1000);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+            if (dbin.write(CmdPackage.setChannel(dbin.getListChannel()))) {
+              mHandler.sendEmptyMessage(1);
+            }
+          }
+        }).start();
+      }
+    });
   }
+
+  private Handler mHandler = new Handler() {
+    public void handleMessage(Message msg) {
+      switch (msg.what) {
+        case 1:
+          showSendToast(false);
+          break;
+      }
+    }
+  };
 
   @Override public void onReceiver(int type, int i) {
     super.onReceiver(type, i);
@@ -96,6 +144,7 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener{
               mRbIdel.setChecked(true);
               break;
           }
+          mTvScanRate.setText(dbin.getProtertyData().getScanRate());
         }
         break;
     }
@@ -143,10 +192,10 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener{
     startActivityForResult(intent, activity_device_list_bluetooth);
   }
 
-  @OnTouch ({ R.id.btn_ptt, R.id.btn_scan, R.id.btn_monitor})
+  @OnTouch({ R.id.btn_ptt, R.id.btn_scan, R.id.btn_monitor })
   public boolean onTouch(View v, MotionEvent event) {
-    boolean isPress ;
-    if (event.getAction() == MotionEvent.ACTION_DOWN){
+    boolean isPress;
+    if (event.getAction() == MotionEvent.ACTION_DOWN) {
       isPress = true;
     } else if (event.getAction() == MotionEvent.ACTION_UP) {
       isPress = false;
@@ -155,13 +204,19 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener{
     }
     switch (v.getId()) {
       case R.id.btn_ptt:
-        dbin.write(CmdPackage.setPTT(isPress));
+        if (dbin.write(CmdPackage.setPTT(isPress))){
+          showSendToast(false);
+        }
         break;
       case R.id.btn_scan:
-        dbin.write(CmdPackage.setScan(isPress));
+        if (dbin.write(CmdPackage.setScan(isPress))) {
+          showSendToast(false);
+        }
         break;
       case R.id.btn_monitor:
-        dbin.write(CmdPackage.setMonitor(isPress));
+        if (dbin.write(CmdPackage.setMonitor(isPress))) {
+          showSendToast(false);
+        }
         break;
     }
     return false;
@@ -172,7 +227,17 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener{
       showToast(R.string.noLink);
       return false;
     }
-    return  true;
+    return true;
+  }
+
+  private void showSendToast(boolean isReceiver) {
+    if (isReceiver) {
+      showToast("读取成功");
+    } else {
+      showToast("发送成功");
+    }
+    //btnSend.setEnabled(isReceiver);
+    //btnRead.setEnabled(isReceiver);
   }
 
   @OnClick({ R.id.btn_proterty, R.id.btn_channelData, R.id.btn_sms, R.id.btn_powerTest })
@@ -308,5 +373,4 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener{
       dbin.getMParse().parseData(cmd6);
     }
   }
-
 }

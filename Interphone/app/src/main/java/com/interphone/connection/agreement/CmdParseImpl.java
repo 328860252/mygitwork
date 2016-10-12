@@ -181,7 +181,15 @@ public class CmdParseImpl implements ICmdParseInterface {
                     }
                 case CmdPackage.Cmd_type_status:
                     int status = MyByteUtils.byteToInt(dataBuff[2]);
-                    mDeviceBean.getProtertyData().setStatus(status);
+                    if (status == 0x09) { //09表示扫描频率， 0A 0B 0C是表示状态值。。。。 呵呵，这协议
+                        buffer = new byte[4];
+                        //发送频率，4个字节的bcd码
+                        System.arraycopy(dataBuff, 4, buffer, 0 , 4);
+                        bcdStr = BcdUtils.bcd2Str(buffer);
+                        mDeviceBean.getProtertyData().setScanRate(bcdStr);
+                    } else {
+                        mDeviceBean.getProtertyData().setStatus(status);
+                    }
                     break;
             }
             sendBroadcast(MyByteUtils.byteToInt(dataBuff[1]));

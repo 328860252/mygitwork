@@ -41,6 +41,10 @@ public class CmdPackage {
    */
   public final static byte Cmd_type_status = 0x06;
 
+  /**
+   * 按键
+   */
+  private static byte Cmd_type_press = 0x07;
   //数据错误
   public final static byte Cmd_type_error = 0x7f;
 
@@ -248,24 +252,27 @@ public class CmdPackage {
     return buff;
   }
 
-  public static byte[] setPTT(boolean PTT) {
-    byte[] buff = new byte[7];
-    buff[0] = 0x03;
-    buff[1] = Cmd_type_power;
+  public static byte[] setPTT(boolean isPress) {
+    byte[] buff = new byte[3];
+    buff[0] = 0x02;
+    buff[1] = Cmd_type_press;
+    buff[2] = (byte) (isPress ? 0x01: 0x03);
     return buff;
   }
 
-  public static byte[] setScan(boolean scan) {
-    byte[] buff = new byte[7];
-    buff[0] = 0x03;
-    buff[1] = Cmd_type_power;
+  public static byte[] setScan(boolean isPress) {
+    byte[] buff = new byte[3];
+    buff[0] = 0x02;
+    buff[1] = Cmd_type_press;
+    buff[2] = (byte) (isPress ? 0x02: 0x04);
     return buff;
   }
 
-  public static byte[] setMonitor(boolean monitor) {
-    byte[] buff = new byte[7];
-    buff[0] = 0x03;
-    buff[1] = Cmd_type_power;
+  public static byte[] setMonitor(boolean isPress) {
+    byte[] buff = new byte[3];
+    buff[0] = 0x02;
+    buff[1] = Cmd_type_press;
+    buff[2] = (byte) (isPress ? 0x03 : 0x06);
     return buff;
   }
 

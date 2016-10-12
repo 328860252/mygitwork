@@ -52,48 +52,106 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_normal"
+            android:text="@string/text_scanRate"/>
+
+        <TextView
+            android:id="@+id/tv_scanRate"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            style="@style/text_normal"/>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_normal"
+            android:text="@string/text_vol"/>
+
+        <SeekBar
+            android:id="@+id/sb_volica"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:max="8"
+            />
+
+        <TextView
+            android:id="@+id/tv_volice_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_normal"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
         android:id="@+id/layout_activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center">
 
             <Button
                 android:id="@+id/btn_ptt"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="@string/btn_ptt"
                 />
 
             <Button
                 android:id="@+id/btn_scan"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="@string/btn_scan"
                 />
 
             <Button
                 android:id="@+id/btn_monitor"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="@string/btn_monitor"
                 />
 
             <Button
                 android:id="@+id/btn_usbOTG"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="10dp"
                 android:text="USB OTG"/>
@@ -112,32 +170,36 @@
 
             <Button
                 android:id="@+id/btn_proterty"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="@string/btn_proterty"
                 />
 
             <Button
                 android:id="@+id/btn_channelData"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="@string/btn_channelData"
                 />
 
             <Button
                 android:id="@+id/btn_sms"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="@string/btn_sms"
                 />
 
             <Button
                 android:id="@+id/btn_powerTest"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="@string/btn_powerTest"
                 />

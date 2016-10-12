@@ -53,7 +53,7 @@ import lombok.Data;
         this.mConnect.setCmdParse(mParse);
     }
 
-    public ChannelData getChannelData(int position) {
+    private void initListChannel() {
         if (listChannel == null) {
             listChannel = new ArrayList<ChannelData>();
             for (int i=0; i< ChannelDataSize; i++) {
@@ -62,6 +62,15 @@ import lombok.Data;
                 listChannel.add(channelData);
             }
         }
+    }
+
+    public List<ChannelData> getListChannel() {
+        initListChannel();
+        return listChannel;
+    }
+
+    public ChannelData getChannelData(int position) {
+        initListChannel();
         if (position>= listChannel.size()) {
             return null;
         }
@@ -69,14 +78,7 @@ import lombok.Data;
     }
 
     public ChannelData getChannelDataById(int id) {
-        if (listChannel == null) {
-            listChannel = new ArrayList<ChannelData>();
-            for (int i=0; i< ChannelDataSize; i++) {
-                ChannelData channelData = new ChannelData();
-                channelData.setChannelId(i+1);
-                listChannel.add(channelData);
-            }
-        }
+        initListChannel();
        for (ChannelData channelData : listChannel) {
            if (channelData.getChannelId() == id) {
                return channelData;

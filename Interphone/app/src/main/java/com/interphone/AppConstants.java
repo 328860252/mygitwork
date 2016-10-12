@@ -9,7 +9,7 @@ public class AppConstants {
 
     public final static String charSet = "utf-8";
 
-    public final static boolean isDemo = false;
+    public final static boolean isDemo = true;
 
     /**
      * 功率调频密码
