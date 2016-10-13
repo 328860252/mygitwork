@@ -67,12 +67,18 @@ public class DeviceListActivity extends BaseActivity
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     list = mApp.getList();
 
-    if (AppConstants.isDemo) {
+    if (AppConstants.isDemo && list.size()==0) {
       DeviceBean deviceBean = new DeviceBean();
       deviceBean.setName("test1");
       deviceBean.setMac("test1");
       deviceBean.setBonded(true);
       list.add(deviceBean);
+
+      DeviceBean deviceBean2 = new DeviceBean();
+      deviceBean2.setName("test2");
+      deviceBean2.setMac("test2");
+      deviceBean2.setBonded(true);
+      list.add(deviceBean2);
     }
 
     mDeviceAdapter = new DeviceAdapter(mRecyclerView);
@@ -134,8 +140,8 @@ public class DeviceListActivity extends BaseActivity
       } else if (message.equals("newDeviceBean")) {
         mDeviceAdapter.notifyDataSetChanged();
       } else if (message.equals(ConnectAction.ACTION_GATT_SERVICES_DISCOVERED)) {//发现服务才算连接上
-        showToast(R.string.toast_linked);
         if (mDeviceBean.isBonded()) {
+          showToast(R.string.toast_linked);
           Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
           startActivity(intent);
         } else if (BleManager.getInstance(DeviceListActivity.this).isBonded(mDeviceBean.getMac())) {
