@@ -122,13 +122,13 @@ public class TimerActivity extends BaseActivity {
         startActivityForResult(intent, activity_closeTimer);
         break;
       case R.id.btn_confirm:
-        if (mWeekViewValue.getWeekValue()==0) {
-          showToast(R.string.toast_timer_week_notnull);
-          return;
-        }
         if (mTimerBean.getId()>9) {
           showToast(R.string.toast_timer_max);
           return ;
+        }
+        if (mWeekViewValue.getWeekValue()==0) {
+          showToast(R.string.toast_timer_week_notnull);
+          return;
         }
         if (mTvTimerStart.getText().toString().compareTo(mTvTimerEnd.getText().toString()) >= 0) {
           showToast(R.string.toast_timer_timerErr);
@@ -170,12 +170,12 @@ public class TimerActivity extends BaseActivity {
         break;
       case activity_openTimer:
         //mTimerBean.setOpenHour(hour);
-        int delayTime = minute * 60 + second;
-        if (delayTime < AppConstants.DELAY_TIME_MIN) {
-          showToast(R.string.toast_delay_min_error);
-          return ;
-        }
-            mTimerBean.setOpenMinute(minute);
+        //int delayTime = minute * 60 + second;
+        //if (delayTime < AppConstants.DELAY_TIME_MIN) {
+        //  showToast(R.string.toast_delay_min_error);
+        //  return ;
+        //}
+        mTimerBean.setOpenMinute(minute);
         mTimerBean.setOpenSecond(second);
         mTvDelayStart.setText(mTimerBean.getOpenString());
         break;

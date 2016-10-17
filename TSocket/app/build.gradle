@@ -23,13 +23,13 @@ android {
     applicationId "tsocket.zby.com.tsocket"
     minSdkVersion 18
     targetSdkVersion 24
-    versionCode 5
-    versionName "1.04"
+    versionCode 6
+    versionName "1.06"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
     release {
-      minifyEnabled false
+      minifyEnabled true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }

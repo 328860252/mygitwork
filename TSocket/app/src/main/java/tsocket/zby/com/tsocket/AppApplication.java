@@ -95,7 +95,11 @@ public class AppApplication extends Application {
       final String mac = intent.getStringExtra(ConnectAction.BROADCAST_DEVICE_MAC);
       if (ConnectAction.ACTION_GATT_CONNECTED.equals(action)) {
       } else if (ConnectAction.ACTION_GATT_DISCONNECTED.equals(action)) {
-        Toast.makeText(getApplicationContext(), R.string.toast_linkLost, Toast.LENGTH_LONG).show();
+        if (mDeviceBean!=null && mDeviceBean.isBonded()) {
+          Toast.makeText(getApplicationContext(), R.string.toast_linkLost, Toast.LENGTH_LONG).show();
+        } else {
+          Toast.makeText(getApplicationContext(), R.string.toast_no_bond, Toast.LENGTH_LONG).show();
+        }
       } else if (ConnectAction.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
         ////蓝牙连接成功就自动检验密码
         new Thread(new Runnable() {
