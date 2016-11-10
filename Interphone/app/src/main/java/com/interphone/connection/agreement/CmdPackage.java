@@ -256,7 +256,7 @@ public class CmdPackage {
     byte[] buff = new byte[3];
     buff[0] = 0x02;
     buff[1] = Cmd_type_press;
-    buff[2] = (byte) (isPress ? 0x01: 0x03);
+    buff[2] = (byte) (isPress ? 0x01: 0x04);
     return buff;
   }
 
@@ -264,7 +264,7 @@ public class CmdPackage {
     byte[] buff = new byte[3];
     buff[0] = 0x02;
     buff[1] = Cmd_type_press;
-    buff[2] = (byte) (isPress ? 0x02: 0x04);
+    buff[2] = (byte) (isPress ? 0x02: 0x05);
     return buff;
   }
 

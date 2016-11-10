@@ -87,6 +87,12 @@
     <style name="spinner">
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_dark</item>
+    </style>
+
+    <style name="btn_selector2">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:background">@drawable/btn_selector2</item>
 
     </style>
 

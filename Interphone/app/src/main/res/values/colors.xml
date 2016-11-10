@@ -10,4 +10,5 @@
     <color name="text_dark">#555555</color>
     <color name="btn_unenable">#898989</color>
     <color name="text_red">#FF3333</color>
+    <color name="binding_gray">#9A9A9A</color>
 </resources>
