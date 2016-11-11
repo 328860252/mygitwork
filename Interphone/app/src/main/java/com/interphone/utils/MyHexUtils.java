@@ -112,10 +112,20 @@ public class MyHexUtils {
 			return "";
 		}
 		StringBuffer sb = new StringBuffer();
-		List<String> list = new ArrayList<String>();
 		for (int i=0; i<length; i++) {
 			sb.append(trim(Integer.toHexString(buffer[i])).toUpperCase()+" ");
 			//list.add(trim(Integer.toHexString(b)).toUpperCase());
+		}
+		return sb.toString();
+	}
+
+	public static String buffer2String(List<Byte> list ) {
+		if(list==null){
+			return "";
+		}
+		StringBuffer sb = new StringBuffer();
+		for (int i=0; i< list.size(); i++) {
+			sb.append(trim(Integer.toHexString(list.get(i))).toUpperCase()+" ");
 		}
 		return sb.toString();
 	}

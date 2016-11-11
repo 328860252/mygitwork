@@ -22,6 +22,8 @@ package com.interphone.connection;
  */
 public interface ICmdParseInterface {
 	
-	public void parseData(byte[] buffer);
+	void parseData(byte[] buffer);
+
+	void parseReceiverCmd();
 
 }

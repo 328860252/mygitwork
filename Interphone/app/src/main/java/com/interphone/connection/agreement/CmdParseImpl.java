@@ -184,7 +184,7 @@ public class CmdParseImpl implements ICmdParseInterface {
                     if (status == 0x09) { //09表示扫描频率， 0A 0B 0C是表示状态值。。。。 呵呵，这协议
                         buffer = new byte[4];
                         //发送频率，4个字节的bcd码
-                        System.arraycopy(dataBuff, 4, buffer, 0 , 4);
+                        System.arraycopy(dataBuff, 3, buffer, 0 , 4);
                         bcdStr = BcdUtils.bcd2Str(buffer);
                         mDeviceBean.getProtertyData().setScanRate(bcdStr);
                     } else {
@@ -200,11 +200,16 @@ public class CmdParseImpl implements ICmdParseInterface {
 
     }
 
+    @Override public void parseReceiverCmd() {
+        Intent intent = new Intent(ConnectAction.ACTION_RECEIVER_DATA);
+        intent.putExtra(ConnectAction.BROADCAST_DATA_TYPE, CmdPackage.CMD_TYPE_ACK);
+        mContext.sendBroadcast(intent);
+    }
+
     private void sendBroadcast(int type) {
         Intent intent = new Intent(ConnectAction.ACTION_RECEIVER_DATA);
         intent.putExtra(ConnectAction.BROADCAST_DATA_TYPE, type);
         mContext.sendBroadcast(intent);
     }
-
 
 }

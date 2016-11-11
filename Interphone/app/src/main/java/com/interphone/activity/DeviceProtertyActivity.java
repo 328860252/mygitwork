@@ -50,6 +50,8 @@ public class DeviceProtertyActivity extends BaseActivity {
   private final static int activity_prterty_tot = 11;
 
   private int totPosition;
+  private boolean isWriteChannel = false;//是否在发送 channel数据
+  private int  writeChannelIndex = 0 ;//发送的第几个信道
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -163,14 +165,16 @@ public class DeviceProtertyActivity extends BaseActivity {
             if (dbin.write(CmdPackage.setProteries(dbin.getProtertyData()))) {
               mHandler.sendEmptyMessage(1);
             }
-            try {
-              Thread.sleep(1000);
-            } catch (InterruptedException e) {
-              e.printStackTrace();
-            }
-            if (dbin.write(CmdPackage.setChannel(dbin.getListChannel()))) {
-              mHandler.sendEmptyMessage(1);
-            }
+            isWriteChannel = true;
+            writeChannelIndex = 0;
+            //try {
+            //  Thread.sleep(1000);
+            //} catch (InterruptedException e) {
+            //  e.printStackTrace();
+            //}
+            //if (dbin.write(CmdPackage.setChannel(dbin.getListChannel()))) {
+            //  mHandler.sendEmptyMessage(1);
+            //}
           }
         }).start();
         break;
@@ -207,6 +211,17 @@ public class DeviceProtertyActivity extends BaseActivity {
         mProtertyData = dbin.getProtertyData();
         initData();
         showSendToast(true);
+        break;
+      case CmdPackage.CMD_TYPE_ACK:
+        if (!isWriteChannel) return;
+        if (writeChannelIndex < dbin.getListChannel().size()) {
+          if (dbin.write(CmdPackage.setChannel(dbin.getChannelData(writeChannelIndex)))) {
+            mHandler.sendEmptyMessage(1);
+          }
+          writeChannelIndex++;
+        } else {
+          isWriteChannel = false;
+        }
         break;
     }
   }

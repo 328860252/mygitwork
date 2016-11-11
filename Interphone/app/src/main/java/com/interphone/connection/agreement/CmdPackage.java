@@ -48,6 +48,8 @@ public class CmdPackage {
   //数据错误
   public final static byte Cmd_type_error = 0x7f;
 
+  public static final byte CMD_TYPE_ACK = 0x7E;
+
   /**
    * 成功返回
    */

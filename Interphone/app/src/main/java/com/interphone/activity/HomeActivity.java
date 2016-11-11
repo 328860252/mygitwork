@@ -22,16 +22,20 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
+import com.crashlytics.android.Crashlytics;
 import com.example.administrator.interphone.R;
 import com.interphone.AppApplication;
 import com.interphone.AppConstants;
 import com.interphone.bean.DeviceBean;
 import com.interphone.connection.ConnectAction;
 import com.interphone.connection.IConnectInterface;
+import com.interphone.connection.agreement.CmdEncrypt;
 import com.interphone.connection.agreement.CmdPackage;
 import com.interphone.connection.bluetooth.ConnectBluetoothImpl;
 import com.interphone.connection.usb.ConnectUsbImpl;
+import com.interphone.utils.MyHexUtils;
 import com.interphone.view.wheel.AlertDialogService;
+import io.fabric.sdk.android.Fabric;
 
 public class HomeActivity extends BaseActivity implements View.OnTouchListener {
 
@@ -60,9 +64,12 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
   private final static int activity_device_list_bluetooth = 11;
   private final static int activity_device_list_usb = 12;
 
+  private boolean isWriteChannel = false;
+  private int writeChannelIndex = 0;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    //Fabric.with(this, new Crashlytics());
+    Fabric.with(this, new Crashlytics());
     setContentView(R.layout.activity_home);
     ButterKnife.bind(this);
 
@@ -104,14 +111,8 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
             if (dbin.write(CmdPackage.setProteries(dbin.getProtertyData()))) {
               mHandler.sendEmptyMessage(1);
             }
-            try {
-              Thread.sleep(1000);
-            } catch (InterruptedException e) {
-              e.printStackTrace();
-            }
-            if (dbin.write(CmdPackage.setChannel(dbin.getListChannel()))) {
-              mHandler.sendEmptyMessage(1);
-            }
+            isWriteChannel = true;
+            writeChannelIndex = 0;
           }
         }).start();
       }
@@ -145,6 +146,17 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
               break;
           }
           mTvScanRate.setText(dbin.getProtertyData().getScanRate());
+        }
+        break;
+      case CmdPackage.CMD_TYPE_ACK:
+        if (!isWriteChannel) return;
+        if (writeChannelIndex < dbin.getListChannel().size()) {
+          if (dbin.write(CmdPackage.setChannel(dbin.getChannelData(writeChannelIndex)))) {
+            mHandler.sendEmptyMessage(1);
+          }
+          writeChannelIndex++;
+        } else {
+          isWriteChannel = false;
         }
         break;
     }
@@ -204,6 +216,7 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
     }
     switch (v.getId()) {
       case R.id.btn_ptt:
+        testCmd();
         if (dbin.write(CmdPackage.setPTT(isPress))){
           showSendToast(false);
         }
@@ -369,8 +382,10 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
 
   private void testCmd() {
     if (AppConstants.isDemo) {
+      byte[] cmd1 = MyHexUtils.hexStringToByte("35 01 06 00 11 B1 05 09 46 29 87 50 10");
+      byte[] cmd2 = CmdEncrypt.processMessage(cmd1);
       byte[] cmd6 = new byte[] { 0x01, 0x06, 0x0A };
-      dbin.getMParse().parseData(cmd6);
+      dbin.getMParse().parseData(cmd2);
     }
   }
 }

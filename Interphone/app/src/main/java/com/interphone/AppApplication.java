@@ -4,12 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.hardware.usb.UsbManager;
 import cn.wch.ch34xuartdriver.CH34xUARTDriver;
-//import com.crashlytics.android.Crashlytics;
-import com.example.administrator.interphone.BuildConfig;
+import com.crashlytics.android.Crashlytics;
 import com.interphone.bean.DeviceBean;
 import com.interphone.connection.IConnectInterface;
 import com.interphone.connection.bluetooth.ConnectBluetoothImpl;
-//import io.fabric.sdk.android.Fabric;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Administrator on 2016/5/21.
@@ -24,7 +23,7 @@ public class AppApplication extends Application {
 
   @Override public void onCreate() {
     super.onCreate();
-//    Fabric.with(this, new Crashlytics());
+    Fabric.with(this, new Crashlytics());
     //usb
     driver = new CH34xUARTDriver((UsbManager) getSystemService(Context.USB_SERVICE), this,
         ACTION_USB_PERMISSION);
