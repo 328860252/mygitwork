@@ -200,10 +200,8 @@ public class CmdParseImpl implements ICmdParseInterface {
 
     }
 
-    @Override public void parseReceiverCmd() {
-        Intent intent = new Intent(ConnectAction.ACTION_RECEIVER_DATA);
-        intent.putExtra(ConnectAction.BROADCAST_DATA_TYPE, CmdPackage.CMD_TYPE_ACK);
-        mContext.sendBroadcast(intent);
+    @Override public void parseReceiverCmd(int type) {
+        sendBroadcast(type);
     }
 
     private void sendBroadcast(int type) {

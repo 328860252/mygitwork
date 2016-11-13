@@ -106,6 +106,7 @@ public class DeviceListActivity extends BaseActivity
             Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
             startActivity(intent);
           } else {
+            mDeviceBean.stopConnect();
             showToast(R.string.toast_no_bond);
           }
         }
@@ -149,9 +150,14 @@ public class DeviceListActivity extends BaseActivity
           startActivity(intent);
         }
       } else if (message.equals(ConnectAction.ACTION_BLUETOOTH_BOUNED)) {
+        LogUtils.v("deviceList", "onReceiver  "+ mDeviceBean.isBonded());
         if (mDeviceBean.isBonded()) {
-          Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
-          startActivity(intent);
+          if (mDeviceBean.isLink()) {
+            Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+            startActivity(intent);
+          } else {
+            mDeviceBean.connect();
+          }
         } else {
           mDeviceBean.stopConnect();
         }
@@ -176,9 +182,9 @@ public class DeviceListActivity extends BaseActivity
   }
 
   @Override protected void onDestroy() {
-    super.onDestroy();
     if (mApp != null) {
       mApp.onTerminate();
     }
+    super.onDestroy();
   }
 }

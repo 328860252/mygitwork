@@ -167,6 +167,7 @@ public class DeviceProtertyActivity extends BaseActivity {
             }
             isWriteChannel = true;
             writeChannelIndex = 0;
+            mHandler.sendEmptyMessage(2);
             //try {
             //  Thread.sleep(1000);
             //} catch (InterruptedException e) {
@@ -186,6 +187,9 @@ public class DeviceProtertyActivity extends BaseActivity {
       switch (msg.what) {
         case 1:
           showSendToast(false);
+          break;
+        case 2:
+          showDialog();
           break;
       }
     }
@@ -215,12 +219,14 @@ public class DeviceProtertyActivity extends BaseActivity {
       case CmdPackage.CMD_TYPE_ACK:
         if (!isWriteChannel) return;
         if (writeChannelIndex < dbin.getListChannel().size()) {
+          AppConstants.isWriteACK = false;
           if (dbin.write(CmdPackage.setChannel(dbin.getChannelData(writeChannelIndex)))) {
             mHandler.sendEmptyMessage(1);
           }
           writeChannelIndex++;
         } else {
           isWriteChannel = false;
+          disDialog();
         }
         break;
     }

@@ -39,10 +39,10 @@ public class CmdProcess {
     }
     System.out.println("收到新数据~:" + MyHexUtils.buffer2String(command, length));
     System.out.println("已缓存数据:" + MyHexUtils.buffer2String(dataList));
-    String str = MyHexUtils.buffer2String(dataList);
-    byte b;
+    //String str = MyHexUtils.buffer2String(dataList);
+    //byte b;
     for (int index = 0; index < dataList.size(); index++) {
-      b = dataList.get(index);
+      //b = dataList.get(index);
       if (dataList.get(index) ==  CmdEncrypt.CMD_HEAD) { // 收到头码
         //最少的协议长度
         if (index + 6 > dataList.size()) continue;
@@ -68,11 +68,12 @@ public class CmdProcess {
             AppConstants.isWriteACK = false;
             index +=2;
             data_index = index;
+            mCmdParse.parseReceiverCmd();
           }
           if (dataList.get(index + 1) == 0x06 && dataList.get(index + 2) == 0x10) { //表示收到数据
             index +=2;
             System.out.println("收到ACK");
-            //mCmdParse.parseReceiverCmd();
+            mCmdParse.parseReceiverCmd();
             data_index = index;
           }
         }
@@ -88,13 +89,13 @@ public class CmdProcess {
   private void ProcessData(byte[] buffer, int start, int length) {
     //LogUtils.logD(TAG, "收到缓存数据:" + MyHexUtils.buffer2String(buffer, length));
     //System.out.println("解码协议:" + MyHexUtils.buffer2String(buffer, length));
-    //if (mCmdParse!= null) {
+    if (mCmdParse!= null) {
     //  byte[] bbb = new byte[length];
     //  System.arraycopy(buffer, start , bbb , 0, bbb.length);
       byte[] buff = CmdEncrypt.processMessage(buffer);
       System.out.println("解析数据:" + MyHexUtils.buffer2String(buff));
-    //  mCmdParse.parseData(buff);
-    //}
+      mCmdParse.parseData(buff);
+    }
   }
 
 }

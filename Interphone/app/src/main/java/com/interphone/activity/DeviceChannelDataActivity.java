@@ -301,6 +301,7 @@ public class DeviceChannelDataActivity extends BaseActivity {
               if (dbin.write(CmdPackage.setProteries(dbin.getProtertyData()))) {
                 mHandler.sendEmptyMessage(1);
               }
+              mHandler.sendEmptyMessage(2);
               //try {
               //  Thread.sleep(1000);
               //} catch (InterruptedException e) {
@@ -370,11 +371,13 @@ public class DeviceChannelDataActivity extends BaseActivity {
       case CmdPackage.CMD_TYPE_ACK:
         if (!isWriteChannel) return;
         if (writeChannelIndex < dbin.getListChannel().size()) {
+          AppConstants.isWriteACK = false;
           if (dbin.write(CmdPackage.setChannel(dbin.getChannelData(writeChannelIndex)))) {
             mHandler.sendEmptyMessage(1);
           }
           writeChannelIndex++;
         } else {
+          disDialog();
           isWriteChannel = false;
         }
         break;

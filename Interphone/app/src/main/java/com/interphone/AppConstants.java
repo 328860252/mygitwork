@@ -24,4 +24,5 @@ public class AppConstants {
     public final static String SUPPER_PASSWORD = "353605";
 
     public final static int rateMULTPLE = 100000;
+    public static long wait = 500;
 }

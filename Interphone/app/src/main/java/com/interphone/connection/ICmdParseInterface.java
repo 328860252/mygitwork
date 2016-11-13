@@ -24,6 +24,6 @@ public interface ICmdParseInterface {
 	
 	void parseData(byte[] buffer);
 
-	void parseReceiverCmd();
+	void parseReceiverCmd(int type);
 
 }

@@ -1,6 +1,7 @@
 package com.interphone.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.interphone.bean.DeviceBean;
 import com.interphone.connection.ConnectAction;
 import com.interphone.connection.ConnectBroadcastReceiver;
 import com.interphone.connection.agreement.CmdPackage;
+import com.interphone.view.wheel.AlertDialogService;
 
 public class BaseActivity extends Activity {
 
@@ -32,6 +34,7 @@ public class BaseActivity extends Activity {
     private ConnectBroadcastReceiver mReceiver;
     private Toast mToast;
     private DeviceBean dbin;
+    private Dialog progressDailog;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,11 +95,13 @@ public class BaseActivity extends Activity {
             showToast("数据解析错误");
         } else {
             //showToast("收到协议数据");
-            if (AppConstants.isWriteACK) {
-                if( dbin==null) {
-                    dbin = ((AppApplication) getApplication()).getDbin();
+            if (type != CmdPackage.CMD_TYPE_ACK  && type != CmdPackage.CMD_TYPE_ACK_CHANNEL_END) {
+                if (AppConstants.isWriteACK) {
+                    if( dbin==null) {
+                        dbin = ((AppApplication) getApplication()).getDbin();
+                    }
+                    dbin.writeNoEncrypt(CmdPackage.getCmdSuccess());
                 }
-                dbin.writeNoEncrypt(CmdPackage.getCmdSuccess());
             }
         }
     }
@@ -129,4 +134,21 @@ public class BaseActivity extends Activity {
         mToast.show();
     }
 
+    void showDialog() {
+        if (progressDailog == null) {
+            progressDailog = AlertDialogService.getWait(this, "");
+        }
+        progressDailog.show();
+    }
+
+    void disDialog() {
+        if (progressDailog!=null && progressDailog.isShowing()) {
+            progressDailog.dismiss();
+        }
+    }
+
+    @Override protected void onDestroy() {
+        disDialog();
+        super.onDestroy();
+    }
 }

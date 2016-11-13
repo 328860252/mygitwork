@@ -63,6 +63,7 @@ public class AppApplication extends Application {
     if (mBluetoothLeService != null) {
       mBluetoothLeService.closeAll();
     }
+    list.clear();
     super.onTerminate();
   }
 
@@ -156,8 +157,8 @@ public class AppApplication extends Application {
       } else if (intent.getAction().equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {//
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         if (device == null) return;
-        addOrUpdateDeviceBean(device.getName(), device.getAddress(),
-            device.getBondState() == BluetoothDevice.BOND_BONDED);
+        LogUtils.v("deviceList", "ACTION_BOND_STATE_CHANGED  "+ device.getBondState());
+        addOrUpdateDeviceBean(device.getName(), device.getAddress(), device.getBondState() == BluetoothDevice.BOND_BONDED);
         if (mDeviceBean != null && mDeviceBean.getMac().equals(device.getAddress())) {
           RxBus.getDefault().post(ConnectAction.ACTION_BLUETOOTH_BOUNED);
         }

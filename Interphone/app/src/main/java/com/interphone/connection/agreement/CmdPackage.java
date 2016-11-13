@@ -41,6 +41,7 @@ public class CmdPackage {
    */
   public final static byte Cmd_type_status = 0x06;
 
+
   /**
    * 按键
    */
@@ -49,6 +50,8 @@ public class CmdPackage {
   public final static byte Cmd_type_error = 0x7f;
 
   public static final byte CMD_TYPE_ACK = 0x7E;
+
+  public static final int CMD_TYPE_ACK_CHANNEL_END = 0x7D;
 
   /**
    * 成功返回
