@@ -84,6 +84,11 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
     if (AppConstants.isDemo) {
       new Thread(new Runnable() {
         @Override public void run() {
+          try {
+            Thread.sleep(500);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
           sendBroadcast(new Intent(ConnectAction.ACTION_GATT_CONNECTED));
           try {
             byte[] cmd1 = new byte[] {
@@ -96,13 +101,13 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
               cmd1[3] = (byte) i;
               dbin.getMParse().parseData(cmd1);
             }
-            dbin.getMParse().parseData(new byte[]{ 0x36, 0x07, 0x10});
+            dbin.getMParse().parseReceiverCmd(CmdPackage.CMD_TYPE_ACK_CHANNEL_END);
 
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
         }
-      });
+      }).start();
     }
   }
 
@@ -138,13 +143,13 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
             isWriteChannel = true;
             writeChannelIndex = 0;
             if (AppConstants.isDemo) { //模拟返回数据
-              while (writeChannelIndex<=dbin.getListChannel().size()) {
+              while (writeChannelIndex<dbin.getListChannel().size()) {
                 try {
                   Thread.sleep(500);
                 } catch (InterruptedException e) {
                   e.printStackTrace();
                 }
-                dbin.getMParse().parseData(CmdPackage.getCmdSuccess());
+                dbin.getMParse().parseReceiverCmd(CmdPackage.CMD_TYPE_ACK);
               }
             }
           }
@@ -258,7 +263,6 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
     }
     switch (v.getId()) {
       case R.id.btn_ptt:
-        testCmd();
         if (dbin.write(CmdPackage.setPTT(isPress))){
           showSendToast(false);
         }

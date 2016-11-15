@@ -34,6 +34,7 @@ public class CmdProcess {
     if (command ==null || length==0) {
       return;
     }
+    //把新收到的字节，加入链表
     for (byte b : command) {
       dataList.add(b);
     }
@@ -41,6 +42,7 @@ public class CmdProcess {
     System.out.println("已缓存数据:" + MyHexUtils.buffer2String(dataList));
     //String str = MyHexUtils.buffer2String(dataList);
     //byte b;
+    //遍历，截取中间的一段的 协议数据、回复数据
     for (int index = 0; index < dataList.size(); index++) {
       //b = dataList.get(index);
       if (dataList.get(index) ==  CmdEncrypt.CMD_HEAD) { // 收到头码
@@ -68,12 +70,12 @@ public class CmdProcess {
             AppConstants.isWriteACK = false;
             index +=2;
             data_index = index;
-            mCmdParse.parseReceiverCmd();
+            mCmdParse.parseReceiverCmd(CmdPackage.CMD_TYPE_ACK_CHANNEL_END);
           }
           if (dataList.get(index + 1) == 0x06 && dataList.get(index + 2) == 0x10) { //表示收到数据
             index +=2;
             System.out.println("收到ACK");
-            mCmdParse.parseReceiverCmd();
+            mCmdParse.parseReceiverCmd(CmdPackage.CMD_TYPE_ACK);
             data_index = index;
           }
         }

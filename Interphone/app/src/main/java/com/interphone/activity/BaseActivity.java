@@ -22,133 +22,125 @@ import com.interphone.view.wheel.AlertDialogService;
 
 public class BaseActivity extends Activity {
 
-    protected float phone_density;//屏幕密度
-    protected int phone_width, phone_height;//屏幕宽高
+  protected float phone_density;//屏幕密度
+  protected int phone_width, phone_height;//屏幕宽高
 
+  TextView tv_title;//标题
+  LinearLayout layout_back;//返回layout
+  LinearLayout layout_menu;//右上角按钮layout
+  TextView tv_back, tv_menu;//标题栏中 左边的图片 和 右边的图片
 
-    TextView tv_title;//标题
-    LinearLayout layout_back;//返回layout
-    LinearLayout layout_menu;//右上角按钮layout
-    TextView tv_back , tv_menu;//标题栏中 左边的图片 和 右边的图片
+  private ConnectBroadcastReceiver mReceiver;
+  private Toast mToast;
+  private DeviceBean dbin;
+  private Dialog progressDailog;
 
-    private ConnectBroadcastReceiver mReceiver;
-    private Toast mToast;
-    private DeviceBean dbin;
-    private Dialog progressDailog;
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+    //Log.e("tag", " init  home oncraete() ");
 
-        //Log.e("tag", " init  home oncraete() ");
+    //屏幕宽度
+    WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+    phone_width = wm.getDefaultDisplay().getWidth();// 屏幕宽度
+    phone_height = wm.getDefaultDisplay().getHeight();// 屏幕宽度
+    phone_density = getResources().getDisplayMetrics().density; //屏幕密度
+  }
 
-        //屏幕宽度
-        WindowManager wm = (WindowManager) this
-                .getSystemService(Context.WINDOW_SERVICE);
-        phone_width = wm.getDefaultDisplay().getWidth();// 屏幕宽度
-        phone_height  = wm.getDefaultDisplay().getHeight();// 屏幕宽度
-        phone_density =  getResources().getDisplayMetrics().density; //屏幕密度
+  protected void initBaseViews(Activity v) {
+    //View v = LayoutInflater.from(this).inflate(R.layout.fragment_title, null);
+    tv_title = (TextView) v.findViewById(R.id.tv_title);
+    layout_back = (LinearLayout) v.findViewById(R.id.layout_title_left);
+    layout_menu = (LinearLayout) v.findViewById(R.id.layout_title_right);
+    tv_back = (TextView) v.findViewById(R.id.tv_title_left);
+    tv_menu = (TextView) v.findViewById(R.id.tv_title_right);
+
+    layout_back.setOnClickListener(new View.OnClickListener() {
+
+      @Override public void onClick(View v) {
+        // TODO Auto-generated method stub
+        finish();
+      }
+    });
+  }
+
+  private void registerConnectBroadcast() {
+    if (mReceiver == null) {
+      mReceiver = new ConnectBroadcastReceiver(this);
     }
+    IntentFilter filter = new IntentFilter(ConnectAction.ACTION_RECEIVER_DATA);
+    registerReceiver(mReceiver, filter);
+  }
 
-    protected void initBaseViews(Activity v) {
-        //View v = LayoutInflater.from(this).inflate(R.layout.fragment_title, null);
-        tv_title = (TextView) v.findViewById(R.id.tv_title);
-        layout_back = (LinearLayout) v.findViewById(R.id.layout_title_left);
-        layout_menu = (LinearLayout) v.findViewById(R.id.layout_title_right);
-        tv_back = (TextView) v.findViewById(R.id.tv_title_left);
-        tv_menu = (TextView) v.findViewById(R.id.tv_title_right);
-
-
-
-
-        layout_back.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                finish();
-            }
-        });
+  public void unRegisterConnectBroadcast() {
+    if (mReceiver != null) {
+      unregisterReceiver(mReceiver);
     }
+  }
 
-    private void registerConnectBroadcast() {
-        if(mReceiver==null) {
-            mReceiver = new ConnectBroadcastReceiver(this);
+  /**
+   * 接收消息
+   */
+  public void onReceiver(int type, int i) {
+    if (type == CmdPackage.Cmd_type_error) {
+      showToast("数据解析错误");
+    } else {
+      //showToast("收到协议数据");
+      if (type > 0 && type < 8) {
+        if (AppConstants.isWriteACK) {
+          if (dbin == null) {
+            dbin = ((AppApplication) getApplication()).getDbin();
+          }
+          dbin.writeNoEncrypt(CmdPackage.getCmdSuccess());
         }
-        IntentFilter filter = new IntentFilter(ConnectAction.ACTION_RECEIVER_DATA);
-        registerReceiver(mReceiver, filter);
+      }
     }
+  }
 
-    public void unRegisterConnectBroadcast() {
-        if(mReceiver!=null) {
-            unregisterReceiver(mReceiver);
-        }
-    }
+  @Override protected void onStop() {
+    unRegisterConnectBroadcast();
+    super.onStop();
+  }
 
-    /**
-     * 接收消息  
-     * @param type
-     * @param i
-     */
-    public void onReceiver(int type, int i) {
-        if (type == CmdPackage.Cmd_type_error) {
-            showToast("数据解析错误");
-        } else {
-            //showToast("收到协议数据");
-            if (type != CmdPackage.CMD_TYPE_ACK  && type != CmdPackage.CMD_TYPE_ACK_CHANNEL_END) {
-                if (AppConstants.isWriteACK) {
-                    if( dbin==null) {
-                        dbin = ((AppApplication) getApplication()).getDbin();
-                    }
-                    dbin.writeNoEncrypt(CmdPackage.getCmdSuccess());
-                }
-            }
-        }
-    }
+  @Override protected void onStart() {
+    registerConnectBroadcast();
+    super.onStart();
+  }
 
-    @Override protected void onStop() {
-        unRegisterConnectBroadcast();
-        super.onStop();
+  void showToast(int resId) {
+    if (mToast == null) {
+      mToast = Toast.makeText(this, resId, Toast.LENGTH_LONG);
     }
+    mToast.setText(resId);
+    mToast.setDuration(Toast.LENGTH_LONG);
+    mToast.show();
+  }
 
-    @Override protected void onStart() {
-        registerConnectBroadcast();
-        super.onStart();
+  void showToast(String str) {
+    if (mToast == null) {
+      mToast = Toast.makeText(this, str, Toast.LENGTH_LONG);
     }
+    mToast.setText(str);
+    mToast.setDuration(Toast.LENGTH_LONG);
+    mToast.show();
+  }
 
+  void showDialog() {
+    if (progressDailog == null) {
+      progressDailog = AlertDialogService.getWait(this, "");
+    }
+    progressDailog.show();
+  }
 
-    void showToast(int resId) {
-        if(mToast==null) {
-            mToast = Toast.makeText(this, resId, Toast.LENGTH_LONG);
-        }
-        mToast.setText(resId);
-        mToast.setDuration(Toast.LENGTH_LONG);
-        mToast.show();
+  void disDialog() {
+    if (progressDailog != null && progressDailog.isShowing()) {
+      progressDailog.dismiss();
     }
-    void showToast(String str) {
-        if(mToast==null) {
-            mToast = Toast.makeText(this, str, Toast.LENGTH_LONG);
-        }
-        mToast.setText(str);
-        mToast.setDuration(Toast.LENGTH_LONG);
-        mToast.show();
-    }
+  }
 
-    void showDialog() {
-        if (progressDailog == null) {
-            progressDailog = AlertDialogService.getWait(this, "");
-        }
-        progressDailog.show();
-    }
-
-    void disDialog() {
-        if (progressDailog!=null && progressDailog.isShowing()) {
-            progressDailog.dismiss();
-        }
-    }
-
-    @Override protected void onDestroy() {
-        disDialog();
-        super.onDestroy();
-    }
+  @Override protected void onDestroy() {
+    disDialog();
+    super.onDestroy();
+  }
 }

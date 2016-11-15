@@ -5,11 +5,12 @@ package com.interphone;
  */
 public class AppConstants {
 
+    //收到数据是否需要回传ack
     public static boolean isWriteACK = true;
 
     public final static String charSet = "utf-8";
 
-    public final static boolean isDemo = true;
+    public final static boolean isDemo = false;
 
     /**
      * 功率调频密码
@@ -24,5 +25,6 @@ public class AppConstants {
     public final static String SUPPER_PASSWORD = "353605";
 
     public final static int rateMULTPLE = 100000;
+    //发送延迟时间，单位毫秒
     public static long wait = 500;
 }
