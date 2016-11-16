@@ -263,6 +263,7 @@ public class DeviceChannelDataActivity extends BaseActivity {
         //有多条信息返回， 要添加ack收取
         AppConstants.isWriteACK = true;
         if (dbin.write(CmdPackage.getChannel())) {
+          showDialog();
           showSendToast(false);
         }
         break;
@@ -376,7 +377,7 @@ public class DeviceChannelDataActivity extends BaseActivity {
         initData();
         showSendToast(true);
         break;
-      case CmdPackage.CMD_TYPE_ACK:
+      case CmdPackage.CMD_TYPE_ACK: //收到ack ，如果是在发送 channel中，就发送下一个channel
         if (!isWriteChannel) return;
         if (writeChannelIndex < dbin.getListChannel().size()) {
           AppConstants.isWriteACK = false;

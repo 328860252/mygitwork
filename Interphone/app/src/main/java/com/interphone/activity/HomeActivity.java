@@ -371,6 +371,7 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
           @Override public void run() {
             try {
               Thread.sleep(AppConstants.wait);
+              AppConstants.isWriteACK = true;
               dbin.write(CmdPackage.getChannel());
             } catch (InterruptedException e) {
               e.printStackTrace();
@@ -388,6 +389,13 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
       }
     }
   };
+
+  @Override protected void onResume() {
+    if (dbin!=null) {
+      mTvVoliceValue.setText(dbin.getProtertyData().getVox());
+    }
+    super.onResume();
+  }
 
   @Override protected void onDestroy() {
     unregisterReceiver(receiver);

@@ -59,8 +59,8 @@ import lombok.Data;
             for (int i=0; i< ChannelDataSize; i++) {
                 ChannelData channelData = new ChannelData();
                 channelData.setChannelId(i+1);
-                channelData.setRateReceive(462.5625 + 0.025 * i);
-                channelData.setRateSend(462.5625 + 0.025 * i);
+                channelData.setRateReceive(DefaultData.channelRateDefault[i]);
+                channelData.setRateSend(DefaultData.channelRateDefault[i]);
                 listChannel.add(channelData);
             }
         }

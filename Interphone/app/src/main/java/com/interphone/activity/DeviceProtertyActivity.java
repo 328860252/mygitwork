@@ -78,6 +78,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     //信道
     mArrayChannelId = new String[16];
     for (int i = 0; i < 16; i++) {
+      //名字从1开始，1-16
       mArrayChannelId[i] = "信道" + (i + 1);
     }
     mAdapterChannelId =
@@ -150,16 +151,11 @@ public class DeviceProtertyActivity extends BaseActivity {
           showToast(R.string.toast_device_id_error);
           return;
         }
-        mProtertyWriteData = dbin.getProtertyData();
-        mProtertyWriteData.setVox(mSpinnerProtertyVOX.getSelectedItemPosition());
-        //mProtertyWriteData.setHFvalue(mSpinnerProtertyVHF.getSelectedItemPosition());
-        mProtertyWriteData.setUserId(mEtDeviceId.getText().toString().trim());
-        mProtertyWriteData.setTotTime(Integer.parseInt(mTvProtertyTot.getText().toString()));
-        //channelId 是1-16， 下标是0开始
-        mProtertyWriteData.setActivityChannelId(mSpinnerChannel.getSelectedItemPosition() + 1);
+
         //if (dbin.write(CmdPackage.setProteries(mProtertyWriteData))) {
         //  showSendToast(false);
         //}
+        saveProtery();
         new Thread(new Runnable() {
           @Override public void run() {
             if (dbin.write(CmdPackage.setProteries(dbin.getProtertyData()))) {
@@ -182,6 +178,16 @@ public class DeviceProtertyActivity extends BaseActivity {
     }
   }
 
+  private void saveProtery() {
+    mProtertyWriteData = dbin.getProtertyData();
+    mProtertyWriteData.setVox(mSpinnerProtertyVOX.getSelectedItemPosition());
+    //mProtertyWriteData.setHFvalue(mSpinnerProtertyVHF.getSelectedItemPosition());
+    mProtertyWriteData.setUserId(mEtDeviceId.getText().toString().trim());
+    mProtertyWriteData.setTotTime(Integer.parseInt(mTvProtertyTot.getText().toString()));
+    //channelId 是1-16， 下标是0开始
+    mProtertyWriteData.setActivityChannelId(mSpinnerChannel.getSelectedItemPosition() + 1);
+  }
+
   private Handler mHandler = new Handler() {
     public void handleMessage(Message msg) {
       switch (msg.what) {
@@ -194,6 +200,11 @@ public class DeviceProtertyActivity extends BaseActivity {
       }
     }
   };
+
+  @Override public void onBackPressed() {
+    saveProtery();
+    super.onBackPressed();
+  }
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode) {
