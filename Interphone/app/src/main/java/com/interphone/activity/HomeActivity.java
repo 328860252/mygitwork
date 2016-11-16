@@ -392,7 +392,7 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
 
   @Override protected void onResume() {
     if (dbin!=null) {
-      mTvVoliceValue.setText(dbin.getProtertyData().getVox());
+      mTvVoliceValue.setText(""+dbin.getProtertyData().getVox());
     }
     super.onResume();
   }

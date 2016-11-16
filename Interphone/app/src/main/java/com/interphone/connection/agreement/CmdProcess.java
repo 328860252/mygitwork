@@ -35,8 +35,8 @@ public class CmdProcess {
       return;
     }
     //把新收到的字节，加入链表
-    for (byte b : command) {
-      dataList.add(b);
+    for (int i=0; i<length;i++) {
+      dataList.add(command[i]);
     }
     System.out.println("收到新数据~:" + MyHexUtils.buffer2String(command, length));
     System.out.println("已缓存数据:" + MyHexUtils.buffer2String(dataList));
@@ -47,12 +47,12 @@ public class CmdProcess {
       //b = dataList.get(index);
       if (dataList.get(index) ==  CmdEncrypt.CMD_HEAD) { // 收到头码
         //最少的协议长度
-        if (index + 6 > dataList.size()) continue;
+        if (index + 6 >= dataList.size()) continue;
         //0x35开始后， 第6个字节为 协议长度
         int cmdLength = MyByteUtils.byteToInt(dataList.get(index+6)); //长度
         //结束字节 位置,
         int cmdEndIndex = index+7+cmdLength;
-        if (dataList.size() < cmdEndIndex) continue;
+        if (dataList.size() <= cmdEndIndex) continue;
         byte[] rightCmd = Bytes.toArray(dataList.subList(index, cmdEndIndex + 1));
         if (dataList.size() >= (cmdEndIndex) && dataList.get(cmdEndIndex) == CmdEncrypt.CMD_END) {
           ProcessData(rightCmd, 0 , rightCmd.length);// 处理
@@ -64,21 +64,18 @@ public class CmdProcess {
         if (index +2 >= dataList.size()) {
           break;
         }
-        if (index + 2 <= dataList.size()) {
           if (dataList.get(index + 1) == 0x07 && dataList.get(index + 2) == 0x10) { //表示多组数据接收完毕
             System.out.println("停止ACK");
             AppConstants.isWriteACK = false;
             index +=2;
             data_index = index;
             mCmdParse.parseReceiverCmd(CmdPackage.CMD_TYPE_ACK_CHANNEL_END);
-          }
-          if (dataList.get(index + 1) == 0x06 && dataList.get(index + 2) == 0x10) { //表示收到数据
+          } else if (dataList.get(index + 1) == 0x06 && dataList.get(index + 2) == 0x10) { //表示收到数据
             index +=2;
             System.out.println("收到ACK");
             mCmdParse.parseReceiverCmd(CmdPackage.CMD_TYPE_ACK);
             data_index = index;
           }
-        }
       }
     }
     if (data_index!=0) {

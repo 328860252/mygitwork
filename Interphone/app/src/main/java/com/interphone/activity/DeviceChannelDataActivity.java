@@ -337,6 +337,9 @@ public class DeviceChannelDataActivity extends BaseActivity {
         case 1:
           showSendToast(false);
           break;
+        case 2:
+          showDialog();
+          break;
       }
     }
   };
@@ -391,6 +394,11 @@ public class DeviceChannelDataActivity extends BaseActivity {
         }
         break;
     }
+  }
+
+  @Override public void onBackPressed() {
+    saveChannelData(mSpinnerChannel.getSelectedItemPosition());
+    super.onBackPressed();
   }
 
   public double checkRate(String rateDouble) {

@@ -85,6 +85,12 @@ public class BaseActivity extends Activity {
   public void onReceiver(int type, int i) {
     if (type == CmdPackage.Cmd_type_error) {
       showToast("数据解析错误");
+      if (AppConstants.isWriteACK) {
+        if (dbin == null) {
+          dbin = ((AppApplication) getApplication()).getDbin();
+        }
+        dbin.writeNoEncrypt(CmdPackage.getCmdSuccess());
+      }
     } else {
       //showToast("收到协议数据");
       if (type > 0 && type < 8) {

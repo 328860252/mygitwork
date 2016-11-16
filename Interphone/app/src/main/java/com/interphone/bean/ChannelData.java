@@ -81,7 +81,7 @@ public class ChannelData {
         if(analogToneReceive==0) {
             return OFF;
         } else {
-            return WheelUtils.getArrayAnalogToneSned(context)[analogToneReceive];
+            return DefaultData.getArrayAnalogToneSned(context)[analogToneReceive];
         }
     }
 
@@ -89,7 +89,7 @@ public class ChannelData {
         if(analogToneSend==0) {
             return OFF;
         } else {
-            return WheelUtils.getArrayAnalogToneSned(context)[analogToneSend];
+            return DefaultData.getArrayAnalogToneSned(context)[analogToneSend];
         }
     }
 
