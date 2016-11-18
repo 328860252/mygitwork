@@ -129,11 +129,13 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
       }
 
       @Override public void onStopTrackingTouch(SeekBar seekBar) {
+        if (dbin!=null) {
+          dbin.getProtertyData().setVox(mSbVolica.getProgress());
+        }
         if (dbin== null || !dbin.isLink()) {
           showToast(R.string.noLink);
           return;
         }
-        dbin.getProtertyData().setVox(mSbVolica.getProgress());
         new Thread(new Runnable() {
           @Override public void run() {
             if (dbin.write(CmdPackage.setProteries(dbin.getProtertyData()))) {
@@ -174,6 +176,9 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
   @Override public void onReceiver(int type, int i) {
     super.onReceiver(type, i);
     switch (type) {
+      case CmdPackage.Cmd_type_property:
+        mSbVolica.setProgress(dbin.getProtertyData().getVox());
+        break;
       case CmdPackage.Cmd_type_status:
         if (dbin != null) {
           switch (dbin.getProtertyData().getStatus()) {
@@ -392,7 +397,7 @@ public class HomeActivity extends BaseActivity implements View.OnTouchListener {
 
   @Override protected void onResume() {
     if (dbin!=null) {
-      mTvVoliceValue.setText(""+dbin.getProtertyData().getVox());
+      mSbVolica.setProgress(dbin.getProtertyData().getVox());
     }
     super.onResume();
   }

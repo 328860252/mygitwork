@@ -59,6 +59,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     ButterKnife.bind(this);
     initBaseViews(this);
     initViews();
+    initData();
   }
 
   private void initViews() {
@@ -74,6 +75,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     mAdapterProtertyVOX = new StringAdapter(mArrayProtertyVOX, this, mProtertyData.getVox());
     mSpinnerProtertyVOX.setAdapter(mAdapterProtertyVOX);
     mAdapterProtertyVOX.notifyDataSetChanged();
+
 
     //信道
     mArrayChannelId = new String[16];
@@ -112,11 +114,11 @@ public class DeviceProtertyActivity extends BaseActivity {
 
   private void initData() {
     try {
-      mSpinnerProtertyVOX.setSelection(mProtertyData.getVox());
+      mSpinnerProtertyVOX.setSelection(mProtertyData.getVox(), true);
       mTvProtertyTot.setText(("" + mProtertyData.getTotTime()));
       mEtDeviceId.setText(mProtertyData.getUserId().trim());
       //ID从1-16 ， 下标是0-15
-      mSpinnerChannel.setSelection(mProtertyData.getActivityChannelId() - 1);
+      mSpinnerChannel.setSelection(mProtertyData.getActivityChannelId() - 1, true);
     } catch (IndexOutOfBoundsException e) {
       e.printStackTrace();
       showToast("数据错误，超出范围");

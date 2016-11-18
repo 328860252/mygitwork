@@ -380,6 +380,9 @@ public class DeviceChannelDataActivity extends BaseActivity {
         initData();
         showSendToast(true);
         break;
+      case CmdPackage.CMD_TYPE_ACK_CHANNEL_END:
+        disDialog();
+        break;
       case CmdPackage.CMD_TYPE_ACK: //收到ack ，如果是在发送 channel中，就发送下一个channel
         if (!isWriteChannel) return;
         if (writeChannelIndex < dbin.getListChannel().size()) {
