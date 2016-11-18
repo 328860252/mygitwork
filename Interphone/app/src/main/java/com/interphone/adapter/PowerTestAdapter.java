@@ -66,6 +66,7 @@ public class PowerTestAdapter extends BaseAdapter {
 
             @Override public void onStopTrackingTouch(SeekBar seekBar) {
                 if (mOnScroolListener != null) {
+                    list.get(position).setValue(seekBar.getProgress());
                     mOnScroolListener.onSeekbarScroll(position, list.get(position).getId(), seekBar.getProgress());
                 }
             }
@@ -76,6 +77,15 @@ public class PowerTestAdapter extends BaseAdapter {
     public void setList(List<PowerTestSeekBean> list) {
         this.list = list;
     }
+
+    public List<String> getListValue() {
+        List<String> listString = new ArrayList<>();
+        for (int i=0; i< list.size(); i++) {
+            listString.add("" + list.get(i).getValue());
+        }
+        return listString;
+    }
+
 
     /**
      * 清零

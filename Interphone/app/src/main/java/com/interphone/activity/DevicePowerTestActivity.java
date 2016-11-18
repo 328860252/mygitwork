@@ -21,8 +21,10 @@ import com.interphone.bean.DeviceBean;
 import com.interphone.bean.PowerTestData;
 import com.interphone.connection.agreement.CmdPackage;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+@Deprecated
 public class DevicePowerTestActivity extends BaseActivity {
 
     @Bind(R.id.tv_title) TextView mTvTitle;

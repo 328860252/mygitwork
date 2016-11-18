@@ -27,6 +27,58 @@
       android:layout_weight="1"
       ></ListView>
 
-  <include layout="@layout/layout_bottom"></include>
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:paddingTop="2dp"
+      android:paddingBottom="2dp"
+      android:background="@color/bg_layout"
+      android:orientation="horizontal"
+      android:gravity="center_horizontal"
+      >
+    <Button
+        android:id="@+id/btn_read"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_read"
+        />
+
+
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/btn_send"
+        />
+
+    <Button
+        android:id="@+id/btn_saveFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/btn_saveFile"
+        />
+
+
+    <Button
+        android:id="@+id/btn_readFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/btn_readFile"
+        />
+
+
+
+  </LinearLayout>
 
 </LinearLayout>

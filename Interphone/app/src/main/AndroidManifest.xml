@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.administrator.interphone">
+    package="com.example.administrator.interphone">
 
   <uses-permission android:name="android.permission.BLUETOOTH" />
   <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -84,7 +84,8 @@
         android:value="c05c9a0ae92fa7ae610c8a23463851f040c6d42c" />
 
     <activity android:name="com.interphone.activity.SmsListActivity" />
-    <activity android:name="com.interphone.activity.SmsDetailActivity"></activity>
+    <activity android:name="com.interphone.activity.SmsDetailActivity" />
+    <activity android:name="com.interphone.activity.GetExcelActivity"></activity>
   </application>
 
 </manifest>

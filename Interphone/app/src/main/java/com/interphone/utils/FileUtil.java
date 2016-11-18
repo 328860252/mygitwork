@@ -239,4 +239,28 @@ public class FileUtil {
         }
         return null;
     }
+
+    public static File getSaveFile(String name) {
+        File sdDir =getFile();
+        File subDir = new File(sdDir, PARENT_DIR+"/"+name+".xls");
+        if (!subDir.getParentFile().exists()) {
+            subDir.getParentFile().exists();
+        }
+        if(subDir.exists()) {
+            subDir.delete();
+        }
+        return subDir;
+    }
+
+    public static File getSavePath() {
+        File sdDir =getFile();
+        File subDir = new File(sdDir, PARENT_DIR);
+        if (!subDir.getParentFile().exists()) {
+            subDir.getParentFile().exists();
+        }
+        if(subDir.exists()) {
+            subDir.delete();
+        }
+        return subDir;
+    }
 }

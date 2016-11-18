@@ -66,4 +66,7 @@
   <string name="text_scanRate">扫描频率:</string>
   <string name="text_vol">音    量:</string>
   <string name="toast_device_id_error">输入6位用户id</string>
+  <string name="btn_readFile">读文件</string>
+  <string name="btn_saveFile">存文件</string>
+  <string name="toast_not_empty">不能为空</string>
 </resources>
