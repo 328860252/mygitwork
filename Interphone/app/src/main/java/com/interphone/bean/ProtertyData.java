@@ -25,6 +25,9 @@ public class ProtertyData {
      */
     private int activityChannelId;
 
+    /**
+     * 机器型号
+     */
     public String deviceMode ="";
 
     /**

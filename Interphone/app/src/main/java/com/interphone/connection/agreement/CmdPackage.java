@@ -20,7 +20,7 @@ public class CmdPackage {
   /** 本机信息 */
   public final static byte Cmd_type_info = 0x01;
   /**
-   * 属性
+   * 属性合并成本机参数
    */
   public final static byte Cmd_type_property = 0x02;
   /**
@@ -169,7 +169,7 @@ public class CmdPackage {
   }
 
   public static byte[] setProteries(ProtertyData protertyData) {
-    byte[] buff = new byte[22];
+    byte[] buff = new byte[21];
     buff[0] = set;
     buff[1] = Cmd_type_property;
 //    buff[2] = (byte) d.getHFvalue();

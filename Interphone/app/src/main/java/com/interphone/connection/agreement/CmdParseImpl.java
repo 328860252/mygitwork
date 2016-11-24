@@ -64,7 +64,7 @@ public class CmdParseImpl implements ICmdParseInterface {
                     mDeviceBean.setPassword(str);
                     //序列号
                     buffer = new byte[4];
-                    System.arraycopy(dataBuff,12, buffer, 0, 4);
+                    System.arraycopy(dataBuff,14, buffer, 0, 4);
                     str = new String(buffer);
                     mDeviceBean.getProtertyData().setSerialNumber(str);
                     break;
