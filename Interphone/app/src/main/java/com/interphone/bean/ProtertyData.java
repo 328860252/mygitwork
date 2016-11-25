@@ -67,7 +67,9 @@ public class ProtertyData {
     public String getScanRate() {
         if (TextUtils.isEmpty(scanRate)) return "";
         if (scanRate.equals("00000000")) return "";
-        return scanRate;
+
+        double d = Integer.parseInt(scanRate) / 10000.0d;
+        return ""+d;
     }
 
     public int getActivityChannelId() {
