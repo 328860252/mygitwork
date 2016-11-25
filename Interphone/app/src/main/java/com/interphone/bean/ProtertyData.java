@@ -1,6 +1,7 @@
 package com.interphone.bean;
 
 import android.text.TextUtils;
+import java.text.NumberFormat;
 import lombok.Data;
 
 /**
@@ -68,8 +69,10 @@ public class ProtertyData {
         if (TextUtils.isEmpty(scanRate)) return "";
         if (scanRate.equals("00000000")) return "";
 
-        double d = Integer.parseInt(scanRate) / 10000.0d;
-        return ""+d;
+        double d = Integer.parseInt(scanRate) / 100000.0d;
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMinimumFractionDigits(4);
+        return nf.format(d);
     }
 
     public int getActivityChannelId() {
