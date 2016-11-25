@@ -67,7 +67,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     mProtertyData = dbin.getProtertyData();
 
     mTvDeviceSerialNumber.setText(mProtertyData.getSerialNumber());
-    mEtDeviceId.setText(mProtertyData.getUserId().trim());
+    mEtDeviceId.setText(mProtertyData.getUserId());
     mTvDeviceMode.setText(mProtertyData.getDeviceMode());
     mTvProtertyVHF.setText(mProtertyData.getHFValueString());
 
@@ -116,7 +116,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     try {
       mSpinnerProtertyVOX.setSelection(mProtertyData.getVox(), true);
       mTvProtertyTot.setText(("" + mProtertyData.getTotTime()));
-      mEtDeviceId.setText(mProtertyData.getUserId().trim());
+      mEtDeviceId.setText(mProtertyData.getUserId());
       //ID从1-16 ， 下标是0-15
       mSpinnerChannel.setSelection(mProtertyData.getActivityChannelId() - 1, true);
     } catch (IndexOutOfBoundsException e) {
@@ -149,7 +149,7 @@ public class DeviceProtertyActivity extends BaseActivity {
           showToast(R.string.noLink);
           return;
         }
-        if (mEtDeviceId.getText().toString().trim().length() != 6) {
+        if (mEtDeviceId.getText().toString().length() != 6) {
           showToast(R.string.toast_device_id_error);
           return;
         }
@@ -184,7 +184,7 @@ public class DeviceProtertyActivity extends BaseActivity {
     mProtertyWriteData = dbin.getProtertyData();
     mProtertyWriteData.setVox(mSpinnerProtertyVOX.getSelectedItemPosition());
     //mProtertyWriteData.setHFvalue(mSpinnerProtertyVHF.getSelectedItemPosition());
-    mProtertyWriteData.setUserId(mEtDeviceId.getText().toString().trim());
+    mProtertyWriteData.setUserId(mEtDeviceId.getText().toString());
     mProtertyWriteData.setTotTime(Integer.parseInt(mTvProtertyTot.getText().toString()));
     //channelId 是1-16， 下标是0开始
     mProtertyWriteData.setActivityChannelId(mSpinnerChannel.getSelectedItemPosition() + 1);

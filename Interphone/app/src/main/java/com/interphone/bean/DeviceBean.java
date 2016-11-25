@@ -21,12 +21,6 @@ import lombok.Data;
 
 
     /**
-     * 写频密码
-     * 353605超级密码 ， 全FFFFFF为空密码
-     */
-    public String password;
-
-    /**
      * 属性
      */
     public String sms;
@@ -109,21 +103,21 @@ import lombok.Data;
         return listPower;
     }
 
-    /**
-     * 密码是否正确， 包括超级密码正确
-     * @param psd
-     * @return
-     */
-    public boolean isPasswordRight(String psd) {
-        if (TextUtils.isEmpty(password)) return true;
-        if ( psd==null) {
-            return false;
-        }
-        if (password.equalsIgnoreCase(psd) || password.equalsIgnoreCase(AppConstants.SUPPER_PASSWORD)) {
-            return true;
-        }
-        return false;
-    }
+    ///**
+    // * 密码是否正确， 包括超级密码正确
+    // * @param psd
+    // * @return
+    // */
+    //public boolean isPasswordRight(String psd) {
+    //    if (TextUtils.isEmpty(password)) return true;
+    //    if ( psd==null) {
+    //        return false;
+    //    }
+    //    if (password.equalsIgnoreCase(psd) || password.equalsIgnoreCase(AppConstants.SUPPER_PASSWORD)) {
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
     public ProtertyData getProtertyData() {
         if(protertyData == null) {

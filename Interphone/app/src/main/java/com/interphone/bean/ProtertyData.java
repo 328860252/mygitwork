@@ -48,7 +48,7 @@ public class ProtertyData {
     /**
      * 序列号
      */
-    private String serialNumber;
+    private String serialNumber="";
 
     /**
      * 扫描频率 BCD码，16进制的10位数  比如数字12 0x12 而不是0x0b
@@ -57,6 +57,12 @@ public class ProtertyData {
      * 必须能被5整除 或 6.25整除
      */
     private String scanRate;
+
+    /**
+     * 写频密码
+     * 353605超级密码 ， 全FFFFFF为空密码
+     */
+    public String password="";
 
     public String getScanRate() {
         if (TextUtils.isEmpty(scanRate)) return "";

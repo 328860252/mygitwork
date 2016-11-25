@@ -61,12 +61,23 @@ public class CmdParseImpl implements ICmdParseInterface {
                     //用户密码
                     System.arraycopy(dataBuff,8, buffer, 0, 6);
                     str = new String(buffer);
-                    mDeviceBean.setPassword(str);
+                    mDeviceBean.getProtertyData().setPassword(str);
                     //序列号
-                    buffer = new byte[4];
-                    System.arraycopy(dataBuff,14, buffer, 0, 4);
+                    buffer = new byte[10];
+                    System.arraycopy(dataBuff,14, buffer, 0, 10);
                     str = new String(buffer);
                     mDeviceBean.getProtertyData().setSerialNumber(str);
+
+                    ProtertyData protertyData = mDeviceBean.getProtertyData();
+                    //protertyData.setHFvalue(MyByteUtils.byteToInt(dataBuff[24]));
+                    protertyData.setTotTime(MyByteUtils.byteToInt(dataBuff[25]));
+                    protertyData.setVox(MyByteUtils.byteToInt(dataBuff[26]));
+                    protertyData.setActivityChannelId(MyByteUtils.byteToInt(dataBuff[33]));
+
+                    buffer = new byte[6];
+                    System.arraycopy(dataBuff, 27, buffer, 0, 6);
+                    protertyData.setUserId(new String(buffer));
+                    LogUtils.d(TAG, " proterty : " + protertyData.toString());
                     break;
                 case CmdPackage.Cmd_type_channel:
                     ChannelData channelData;
@@ -119,18 +130,6 @@ public class CmdParseImpl implements ICmdParseInterface {
 
                         }
                     }
-                    break;
-                case CmdPackage.Cmd_type_property:
-                    ProtertyData protertyData = mDeviceBean.getProtertyData();
-                    //protertyData.setHFvalue(MyByteUtils.byteToInt(dataBuff[2]));
-                    protertyData.setTotTime(MyByteUtils.byteToInt(dataBuff[3]));
-                    protertyData.setVox(MyByteUtils.byteToInt(dataBuff[4]));
-                    protertyData.setActivityChannelId(MyByteUtils.byteToInt(dataBuff[11]));
-
-                    buffer = new byte[6];
-                    System.arraycopy(dataBuff, 5, buffer, 0, 6);
-                    protertyData.setUserId(new String(buffer, AppConstants.charSet));
-                    LogUtils.d(TAG, " proterty : " + protertyData.toString());
                     break;
                 case CmdPackage.Cmd_type_power:
                     //对于调频功率 ，似乎不用读取返回数据

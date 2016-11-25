@@ -18,7 +18,7 @@ public class CmdPackage {
   private final static byte set = 0x02;//接收
 
   /** 本机信息 */
-  public final static byte Cmd_type_info = 0x01;
+  public final static byte Cmd_type_info = 0x02;
   /**
    * 属性合并成本机参数
    */
@@ -169,22 +169,33 @@ public class CmdPackage {
   }
 
   public static byte[] setProteries(ProtertyData protertyData) {
-    byte[] buff = new byte[21];
+    byte[] buff = new byte[43];
     buff[0] = set;
     buff[1] = Cmd_type_property;
-//    buff[2] = (byte) d.getHFvalue();
-    buff[3] = (byte) protertyData.getTotTime();
-    buff[4] = (byte) protertyData.getVox();
-    buff[11] = (byte) protertyData.getActivityChannelId();
-    byte[] nameBuff;
-    try {
-      nameBuff = protertyData.getUserId().getBytes(AppConstants.charSet);
-      System.arraycopy(nameBuff, 0, buff, 5, nameBuff.length);
-      return buff;
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
+//    buff[24] = (byte) d.getHFvalue();
+
+    byte[] strbuff;
+    strbuff = protertyData.getDeviceMode().getBytes();
+    if (strbuff.length>=6) {
+      System.arraycopy(strbuff, 0, buff, 2, 6);
     }
-    return null;
+
+    strbuff = protertyData.getPassword().getBytes();
+    if (strbuff.length>=6) {
+      System.arraycopy(strbuff, 0, buff, 8, 6);
+    }
+
+    strbuff = protertyData.getSerialNumber().getBytes();
+    if (strbuff.length>=6) {
+      System.arraycopy(strbuff, 0, buff, 14, 10);
+    }
+
+    buff[25] = (byte) protertyData.getTotTime();
+    buff[26] = (byte) protertyData.getVox();
+    buff[33] = (byte) protertyData.getActivityChannelId();
+    strbuff = protertyData.getUserId().getBytes();
+    System.arraycopy(strbuff, 0, buff, 27, strbuff.length);
+      return buff;
   }
 
   public static byte[] setSms(SmsEntity smsEntity) {
@@ -195,11 +206,11 @@ public class CmdPackage {
       int index = 5;//起始位置
       buff[4] = (byte) smsEntity.getType();
       //接收id
-      byte[] receIdUuff = smsEntity.getReceiverId().getBytes(AppConstants.charSet);
+      byte[] receIdUuff = smsEntity.getReceiverId().getBytes();
       System.arraycopy(receIdUuff, 0, buff, index, receIdUuff.length);
       index += receIdUuff.length;
       //发送id
-      byte[] sendIdBuff = smsEntity.getSendId().getBytes(AppConstants.charSet);
+      byte[] sendIdBuff = smsEntity.getSendId().getBytes();
       System.arraycopy(sendIdBuff, 0, buff, index, sendIdBuff.length);
       index += 6;
       //时间 年月日时分秒
