@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,6 +25,7 @@ import com.interphone.bean.ChannelData;
 import com.interphone.bean.DeviceBean;
 import com.interphone.connection.agreement.CmdPackage;
 import com.interphone.utils.LogUtils;
+import com.interphone.utils.MyByteUtils;
 import com.interphone.utils.WheelUtils;
 
 public class DeviceChannelDataActivity extends BaseActivity {
@@ -191,6 +193,7 @@ public class DeviceChannelDataActivity extends BaseActivity {
 
   private void initData() {
     //设置true ， 是防止初始化时， 执行onitemnSlelectListener
+    //LogUtils.logD("ChannelDataAct", mChannelData.getChannelId() + " power:" + mChannelData.getPower() + " rateSend:" + mChannelData.getRateSend2Str());
     try {
       mSpinnerChannelType.setSelection(mChannelData.getChannelType(), true);
       mSpinnerPower.setSelection(mChannelData.getPower(), true);
@@ -266,6 +269,7 @@ public class DeviceChannelDataActivity extends BaseActivity {
           showDialog();
           showSendToast(false);
         }
+        testCmd();
         break;
       case R.id.btn_send:
         if (!dbin.isLink()) {
@@ -290,6 +294,16 @@ public class DeviceChannelDataActivity extends BaseActivity {
               //}
               isWriteChannel = true;
               writeChannelIndex = 0;
+              if (AppConstants.isDemo) {
+                for (int i=0;i<16; i++) {
+                  try {
+                    Thread.sleep(500);
+                  } catch (InterruptedException e) {
+                    e.printStackTrace();
+                  }
+                  onReceiver(MyByteUtils.byteToInt(CmdPackage.CMD_TYPE_ACK), 1);
+                }
+              }
             }
           }).start();
         } catch (Exception e) {
@@ -451,12 +465,26 @@ public class DeviceChannelDataActivity extends BaseActivity {
       //byte[] cmd6 = new byte[]{0x01, 0x02, 0x01, (byte) 0xB4, 0x3, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x00, 0x00};
       //dbin.getMParse().parseData(cmd6);
 
-      byte[] cmd1 = new byte[] {
-          0x01, 0x03, 0x01, (byte) 0x00, 0x41, 0x05, 0x62, 0x50, 0x41, 0x05, 0x62, 0x50, 0x00, 0x00,
-          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-          0x00
-      };
-      dbin.getMParse().parseData(cmd1);
+      new Thread(new Runnable() {
+        @Override public void run() {
+          byte[] cmd1 = new byte[] {
+              0x01, 0x03, 0x01, (byte) 0x00, 0x41, 0x05, 0x62, 0x50, 0x41, 0x05, 0x62, 0x50, 0x00, 0x00,
+              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+              0x00
+          };
+          for (int i=1;i<16; i++) {
+            cmd1[2] = (byte) i;
+            cmd1[5] = (byte) (16 * (i/2) + 5 * (i%2));
+            cmd1[18] = (byte) (i%3);
+            dbin.getMParse().parseData(cmd1);
+            try {
+              Thread.sleep(1000);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+          }
+        }
+      }).start();
     }
   }
 }

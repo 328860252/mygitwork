@@ -11,7 +11,15 @@ import lombok.Data;
  */
 public class StringUtils {
 
-    private static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  /**
+   * 对外显示的格式
+   */
+  private static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    /**
+     * 格式化bcd码用的
+     */
+    private static SimpleDateFormat mSimpleDateFormat2 = new SimpleDateFormat("yyyyMMddHHmmss");
 
     public static String value2String(int value) {
         if(value ==0 ) {
@@ -34,8 +42,7 @@ public class StringUtils {
         return mSimpleDateFormat.format(calendar.getTime());
     }
 
-    public static byte[] time2byte(String time) {
-        byte[] bytes = new byte[7];
+    public static byte[] time2BcdByte(String time) {
         Date date;
         try {
             date = mSimpleDateFormat.parse(time);
@@ -43,14 +50,7 @@ public class StringUtils {
             e.printStackTrace();
             date = new Date();
         }
-        bytes[0] = (byte) ((date.getYear()+1900) /256);
-        bytes[1] = (byte) ((date.getYear()+1900) %256);
-        bytes[2] = (byte) (date.getMonth()+1);
-        bytes[3] = (byte) (date.getDate());
-        bytes[4] = (byte) (date.getHours());
-        bytes[5] = (byte) (date.getMinutes());
-        bytes[6] = (byte) (date.getSeconds());
-        return  bytes;
+        return  BcdUtils.str2Bcd(mSimpleDateFormat2.format(date));
     }
 
     public static String timeFormat(String longStr) {
@@ -69,5 +69,17 @@ public class StringUtils {
      */
     public static String getTimeString() {
         return mSimpleDateFormat.format(new Date());
+    }
+
+    public static String getTimeBcd2String(byte[] buffer) {
+       String str = MyHexUtils.buffer2String(buffer).replace(" ", "");
+        Date date = null;
+        try {
+            date = mSimpleDateFormat2.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            date = new Date();
+        }
+        return mSimpleDateFormat.format(date);
     }
 }

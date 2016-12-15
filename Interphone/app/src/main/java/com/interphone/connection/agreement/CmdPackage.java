@@ -7,7 +7,6 @@ import com.interphone.bean.ProtertyData;
 import com.interphone.bean.SmsEntity;
 import com.interphone.utils.BcdUtils;
 import com.interphone.utils.StringUtils;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -214,7 +213,7 @@ public class CmdPackage {
       System.arraycopy(sendIdBuff, 0, buff, index, sendIdBuff.length);
       index += 6;
       //时间 年月日时分秒
-      byte[] dataBuff = StringUtils.time2byte(smsEntity.getDataTime());
+      byte[] dataBuff = StringUtils.time2BcdByte(smsEntity.getDataTime());
       System.arraycopy(dataBuff, 0, buff, index, dataBuff.length);
       index += dataBuff.length;
       //内容

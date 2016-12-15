@@ -169,7 +169,7 @@ public class CmdParseImpl implements ICmdParseInterface {
                         smsEntity.setType(type);
                         buffer = new byte[7];
                         System.arraycopy(dataBuff,2+15, buffer, 0, buffer.length);
-                        smsEntity.setDataTime(StringUtils.getTime(buffer));
+                        smsEntity.setDataTime(StringUtils.getTimeBcd2String(buffer));
                         mSmsDao.insert(smsEntity);
                     }
                     // 总数是0-100， 但是index是0-99
