@@ -92,13 +92,16 @@ public class DeviceChannelDataActivity extends BaseActivity {
     //默认是第一个信道
     dbin = ((AppApplication) getApplication()).getDbin();
     mChannelData = dbin.getChannelDataById(dbin.getProtertyData().getActivityChannelId());
+    lastChannelPosition = mChannelData.getChannelId()-1;
     //channelId, 1~16
     mArrayChannelId = new String[16];
     for (int i = 0; i < 16; i++) {
       mArrayChannelId[i] = "信道" + (i + 1);
     }
-    mAdapterChannelId = new StringAdapter(mArrayChannelId, this, 0);
+    mAdapterChannelId = new StringAdapter(mArrayChannelId, this, mChannelData.getChannelId()-1);
     mSpinnerChannel.setAdapter(mAdapterChannelId);
+    //-1是因为id是从1开始 ，
+    mSpinnerChannel.setSelection(mChannelData.getChannelId()-1, true);
     mAdapterChannelId.notifyDataSetChanged();
 
     //信道类型 模拟 和数字
@@ -320,7 +323,7 @@ public class DeviceChannelDataActivity extends BaseActivity {
     String rateReceiveStr = mEtRateReceive.getText().toString();
     String rateSendStr = mEtRateSend.getText().toString();
 
-    LogUtils.d(TAG, mChannelData.getChannelId() + " save receiv:" + toneReceive + " send:" + toneSend);
+    LogUtils.d(TAG, mChannelData.getChannelId() + " save receiv:" + toneReceive + " send:" + toneSend + " "+rateReceiveStr);
 
 
     double finalRate = checkRate(rateReceiveStr);
@@ -464,7 +467,6 @@ public class DeviceChannelDataActivity extends BaseActivity {
       //01 03 01 00 41 05 62 50 41 05 62 50 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
       //byte[] cmd6 = new byte[]{0x01, 0x02, 0x01, (byte) 0xB4, 0x3, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x00, 0x00};
       //dbin.getMParse().parseData(cmd6);
-
       new Thread(new Runnable() {
         @Override public void run() {
           byte[] cmd1 = new byte[] {
@@ -472,13 +474,13 @@ public class DeviceChannelDataActivity extends BaseActivity {
               0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
               0x00
           };
-          for (int i=1;i<16; i++) {
+          for (int i=1;i<=16; i++) {
             cmd1[2] = (byte) i;
             cmd1[5] = (byte) (16 * (i/2) + 5 * (i%2));
             cmd1[18] = (byte) (i%3);
             dbin.getMParse().parseData(cmd1);
             try {
-              Thread.sleep(1000);
+              Thread.sleep(300);
             } catch (InterruptedException e) {
               e.printStackTrace();
             }
