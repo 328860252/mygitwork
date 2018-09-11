@@ -99,16 +99,16 @@ public class DeviceListActivity extends BaseActivity
           mDeviceBean.connect();
           showToast(R.string.toast_linking);
         } else {
-          if (mDeviceBean.isBonded()) {
+          //if (mDeviceBean.isBonded()) {
             Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
             startActivity(intent);
-          } else if (BleManager.getInstance(DeviceListActivity.this).isBonded(mDeviceBean.getMac())) {
-            Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
-            startActivity(intent);
-          } else {
-            mDeviceBean.stopConnect();
-            showToast(R.string.toast_no_bond);
-          }
+          //} else if (BleManager.getInstance(DeviceListActivity.this).isBonded(mDeviceBean.getMac())) {
+          //  Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+          //  startActivity(intent);
+          //} else {
+          //  mDeviceBean.stopConnect();
+          //  showToast(R.string.toast_no_bond);
+          //}
         }
       }
     });
@@ -141,26 +141,26 @@ public class DeviceListActivity extends BaseActivity
       } else if (message.equals("newDeviceBean")) {
         mDeviceAdapter.notifyDataSetChanged();
       } else if (message.equals(ConnectAction.ACTION_GATT_SERVICES_DISCOVERED)) {//发现服务才算连接上
-        if (mDeviceBean.isBonded()) {
+        //if (mDeviceBean.isBonded()) {
           showToast(R.string.toast_linked);
           Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
           startActivity(intent);
-        } else if (BleManager.getInstance(DeviceListActivity.this).isBonded(mDeviceBean.getMac())) {
-          Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
-          startActivity(intent);
-        }
+        //} else if (BleManager.getInstance(DeviceListActivity.this).isBonded(mDeviceBean.getMac())) {
+        //  Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
+        //  startActivity(intent);
+        //}
       } else if (message.equals(ConnectAction.ACTION_BLUETOOTH_BOUNED)) {
         LogUtils.v("deviceList", "onReceiver  "+ mDeviceBean.isBonded());
-        if (mDeviceBean.isBonded()) {
+        //if (mDeviceBean.isBonded()) {
           if (mDeviceBean.isLink()) {
             Intent intent = new Intent(DeviceListActivity.this, DeviceControlActivity.class);
             startActivity(intent);
           } else {
             mDeviceBean.connect();
           }
-        } else {
-          mDeviceBean.stopConnect();
-        }
+        //} else {
+        //  mDeviceBean.stopConnect();
+        //}
       }
     }
     super.onReceiverCmd(message);

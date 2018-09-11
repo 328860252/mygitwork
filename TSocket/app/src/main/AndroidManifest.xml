@@ -43,7 +43,7 @@
     <activity android:name=".activity.SettingLanguageActivity" android:screenOrientation="portrait"/>
     <activity android:name=".activity.TimerActivity" android:screenOrientation="portrait"/>
     <activity android:name=".activity.DelayActivity" android:screenOrientation="portrait"/>
-    <activity android:name=".activity.DeviceControlActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".activity.DeviceControlActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
     <activity android:name=".activity.WheelTimeActivity" android:screenOrientation="portrait" android:theme="@style/bg_null_bottom"/>
 
   </application>

@@ -8,8 +8,7 @@ public class SharedPerfenceUtils {
 	private static SharedPreferences sp;
 	private static Editor editor;
 	private final static String SP_NAME = "mydata";
-	private final static int MODE = Context.MODE_WORLD_READABLE
-			+ Context.MODE_WORLD_WRITEABLE;
+	private final static int MODE = Context.MODE_PRIVATE;
 
 	private SharedPerfenceUtils(Context context){
 		sp = context.getSharedPreferences(SP_NAME, MODE);

@@ -70,19 +70,27 @@ public class ExampleUnitTest {
     String cmd5 = " 02 b6 04 b3 a3 00 14";
 
     byte[] bb = MyHexUtils.hexStringToByte(cmd1);
+    byte[] bb2 = MyHexUtils.hexStringToByte(cmd2);
+    byte[] bb3 = MyHexUtils.hexStringToByte(cmd3);
+    byte[] bb4 = MyHexUtils.hexStringToByte(cmd4);
+    byte[] bb5 = MyHexUtils.hexStringToByte(cmd5);
+
     cp.ProcessDataCommand(bb, bb.length);
 
-    bb = MyHexUtils.hexStringToByte(cmd2);
-    cp.ProcessDataCommand(bb, bb.length);
+    cp.ProcessDataCommand(bb2, bb2.length);
 
-    bb = MyHexUtils.hexStringToByte(cmd3);
-    cp.ProcessDataCommand(bb, bb.length);
+    cp.ProcessDataCommand(bb3, bb3.length);
 
-    bb = MyHexUtils.hexStringToByte(cmd4);
-    cp.ProcessDataCommand(bb, bb.length);
+    cp.ProcessDataCommand(bb4, bb4.length);
 
-    bb = MyHexUtils.hexStringToByte(cmd5);
-    cp.ProcessDataCommand(bb, bb.length);
+    cp.ProcessDataCommand(bb5, bb5.length);
 
+  }
+
+
+  @Test
+  public void testCmd() {
+
+    //System.out.println(str);
   }
 }

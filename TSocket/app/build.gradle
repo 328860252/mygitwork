@@ -18,13 +18,13 @@ repositories {
 
 android {
   compileSdkVersion 24
-  buildToolsVersion "24.0.1"
+  buildToolsVersion "25.0.2"
   defaultConfig {
     applicationId "tsocket.zby.com.tsocket"
     minSdkVersion 18
     targetSdkVersion 24
-    versionCode 7
-    versionName "1.07"
+    versionCode 10
+    versionName "1.10"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
@@ -40,6 +40,16 @@ android {
       storePassword 'smartmini' //密码
       keyAlias '智宝源'
       keyPassword '2014zbyqh' //密码
+    }
+  }
+
+  applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+      def oldFile = output.outputFile
+      if (variant.buildType.name.equals('release')) {
+        def releaseApkName = 'TSocket_v' + defaultConfig.versionName + '.apk'
+        output.outputFile = new File(oldFile.parent, releaseApkName)
+      }
     }
   }
 }

@@ -70,4 +70,8 @@ public class HeaderLayout extends RelativeLayout {
   public void setTextTitle(String textTitle) {
     mTvTitle.setText(textTitle);
   }
+
+  public TextView getLeftText() {
+    return mTvTitleLeft;
+  }
 }

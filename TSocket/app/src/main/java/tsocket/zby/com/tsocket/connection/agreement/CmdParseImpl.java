@@ -78,6 +78,7 @@ public class CmdParseImpl implements ICmdParseInterface {
             + MyByteUtils.byteToInt(dataBuff[6]);
         mDeviceBean.setDownCountSecond(downCount);
         break;
+        default:
     }
     RxBus.getDefault().post(dataBuff[0]);
   }
