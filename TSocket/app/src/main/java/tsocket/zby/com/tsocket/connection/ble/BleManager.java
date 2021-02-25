@@ -5,13 +5,12 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.Settings;
+import com.hwangjr.rxbus.RxBus;
 import java.util.HashSet;
 import java.util.Set;
 import tsocket.zby.com.tsocket.AppConstants;
 import tsocket.zby.com.tsocket.connection.ConnectAction;
 import tsocket.zby.com.tsocket.utils.LogUtils;
-import tsocket.zby.com.tsocket.utils.RxBus;
 
 /**
  * Created by Administrator on 2016/9/22.
@@ -110,7 +109,7 @@ public class BleManager {
         if (mBluetoothAdapter != null) {
           mBluetoothAdapter.stopLeScan(scanCallBack);
         }
-        RxBus.getDefault().post(ConnectAction.ACTION_DEVICE_SCAN_FINISH);
+        RxBus.get().post(ConnectAction.ACTION_DEVICE_SCAN_FINISH);
       }
     }
   };

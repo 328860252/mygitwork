@@ -10,7 +10,8 @@ public class AppString {
   public static final String SECOND = "second";
   public static final String TITLE = "title";
   public static final String SHOW_HOUR = "show_hour";
-  public static java.lang.String language = "language";
+  public static final String RXBUS_PUSH_BYTE = "rxbus_btye";
+    public static java.lang.String language = "language";
 
   /**
    * 上次循环时间

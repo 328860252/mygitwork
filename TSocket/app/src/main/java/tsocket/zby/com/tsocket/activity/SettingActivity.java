@@ -31,10 +31,6 @@ public class SettingActivity extends BaseActivity {
     finish();
   }
 
-  @Override protected void onReceiverCmd(Object message) {
-    super.onReceiverCmd(message);
-  }
-
   @Override protected void onLanguageChange() {
     super.onLanguageChange();
     mLayoutHeader.setTextTitle(R.string.text_setting);
@@ -45,7 +41,7 @@ public class SettingActivity extends BaseActivity {
   }
 
   @Override protected void onStart() {
-    super.onResume();
+    super.onStart();
   }
 
   @Override protected void onStop() {

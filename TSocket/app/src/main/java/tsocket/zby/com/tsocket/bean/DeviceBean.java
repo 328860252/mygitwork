@@ -132,7 +132,7 @@ public class DeviceBean {
     }
 
     public String getDownCountString() {
-        //downCountSecond--;
+        downCountSecond--;
         if (downCountSecond > 60) {
             return downCountSecond / 60 + "min";
         } else if (downCountSecond > 0) {

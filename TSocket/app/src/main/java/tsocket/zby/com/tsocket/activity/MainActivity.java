@@ -1,11 +1,11 @@
 package tsocket.zby.com.tsocket.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+//import com.crashlytics.android.Crashlytics;
+//import io.fabric.sdk.android.Fabric;
 import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.connection.ble.BleManager;
@@ -27,16 +27,12 @@ public class MainActivity extends BaseActivity {
     finish();
   }
 
-  @Override protected void onReceiverCmd(Object message) {
-    super.onReceiverCmd(message);
-  }
-
   @Override protected void onLanguageChange() {
     super.onLanguageChange();
   }
 
   @Override protected void onStart() {
-    super.onResume();
+    super.onStart();
   }
 
   @Override protected void onStop() {

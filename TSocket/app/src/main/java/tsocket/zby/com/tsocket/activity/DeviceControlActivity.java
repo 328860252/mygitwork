@@ -12,6 +12,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.yanzhenjie.recyclerview.swipe.Closeable;
 import com.yanzhenjie.recyclerview.swipe.OnSwipeMenuItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
@@ -26,6 +29,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tsocket.zby.com.tsocket.AppApplication;
+import tsocket.zby.com.tsocket.AppString;
 import tsocket.zby.com.tsocket.R;
 import tsocket.zby.com.tsocket.adapter.OnItemClickListener;
 import tsocket.zby.com.tsocket.adapter.OnTimerSwitchClickListener;
@@ -52,7 +56,7 @@ public class DeviceControlActivity extends BaseActivity {
   private DeviceBean mDeviceBean;
   private final int activity_timer = 11;
   private final int activity_delay = 12;
-  //private Subscription mTimeSubscription;
+  private Subscription mTimeSubscription;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -74,7 +78,7 @@ public class DeviceControlActivity extends BaseActivity {
     //    Log.w("test", "fasong ");
     //  }
     //});
-    ((AppApplication) getApplication()).startDownCount();
+    //((AppApplication) getApplication()).startDownCount();
   }
 
   private void initViews() {
@@ -88,6 +92,9 @@ public class DeviceControlActivity extends BaseActivity {
         timerBean.setEnable(!timerBean.isEnable());
         mDeviceBean.write(CmdPackage.setTimer(timerBean));
         mTimerAdapter.notifyDataSetChanged();
+        if (mDeviceBean !=null) {
+          mDeviceBean.write(CmdPackage.getDownCountTimer());
+        }
       }
     });
 
@@ -108,23 +115,43 @@ public class DeviceControlActivity extends BaseActivity {
     });
     mSwipeMenuRecyclerView.setAdapter(mTimerAdapter);
 
-    //startDownCount();
+    startDownCount();
   }
 
-  @Override protected void onReceiverCmd(Object message) {
-    super.onReceiverCmd(message);
+  @Subscribe(thread = EventThread.MAIN_THREAD, tags = @Tag(AppString.RXBUS_PUSH_BYTE))
+  public void onPush(Byte b) {
+    //这里不区分推送类型， 只要有推送就显示红点，
+    if(b!=null) {
+      onReceiverCmd(b);
+    }
+  }
+
+  @Subscribe(thread = EventThread.MAIN_THREAD)
+  public void onPushString(String action) {
+    //这里不区分推送类型， 只要有推送就显示红点，
+    onReceiverCmd(action);
+  }
+
+  protected void onReceiverCmd(Object message) {
+      Log.e("TSocket", "接收 receive "+message);
     if (message instanceof Byte) {
       byte b = (byte) message;
       switch (b) {
         case CmdParseImpl.type_status://状态
           ctvSwitch.setChecked(mDeviceBean.isOnOff());
+          if (mDeviceBean !=null) {
+            mDeviceBean.write(CmdPackage.getDownCountTimer());
+          }
           break;
         case CmdParseImpl.type_timer://定时
           mTimerAdapter.notifyDataSetChanged();
+          if (mDeviceBean !=null) {
+            mDeviceBean.write(CmdPackage.getDownCountTimer());
+          }
           break;
         case CmdParseImpl.type_downCount:
-          //startDownCount();
-          mTvDownCount.setText(mDeviceBean.getDownCountString());
+          startDownCount();
+          //mTvDownCount.setText(mDeviceBean.getDownCountString());
           break;
           default:
       }
@@ -145,11 +172,12 @@ public class DeviceControlActivity extends BaseActivity {
       case activity_timer:
         if (resultCode == RESULT_OK) {
           mTimerAdapter.notifyDataSetChanged();
+          mDeviceBean.write(CmdPackage.getDownCountTimer());
         }
         break;
       case activity_delay:
         if (resultCode == RESULT_OK) {
-          //startDownCount();
+          startDownCount();
         }
         break;
         default:
@@ -182,11 +210,11 @@ public class DeviceControlActivity extends BaseActivity {
       case R.id.ctv_switch:
         ctvSwitch.setChecked(!ctvSwitch.isChecked());
         if (mDeviceBean.write(CmdPackage.setSwitch(ctvSwitch.isChecked()))) {
-          //if (mDeviceBean.getDownCountSecond()>0) {
+          if (mDeviceBean.getDownCountSecond()>0) {
+            unTimeSubscription();
+          }
           mDeviceBean.setDownCountSecond(0);
           mTvDownCount.setText("");
-          //  //unTimeSubscription();
-          //}
         }
         break;
       case R.id.tv_timer:
@@ -197,35 +225,34 @@ public class DeviceControlActivity extends BaseActivity {
     }
   }
 
-  //private void startDownCount() {
-    //unTimeSubscription();
-    //mTimeSubscription = Observable.interval(1, TimeUnit.SECONDS)
-    //    .subscribeOn(Schedulers.io())
-    //    .observeOn(AndroidSchedulers.mainThread())
-    //    //.unsubscribeOn(AndroidSchedulers.mainThread())
-    //    .subscribe(new Subscriber<Long>() {
-    //      @Override public void onCompleted() {
-    //        Log.e("------ onCompleted ", "onCompleted");
-    //        mTvDownCount.setText("");
-    //        this.unsubscribe();
-    //      }
-    //
-    //      @Override public void onError(Throwable e) {
-    //        e.printStackTrace();
-    //        Log.e("------ onError ", "onCompleted");
-    //      }
-    //
-    //      @Override public void onNext(Long aLong) {
-    //        Log.e("------ onNext ", "aLong : " + aLong);
-    //        if (mDeviceBean.getDownCountSecond()>0) {
-    //          mTvDownCount.setText(mDeviceBean.getDownCountString());
-    //        } else {
-    //          mTvDownCount.setText("");
-    //          this.unsubscribe();
-    //        }
-    //      }
-    //    });
-  //}
+  private void startDownCount() {
+    unTimeSubscription();
+    mTimeSubscription = Observable.interval(1, TimeUnit.SECONDS)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .unsubscribeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Long>() {
+          @Override public void onCompleted() {
+            Log.e("------ onCompleted ", "onCompleted");
+            mTvDownCount.setText("");
+            this.unsubscribe();
+          }
+
+          @Override public void onError(Throwable e) {
+            Log.e("------ onError ", "onCompleted");
+          }
+
+          @Override public void onNext(Long aLong) {
+            Log.e("------ onNext ", "aLong : " + aLong);
+            if (mDeviceBean.getDownCountSecond()>0) {
+              mTvDownCount.setText(mDeviceBean.getDownCountString());
+            } else {
+              mTvDownCount.setText("");
+              this.unsubscribe();
+            }
+          }
+        });
+  }
 
   /**
    * 菜单点击监听。
@@ -253,6 +280,9 @@ public class DeviceControlActivity extends BaseActivity {
         mDeviceBean.write(CmdPackage.setTimer(timerBean));
         list.remove(adapterPosition);
         mTimerAdapter.notifyItemRemoved(adapterPosition);
+        if (mDeviceBean !=null) {
+          mDeviceBean.write(CmdPackage.getDownCountTimer());
+        }
       }
     }
   };
@@ -284,17 +314,17 @@ public class DeviceControlActivity extends BaseActivity {
   }
 
   @Override protected void onDestroy() {
-    //unTimeSubscription();
+    unTimeSubscription();
     unSubscribePushMessage();
     super.onDestroy();
   }
 
-  //private void unTimeSubscription() {
-  //  if (mTimeSubscription!=null) {
-  //    if (!mTimeSubscription.isUnsubscribed()) {
-  //      mTimeSubscription.unsubscribe();
-  //    }
-  //    mTimeSubscription = null;
-  //  }
-  //}
+  private void unTimeSubscription() {
+    if (mTimeSubscription!=null) {
+      if (!mTimeSubscription.isUnsubscribed()) {
+        mTimeSubscription.unsubscribe();
+      }
+      mTimeSubscription = null;
+    }
+  }
 }

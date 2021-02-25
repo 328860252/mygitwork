@@ -9,18 +9,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.Toast;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+//import com.crashlytics.android.Crashlytics;
+//import io.fabric.sdk.android.Fabric;
+import com.hwangjr.rxbus.RxBus;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import tsocket.zby.com.tsocket.bean.DeviceBean;
 import tsocket.zby.com.tsocket.connection.ConnectAction;
 import tsocket.zby.com.tsocket.connection.IConnectInterface;
@@ -29,7 +23,6 @@ import tsocket.zby.com.tsocket.connection.ble.BleImpl;
 import tsocket.zby.com.tsocket.connection.ble.BluetoothLeServiceMulp;
 import tsocket.zby.com.tsocket.utils.LogUtils;
 import tsocket.zby.com.tsocket.utils.MyHexUtils;
-import tsocket.zby.com.tsocket.utils.RxBus;
 import tsocket.zby.com.tsocket.utils.Tools;
 
 /**
@@ -43,10 +36,13 @@ public class AppApplication extends Application {
     private List<DeviceBean> list = new ArrayList<>();
     private IConnectInterface mInterface;
 
+    public static boolean isReadTime = false;
+    private int isReadCount = 0;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
         if (Tools.isMainProcess(this)) {
             bindService();
             IntentFilter interFilter = new IntentFilter(ConnectAction.ACTION_BLUETOOTH_FOUND);
@@ -54,7 +50,7 @@ public class AppApplication extends Application {
             registerReceiver(receiver, interFilter);
             registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         }
-        startDownCount();
+        //startDownCount();
     }
 
     public DeviceBean getDeviceBean() {
@@ -74,7 +70,7 @@ public class AppApplication extends Application {
             mBluetoothLeService.closeAll();
         }
         list.clear();
-        unTimeSubscription();
+        //unTimeSubscription();
         super.onTerminate();
     }
 
@@ -114,11 +110,12 @@ public class AppApplication extends Application {
                     Toast.makeText(getApplicationContext(), R.string.toast_linkLost,
                             Toast.LENGTH_LONG).show();
                 }
-                RxBus.getDefault().post(action);
+                RxBus.get().post(action);
                 //else {
                 //  Toast.makeText(getApplicationContext(), R.string.toast_no_bond, Toast.LENGTH_LONG).show();
                 //}
             } else if (ConnectAction.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                RxBus.get().post(action);
                 ////蓝牙连接成功就自动检验密码
                 new Thread(new Runnable() {
 
@@ -127,6 +124,8 @@ public class AppApplication extends Application {
                         // TODO Auto-generated method stub
                         LogUtils.d("application", "接受广播连接成功 " + " mac =" + mac);
                         if (mDeviceBean != null) {
+                            isReadTime = false;
+                            isReadCount = 0;
                             mDeviceBean.write(CmdPackage.getTimer());
                             try {
                                 Thread.sleep(AppConstants.SEND_TIME_DEALY);
@@ -149,13 +148,27 @@ public class AppApplication extends Application {
                                 e.printStackTrace();
                             }
                             mDeviceBean.write(CmdPackage.getDownCountTimer());
+
+                            while (!isReadTime) {
+                                if (isReadCount >=3) {
+                                    isReadTime = true;
+                                    break;
+                                }
+                                isReadCount ++;
+                                try {
+                                    Thread.sleep(AppConstants.SEND_TIME_DEALY);
+                                } catch (InterruptedException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                                mDeviceBean.write(CmdPackage.getTimer());
+                            }
                         }
                     }
                 }).start();
-                RxBus.getDefault().post(action);
             } else if (ConnectAction.ACTION_RECEIVER_DATA.equals(action)) { //解析数据
                 byte[] buffer = intent.getByteArrayExtra(ConnectAction.BROADCAST_DATA_value);
-                LogUtils.v("tag", mac + "接受数据:" + MyHexUtils.buffer2String(buffer));
+                LogUtils.writeLogToFile("tag", mac + "接受数据:" + MyHexUtils.buffer2String(buffer));
                 if (mBluetoothLeService != null) {
                     if (mDeviceBean != null) {
                         mDeviceBean.getProccess().ProcessDataCommand(buffer, buffer.length);
@@ -179,7 +192,7 @@ public class AppApplication extends Application {
                 addOrUpdateDeviceBean(device.getName(), device.getAddress(),
                         device.getBondState() == BluetoothDevice.BOND_BONDED);
                 if (mDeviceBean != null && mDeviceBean.getMac().equals(device.getAddress())) {
-                    RxBus.getDefault().post(ConnectAction.ACTION_BLUETOOTH_BOUNED);
+                    RxBus.get().post(ConnectAction.ACTION_BLUETOOTH_BOUNED);
                 }
             }
         }
@@ -223,7 +236,7 @@ public class AppApplication extends Application {
             if (list.get(i).getMac().equals(mac)) {
                 list.get(i).setName(name);
                 list.get(i).setBonded(isBonded);
-                RxBus.getDefault().post("newDeviceBean");
+                com.hwangjr.rxbus.RxBus.get().post("newDeviceBean");
                 return;
             }
         }
@@ -233,57 +246,57 @@ public class AppApplication extends Application {
         dbin.setMac(mac);
         dbin.setConnectionInterface(mInterface, this);
         list.add(dbin);
-        RxBus.getDefault().post("newDeviceBean");
+        RxBus.get().post("newDeviceBean");
     }
 
-    private Subscription mTimeSubscription;
+    //private Subscription mTimeSubscription;
 
-    public void startDownCount() {
-        if (mTimeSubscription != null) {
-            if (!mTimeSubscription.isUnsubscribed()) {
-                return;
-            }
-        }
-        mTimeSubscription = Observable.interval(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                //.unsubscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Long>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e("------ onCompleted ", "onCompleted");
-                        //mTvDownCount.setText("");
-                        this.unsubscribe();
-                    }
+    //public void startDownCount() {
+    //    if (mTimeSubscription != null) {
+    //        if (!mTimeSubscription.isUnsubscribed()) {
+    //            return;
+    //        }
+    //    }
+    //    mTimeSubscription = Observable.interval(900, TimeUnit.MILLISECONDS)
+    //            .subscribeOn(Schedulers.io())
+    //            .observeOn(AndroidSchedulers.mainThread())
+    //            //.unsubscribeOn(AndroidSchedulers.mainThread())
+    //            .subscribe(new Subscriber<Long>() {
+    //                @Override
+    //                public void onCompleted() {
+    //                    Log.e("------ onCompleted ", "onCompleted");
+    //                    //mTvDownCount.setText("");
+    //                    this.unsubscribe();
+    //                }
+    //
+    //                @Override
+    //                public void onError(Throwable e) {
+    //                    e.printStackTrace();
+    //                    Log.e("------ onError ", "onCompleted");
+    //                }
+    //
+    //                @Override
+    //                public void onNext(Long aLong) {
+    //                    //Log.e("------ onNext ", "aLong : " + aLong);
+    //                    //if (mDeviceBean.getDownCountSecond()>0) {
+    //                    //  mTvDownCount.setText(mDeviceBean.getDownCountString());
+    //                    //} else {
+    //                    //  mTvDownCount.setText("");
+    //                    //  this.unsubscribe();
+    //                    //}
+    //                    if (mDeviceBean != null) {
+    //                        mDeviceBean.write(CmdPackage.getDownCountTimer());
+    //                    }
+    //                }
+    //            });
+    //}
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.e("------ onError ", "onCompleted");
-                    }
-
-                    @Override
-                    public void onNext(Long aLong) {
-                        //Log.e("------ onNext ", "aLong : " + aLong);
-                        //if (mDeviceBean.getDownCountSecond()>0) {
-                        //  mTvDownCount.setText(mDeviceBean.getDownCountString());
-                        //} else {
-                        //  mTvDownCount.setText("");
-                        //  this.unsubscribe();
-                        //}
-                        if (mDeviceBean != null) {
-                            mDeviceBean.write(CmdPackage.getDownCountTimer());
-                        }
-                    }
-                });
-    }
-
-    private void unTimeSubscription() {
-        if (mTimeSubscription != null) {
-            if (!mTimeSubscription.isUnsubscribed()) {
-                mTimeSubscription.unsubscribe();
-            }
-            mTimeSubscription = null;
-        }
-    }
+    //private void unTimeSubscription() {
+    //    if (mTimeSubscription != null) {
+    //        if (!mTimeSubscription.isUnsubscribed()) {
+    //            mTimeSubscription.unsubscribe();
+    //        }
+    //        mTimeSubscription = null;
+    //    }
+    //}
 }

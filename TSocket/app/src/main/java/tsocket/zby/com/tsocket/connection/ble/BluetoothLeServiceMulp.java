@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action1;
 import tsocket.zby.com.tsocket.connection.ConnectAction;
 import tsocket.zby.com.tsocket.utils.LogUtils;
@@ -490,6 +491,7 @@ public class BluetoothLeServiceMulp extends Service {
         return null;
     }
 
+    private Subscription mDelaySubscripton;
     public boolean writeLlsAlertLevel(final String address, final byte[] bb) {
         if (!gattMaps.containsKey(address)) {
             Log.e(TAG, "gatt is null " + address);
@@ -513,8 +515,15 @@ public class BluetoothLeServiceMulp extends Service {
         }
 
         long delay = (System.currentTimeMillis() - mLastSend);
-        if (delay < 500) {
-            Observable.timer(delay + 100, TimeUnit.MILLISECONDS).subscribe(new Action1<Long>() {
+        if (delay < 600) {
+            if (mDelaySubscripton !=null) {
+                if (mDelaySubscripton.isUnsubscribed()) {
+                    mDelaySubscripton.unsubscribe();
+                }
+                mDelaySubscripton = null;
+            }
+            System.out.println("发送延时 " + (650-delay));
+            mDelaySubscripton = Observable.timer((650-delay), TimeUnit.MILLISECONDS).subscribe(new Action1<Long>() {
                 @Override
                 public void call(Long aLong) {
                     writeLlsAlertLevel(address, bb);

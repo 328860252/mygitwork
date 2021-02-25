@@ -15,3 +15,15 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+##---------------------- zby -----------------------------
+-keepnames class tsocket.zby.com.tsocket.**{*;}
+
+##-------------------------RXBUS -------------------------------
+-keepnames class com.hwangjr.rxbus.thread.**{*;}
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @com.hwangjr.rxbus.annotation.Subscribe public *;
+    @com.hwangjr.rxbus.annotation.Produce public *;
+}
+##---------------------------------------------------

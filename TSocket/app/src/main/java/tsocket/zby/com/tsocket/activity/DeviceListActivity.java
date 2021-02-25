@@ -17,6 +17,8 @@ import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +135,7 @@ public class DeviceListActivity extends BaseActivity
     return false;
   }
 
-  @Override protected void onReceiverCmd(Object message) {
+  protected void onReceiverCmd(Object message) {
     if (message instanceof String) {
       LogUtils.v("deviceList", "onReceiver  "+ message);
       if (message.equals(ConnectAction.ACTION_DEVICE_SCAN_FINISH)) {
@@ -163,7 +165,12 @@ public class DeviceListActivity extends BaseActivity
         //}
       }
     }
-    super.onReceiverCmd(message);
+  }
+
+  @Subscribe(thread = EventThread.MAIN_THREAD)
+  public void onPushString(String action) {
+    //这里不区分推送类型， 只要有推送就显示红点，
+    onReceiverCmd(action);
   }
 
   @Override protected void onStart() {
